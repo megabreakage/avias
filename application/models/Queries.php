@@ -152,19 +152,17 @@ class Queries extends CI_Model {
     return $this->db->insert_id();
   }
 
-  public function add_task($data){
-    $schedule_data = array(
-      'aircraft_reg' => $data->aircraft_reg,
-      'task_card' => $data->task_card
-    );
-    $this->db->insert('schedules', $schedules_data);
-    $schedule_id = $this->db->insert_id();
+  public function add_schedule_task($schedule_data){
+    $this->db->insert($schedule_data);
+    return $this->db->inser_id();
+  }
 
-    $schedule_details = array(
-      'schedule_id' => $data->schedule_id
-    );
-    $this->db->insert('schedule_details', $schedule_details);
+  public function add_schedule_details($schedule_details_data){
+    return $this->db->insert($schedule_details_data);
+  }
 
+  public function add_schedule_workpack($schedule_workpack_data){
+    return $this->db->insert($schedule_workpack_data);
   }
 
 
