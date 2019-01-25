@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
     <div class="card">
-      <form id="taskAdd" >
+      <form id="taskAdd" action="maintenance/add_task" method="post">
         <div class="card-header text-center">
           <h5>Add Scheduled Task</h5>
         </div>
@@ -176,7 +176,7 @@
                           <label>Calendar</label>
                           <div class="row">
                             <div class="col-xl-12 input-group mb-3">
-                              <input id="freq_calendar" class="form-control" type="text" placeholder=" Calendar" value="0">
+                              <input id="freq_calendar" class="form-control" name="freq_calendar" type="text" placeholder=" Calendar" value="0">
                               <select id="freq_period" class="form-control" name="period">
                                 <option value="D">D</option>
                                 <option value="M">M</option>
