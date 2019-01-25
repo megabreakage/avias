@@ -350,34 +350,9 @@ $(document).ready(function(){
       }
     });
 
-    // due_hours = 0;
-    // $("#cum_hours").keyup(function(e){
-    //   e.preventDefault();
-    //
-    //   for (var i = 0; i < frequencies.length; i++) {
-    //     if(frequencies[i].maint_type_id == 1 & parseInt($('#cum_hou15000rs').val()) <= parseInt(frequencies[i].hours)){
-    //       due_hours = frequencies[i].hours;
-    //       break;
-    //       $("#next_due_hours").val(due_hours);
-    //     } else if (frequencies[i].maint_type_id == 1 & parseInt($('#cum_hours').val()) > parseInt(frequencies[i].hours)) {
-    //       due_hours = parseInt($('#last_done_hours').val()) + parseInt(frequencies[i].hours);
-    //       $("#next_due_hours").val(due_hours);
-    //       break;
-    //     } else if (frequencies[i].maint_type_id == 2 ) {
-    //       due_hours = parseInt($('#last_done_hours').val()) + parseInt(frequencies[i].hours);
-    //       $("#next_due_hours").val(due_hours);
-    //       break;
-    //     } else if (frequencies[i].maint_type_id == 3) {
-    //       due_hours = parseInt(frequencies[i].hours);
-    //       $("#next_due_hours").val(due_hours);
-    //     }
-    //   }
-    //
-    // });
-
 
     $('#taskAdd').submit(function(e){
-      e.preventDefault();
+      // e.preventDefault();
       $('#frequencies').val(JSON.stringify(frequencies));
       console.log(frequencies);
       console.log('Frequency is: '+frequencies[0].maint_type_id+', Cycle is: '+frequencies[0].cycles+'.');
@@ -386,9 +361,6 @@ $(document).ready(function(){
       task_details = $(this).serialize();
       console.log(task_details);
 
-      for (var i = 0; i < array.length; i++) {
-        array[i]
-      }
       //
       // $.ajax({
       //   url: 'maintenance/add_task',
