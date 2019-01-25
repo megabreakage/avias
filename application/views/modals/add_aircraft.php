@@ -113,7 +113,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-12">
+                <div id="engineAdd" class="col-xl-12">
                   <div class="row">
                     <div class="col-xl-2 pt">
                       <select id="engineNumber" class="form-control">
@@ -136,7 +136,7 @@
                       <input id="tec" type="number" class="form-control" placeholder="Cycles" required>
                     </div>
                     <div class="col-xl-2 pt">
-                      <button id="addEngine" name="add" class="aviaBtn btn btn-primary"> Add</button>
+                      <button id="addEngine" class="aviaBtn btn btn-primary" title="add engine"> Add</button>
                     </div>
                   </div>
                 </div>
@@ -167,7 +167,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-12">
+                <div id="propAdd" class="col-xl-12">
                   <div class="row">
                     <div class="col-xl-2 pt">
                       <select id="propNumber" class="form-control">
@@ -190,7 +190,7 @@
                       <input id="tpc" type="number" class="form-control" placeholder="Cycles" required>
                     </div>
                     <div class="col-xl-2 pt">
-                      <button id="addProp" class="aviaBtn btn btn-primary"> Add</button>
+                      <button id="addProp" class="aviaBtn btn btn-primary" title="add propeller"> Add</button>
                     </div>
                   </div>
                 </div>
@@ -202,8 +202,8 @@
         </div>
         <div class="card-footer">
           <div class="col-xl-12 text-right">
-            <button name="clear" class="aviaBtn btn btn-danger" data-dismiss="modal"> Cancel</button>
-            <button type="submit" class="aviaBtn btn btn-primary">Submit</button>
+            <button name="clear" class="aviaBtn btn btn-danger" data-dismiss="modal" title="cancel and reset"> Cancel</button>
+            <button type="submit" class="aviaBtn btn btn-primary" title="Add aircraft">Submit</button>
           </div>
         </div>
       </form>
