@@ -304,8 +304,30 @@ $(document).ready(function(){
     });
 
     // check if frequencies is empty. If empty; disable the calc button
+    $("#cum_cycles").keyup(function(e){
+      e.preventDefault();
 
-    $("#calcDues").click(function(e){
+      c_cycs = parseFloat($("#cum_cycles").val());
+      ld_cycles = parseFloat($("#last_done_cycles").val());
+      discard_cycs = parseFloat($("#life_limit_cycles").val());
+
+      for (var i = 0; i < frequencies.length; i++) {
+        nextDuecycs = ld_cycles + parseFloat(frequencies[i].cycles);
+        if (frequencies[i].maint_type_id == 1 & nextDuecycs <= parseFloat(frequencies[i].cycles) ) {
+          $("#next_due_cycles").val(nextDuecycs);
+          break;
+        } else if (frequencies[i].maint_type_id == 2 & nextDuecycs < discard_cycs) {
+          $("#next_due_hours").val(nextDuecycs);
+          break;
+        } else if(frequencies[i].maint_type_id == 3) {
+          nextDuecycs = parseFloat(frequencies[i].cycles);
+          $("#next_due_cycles").val(nextDuecycs);
+          break;
+        }
+      }
+    });
+
+    $("#cum_hours").keyup(function(e){
       e.preventDefault();
 
       c_hrs = parseFloat($("#cum_hours").val());
