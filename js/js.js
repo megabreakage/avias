@@ -19,6 +19,7 @@ $(document).ready(function(){
     td4 = '<td>'+engine_hours+'</td>'
     td5 = '<td>'+engine_cycles+'</td></tr>'
     $("#engData").append(td1+td2+td3+td4+td5);
+    $('#engineAdd')[0].reset();
 
     data = {
       'number' : number,
@@ -45,6 +46,7 @@ $(document).ready(function(){
     td4 = '<td>'+prop_hours+'</td>'
     td5 = '<td>'+prop_cycles+'</td></tr>'
     $("#propData").append(td1+td2+td3+td4+td5);
+    $('#propAdd')[0].reset();
 
     data = {
       'number' : number,
@@ -75,12 +77,12 @@ $(document).ready(function(){
           $("#response").addClass("alert-success");
           $("#response").html("<p>Aircraft added successfully!</p>");
           $('#aircraftAdd')[0].reset();
-          $("#response").fadeOut(800);
+          $("#response").fadeOut(8000);
         } else {
           $("#response").removeClass("hidden");
           $("#response").addClass("alert-danger");
           $("#response").html("<p>Aircraft adding failed!</p>");
-          $("#response").fadeOut(800);
+          $("#response").fadeOut(8000);
         }
       }
     });
