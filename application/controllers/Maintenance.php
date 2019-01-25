@@ -184,17 +184,17 @@ class Maintenance extends CI_Controller {
   // Function calls to Model functions
   public function add_task(){
     $frequencies = json_decode($this->input->post('frequencies'));
-    $workpacks = json_decode($this->input->post('workpacks'));
+    // $workpacks = json_decode($this->input->post('workpacks'));
 
-    $data = array( array('Type ID', 'Cycles', 'Hours', 'Calendar') );
-    foreach ($frequencies as $freq) {
-      $item = array(
-        array($freq->maint_type_id, $freq->cycles, $freq->hours, $freq->calendar.$freq->period)
-      );
-      $data[] = $item;
-    }
-    echo $this->table->generate($data);
-    exit();
+    // $data = array( array('Type ID', 'Cycles', 'Hours', 'Calendar') );
+    // foreach ($frequencies as $freq) {
+    //   $item = array(
+    //     array($freq->maint_type_id, $freq->cycles, $freq->hours, $freq->calendar.$freq->period)
+    //   );
+    //   $data[] = $item;
+    // }
+    // echo $this->table->generate($data);
+    // exit();
 
     $schedule_data = array(
       'registration' => $_POST['registration'],
@@ -229,46 +229,48 @@ class Maintenance extends CI_Controller {
       'next_due_hours' => $_POST['next_due_hours'],
       'next_due_date' => $_POST['next_due_date'],
     );
+    $schedule_id = $this->queries->add_schedule_task($schedule_data);
 
+    echo '<pre>';
+    echo json_encode($schedule_data);
+    echo '</pre>';
+    exit();
 
-     $schedule_id = $this->queries->add_schedule_task($schedule_data);
-
-     if ($schedule_id == 0) {
-       echo json_encode(0);
+    if ($schedule_id == 0) {
+     echo json_encode(0);
+    } else {
+     // check if schedule details array is empty
+     if (empty($frequencies)) {
+       echo json_encode('frequencies is empty!');
      } else {
-       // check if schedule details array is empty
-       if (empty($frequencies)) {
-         echo json_encode('frequencies is empty!');
-       } else {
-         foreach ($frequencies as $freq) {
-           $schedule_details_data = array(
-            'schedule_id' => $schedule_id,
-            'maint_type_id' => $freq->maint_type_id,
-            'cycles' => $freq->cycles,
-            'hours' => $freq->hours,
-            'calendar' => $freq->calenar,
-            'period' => $freq->period
-           );
-           if ($this->queries->add_schedule_details($schedule_details_data) == 0) {
-             echo json_encode(0);
-           }
-         }
-       }
-
-       // check if schedule workpacks array is empty
-       if (empty($workpacks)) {
-         echo json_encode('Workpack is empty!');
-       } else {
-         $schedule_workpack_data = array(
-           'schedule_id' =>  $schedule_id
+       foreach ($frequencies as $freq) {
+         $schedule_details_data = array(
+          'schedule_id' => $schedule_id,
+          'maint_type_id' => $freq->maint_type_id,
+          'cycles' => $freq->cycles,
+          'hours' => $freq->hours,
+          'calendar' => $freq->calenar,
+          'period' => $freq->period
          );
-         if ($this->queries->add_schedule_workpack($schedule_workpack_data) == 0) {
+         if ($this->queries->add_schedule_details($schedule_details_data) == 0) {
            echo json_encode(0);
          }
        }
-
      }
-     echo json_encode(1);
+
+     // check if schedule workpacks array is empty
+     if (empty($workpacks)) {
+       echo json_encode('Workpack is empty!');
+     } else {
+       $schedule_workpack_data = array(
+         'schedule_id' =>  $schedule_id
+       );
+       if ($this->queries->add_schedule_workpack($schedule_workpack_data) == 0) {
+         echo json_encode(0);
+       }
+     }
+    }
+    echo json_encode(1);
   }
 
   public function update_task(){
