@@ -232,7 +232,7 @@
                           </div>
                           <input id="last_done_cycles"  class="form-control" type="text" name="last_done_cycles" placeholder="cycles" value="0" title="cycles">
                           <input id="last_done_hours"  class="form-control" type="text" name="last_done_hours" placeholder="hours" value="0" title="hours">
-                          <input id="last_done_date"  class="form-control" type="date" name="last_done_date" placeholder="Date" value="0" date>
+                          <input id="last_done_date"  class="form-control" type="date" name="last_done_date" placeholder="Date" date>
                         </div>
                         <div class="col-xl-12 input-group mb-3">
                           <div class="input-group-prepend">
@@ -251,7 +251,7 @@
                           <input id="next_due_date" class="form-control" type="text" name="next_due_date" placeholder="Date" value="" readonly date>
                         </div>
                         <div class="col-xl-12 text-right">
-                          <button id="calcDues" class="aviaBtn btn btn-primary" type="button" >Calculate</button>
+                          <!-- <button id="calcDues" class="aviaBtn btn btn-primary" type="button" >Calculate</button> -->
                         </div>
 
                       </div>
