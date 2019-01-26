@@ -350,9 +350,38 @@ $(document).ready(function(){
       }
     });
 
+    $('#last_done_date').keyup(function(e){
+      e.preventDefault();
+
+      ld_date = Date.parse($("#last_done_date").val());
+      for (var i = 0; i < frequencies.length; i++) {
+        if (parseInt(frequencies[i].calendar) > 0) {
+          switch (frequencies[i].period) {
+            case 'D':
+              freq = (parseInt(frequencies[i].calendar) * 24) * 3.6e+6;
+              due_date = new Date((ld_date + freq)).toLocaleDateString();
+              $('#next_due_date').val((due_date));
+              break;
+            case 'M':
+              freq = (parseInt(frequencies[i].calendar) * 30.5 * 24) * 3.6e+6;
+              due_date = new Date((ld_date + freq)).toLocaleDateString();
+              $('#next_due_date').val((due_date));
+              break;
+            case 'Y':
+              freq = (parseInt(frequencies[i].calendar) * 12 * 30.5 * 24) * 3.6e+6;
+              due_date = new Date((ld_date + freq)).toLocaleDateString();
+              $('#next_due_date').val((due_date));
+              break;
+            default:
+              $('#next_due_date').val(ld_date);
+          }
+        }
+      }
+    })
+
 
     $('#taskAdd').submit(function(e){
-      e.preventDefault();
+      // e.preventDefault();
       $('#frequencies').val(JSON.stringify(frequencies));
       task_details = $(this).serialize();
 
