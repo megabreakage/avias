@@ -356,23 +356,26 @@ $(document).ready(function(){
     $('#taskAdd').submit(function(e){
       // e.preventDefault();
       $('#frequencies').val(JSON.stringify(frequencies));
-      console.log(frequencies);
-      console.log('Frequency is: '+frequencies[0].maint_type_id+', Cycle is: '+frequencies[0].cycles+'.');
-      console.log('-----------------------------------');
-
       task_details = $(this).serialize();
-      console.log(task_details);
 
-      //
-      // $.ajax({
-      //   url: 'maintenance/add_task',
-      //   method: 'post',
-      //   dataType: 'json',
-      //   data: 'task_details',
-      //   success: function(data){
-      //     console.log(data);
-      //   }
-      // });
+      $.ajax({
+        url: 'maintenance/add_task',
+        method: 'post',
+        dataType: 'json',
+        data: 'task_details',
+        success: function(data){
+          if(data == 0){
+            $("#response").removeClass('hidden');
+            $("#response").addClass('alert-danger');
+            $("#response").html('Task was not added, try again!');
+          }else {
+            $("#response").removeClass('hidden');
+            $("#response").addClass('alert-sucess');
+            $("#response").html('Task was added successfully!');
+            $('#flightAdd')[0].reset();
+          }
+        }
+      });
 
     });
 
