@@ -534,6 +534,15 @@ input {
 .tab{
   background-color: #E0E0E0;
 }
+.cat1{
+  background-color: #90CAF9;
+}
+.cat2{
+  /* background-color: white; */
+}
+.cat3{
+  background-color: #90CAF9;
+}
 
 .pt{
   padding-top: 10px;
@@ -553,8 +562,11 @@ thead tr{
   font-weight: bold;
 }
 
-.fleet tbody td span, .models tbody td span{
+.fleet tbody td span, .models tbody td span, .scheduledTasks tbody td span{
   color: #ffffff;
+}
+a:hover{
+  text-decoration: none;
 }
 
 tr a:hover{
