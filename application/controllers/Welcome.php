@@ -104,9 +104,9 @@ class Welcome extends CI_Controller {
 
 		// aircrafts data
 		$aircraft_data = array(
-			'aircraft_reg' => $_POST['registration'],
-			'series' => $_POST['series'],
-			'serial_number'=> $_POST['serialNumber'],
+			'aircraft_reg' => strtoupper($_POST['registration']),
+			'series' => strtoupper($_POST['series']),
+			'serial_number'=> strtoupper($_POST['serialNumber']),
 			'model_id' => $_POST['model'],
 			'engines' => $_POST['engines'],
 			'manufacturer_id' => $_POST['manufacturer'],
@@ -126,7 +126,7 @@ class Welcome extends CI_Controller {
 				$engine_data = array(
 					'aircraft_id' => $aircraft_id,
 					'serial_number' => $item->serial_number,
-					'model' => $item->model,
+					'model' => strtoupper($item->model),
 					'number' => $item->number,
 					'engine_hours' => $item->engine_hours,
 					'engine_cycles' => $item->engine_cycles
@@ -141,7 +141,7 @@ class Welcome extends CI_Controller {
 				$prop_data = array(
 					'aircraft_id' => $aircraft_id,
 					'serial_number' => $item->serial_number,
-					'model' => $item->model,
+					'model' => strtoupper($item->model),
 					'number' => $item->number,
 					'propeller_hours' => $item->prop_hours,
 					'propeller_cycles' => $item->prop_cycles
@@ -175,8 +175,8 @@ class Welcome extends CI_Controller {
 			foreach ($flight as $item) {
 				$logs = array(
 					'flight_id' =>$flight_id,
-					'origin' => $item->to,
-					'destination' => $item->from,
+					'origin' => strtoupper($item->to),
+					'destination' => strtoupper($item->from),
 					'takeoff' => $item->takeoff,
 					'landing' => $item->landing,
 					'hours' => $item->hours,
