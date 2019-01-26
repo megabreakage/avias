@@ -7,7 +7,7 @@
           <h5>Add Scheduled Task</h5>
         </div>
         <div class="card-body">
-          <div class="col-xl-6 offset-md-3 alert hidden">
+          <div id="response" class="col-xl-6 offset-md-3 alert hidden">
             <!-- response texts -->
           </div>
           <!-- Airframe data -->
@@ -20,7 +20,7 @@
                   <div class="row">
                     <div class="col-xl-6">
                       <label>Aircraft Reg</label>
-                      <select class="form-control" name="registration">
+                      <select class="form-control" name="aircraft_id">
                         <option value=""> -- select aircraft --</option>
                         <?php foreach ($aircrafts as $aircraft): ?>
                           <option value="<?php echo $aircraft['aircraft_id']; ?>"><?php echo $aircraft['aircraft_reg']; ?></option>
@@ -126,7 +126,7 @@
                   </div>
                 </div>
                 <div class="col-xl-12">
-                  <textarea class="form-control" name="refrence" rows="2" cols="80" placeholder="Task/Component reference"></textarea>
+                  <textarea class="form-control" name="reference" rows="2" cols="80" placeholder="Task/Component reference"></textarea>
                 </div>
 
               </div>
