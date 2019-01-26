@@ -78,7 +78,8 @@ class Maintenance extends CI_Controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+      'component_tasks' => $this->queries->get_component_tasks()
     );
 
 		$this->load->view('templates/header', $data);
@@ -225,27 +226,24 @@ class Maintenance extends CI_Controller {
     if ($schedule_id == 0) {
      echo json_encode(0);
     } else {
-      $this->session->set_flashdata('success', 'Task added successfully!');
-      return redirect('maintenance', 'refresh');
-      // exit();
      // check if schedule details array is empty
-     // if (empty($frequencies)) {
-     //   echo json_encode('frequencies is empty!');
-     // } else {
-     //   foreach ($frequencies as $freq) {
-     //     $schedule_details_data = array(
-     //      'schedule_id' => $schedule_id,
-     //      'maint_type_id' => $freq->maint_type_id,
-     //      'cycles' => $freq->cycles,
-     //      'hours' => $freq->hours,
-     //      'calendar' => $freq->calenar,
-     //      'period' => $freq->period
-     //     );
-     //     if ($this->queries->add_schedule_details($schedule_details_data) == 0) {
-     //       echo json_encode(0);
-     //     }
-     //   }
-     // }
+     if (empty($frequencies)) {
+       echo json_encode('frequencies is empty!');
+     } else {
+       foreach ($frequencies as $freq) {
+         $schedule_details_data = array(
+          'schedule_id' => $schedule_id,
+          'maint_type_id' => $freq->maint_type_id,
+          'cycles' => $freq->cycles,
+          'hours' => $freq->hours,
+          'calendar' => $freq->calendar,
+          'period' => $freq->period
+         );
+         if ($this->queries->add_schedule_details($schedule_details_data) == 0) {
+           echo json_encode(0);
+         }
+       }
+     }
      //
      // // check if schedule workpacks array is empty
      // if (empty($workpacks)) {
@@ -259,7 +257,15 @@ class Maintenance extends CI_Controller {
      //   }
      // }
     }
-    echo json_encode(1);
+    return redirect('maintenance', 'refresh');
+    // echo json_encode(1);
+  }
+  public function search_by_aircraft(){
+    $aircraft_id = json_decode($this->input->post('cs_id'));
+
+    $comp_tasks = $this->queries->search_by_aircraft($aircraft_id);
+
+    echo json_encode($comp_tasks);
   }
 
   public function update_task(){
