@@ -78,24 +78,65 @@ class Queries extends CI_Model {
 
   public function get_scheduled_tasks(){
     $sql_get_tasks = 'SELECT a.schedule_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
-    a.part_number, a.serial_number, c.schedule_type, d.task_category, e.schedule_category, f.comp_cat, g.inspection,
-    h.ata_chapter, a.zone, a.location, a.reference, a.cum_cycles, a.cum_hours, a.last_done_cycles, a.last_done_hours,
-    a.date_checked, a.next_due_cycles, a.next_due_hours, a.next_due_date, a.life_limit_cycles, a.life_limit_hours,
-    a.life_limit_calendar, a.life_limit_period, a.alarm_cycles, a.alarm_hours, a.alarm_calendar, a.alarm_period,
-    a.date_posted, a.notes, a.posted_by, i.cycles, i.hours, i.calendar, i.period
-    FROM schedules a
-    INNER JOIN aircrafts b ON a.aircraft_id = b.aircraft_id
-    INNER JOIN schedule_types c ON a.schedule_type_id = c.type_id
-    INNER JOIN task_category d ON d.task_category_id = a.task_category_id
-    INNER JOIN schedule_category e ON a.schedule_cat_id = e.schedule_cat_id
-    INNER JOIN comp_cat f ON a.comp_cat_id = f.comp_cat_id
-    INNER JOIN inspection_types g ON a.inspection_id = g.inspection_id
-    INNER JOIN ata_chapters h ON a.ata_chapter_id = h.ata_chapter_id
-    INNER JOIN schedule_details i ON a.schedule_id = i.schedule_id';
+      a.part_number, a.serial_number, c.schedule_type, d.task_category, e.schedule_category, f.comp_cat, g.inspection,
+      h.ata_chapter, a.zone, a.location, a.reference, a.cum_cycles, a.cum_hours, a.last_done_cycles, a.last_done_hours,
+      a.date_checked, a.next_due_cycles, a.next_due_hours, a.next_due_date, a.life_limit_cycles, a.life_limit_hours,
+      a.life_limit_calendar, a.life_limit_period, a.alarm_cycles, a.alarm_hours, a.alarm_calendar, a.alarm_period,
+      a.date_posted, a.notes, a.posted_by, i.cycles, i.hours, i.calendar, i.period
+      FROM schedules a
+      INNER JOIN aircrafts b ON a.aircraft_id = b.aircraft_id
+      INNER JOIN schedule_types c ON a.schedule_type_id = c.type_id
+      INNER JOIN task_category d ON d.task_category_id = a.task_category_id
+      INNER JOIN schedule_category e ON a.schedule_cat_id = e.schedule_cat_id
+      INNER JOIN comp_cat f ON a.comp_cat_id = f.comp_cat_id
+      INNER JOIN inspection_types g ON a.inspection_id = g.inspection_id
+      INNER JOIN ata_chapters h ON a.ata_chapter_id = h.ata_chapter_id
+      INNER JOIN schedule_details i ON a.schedule_id = i.schedule_id';
 
     return $this->db->query($sql_get_tasks)->result_array();
   }
 
+  public function get_component_tasks(){
+    $sql_get_tasks = 'SELECT a.schedule_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
+      a.part_number, a.serial_number, c.schedule_type, d.task_category, e.schedule_category, f.comp_cat, g.inspection,
+      h.ata_chapter, a.zone, a.location, a.reference, a.cum_cycles, a.cum_hours, a.last_done_cycles, a.last_done_hours,
+      a.date_checked, a.next_due_cycles, a.next_due_hours, a.next_due_date, a.life_limit_cycles, a.life_limit_hours,
+      a.life_limit_calendar, a.life_limit_period, a.alarm_cycles, a.alarm_hours, a.alarm_calendar, a.alarm_period,
+      a.date_posted, a.notes, a.posted_by, i.cycles, i.hours, i.calendar, i.period
+      FROM schedules a
+      INNER JOIN aircrafts b ON a.aircraft_id = b.aircraft_id
+      INNER JOIN schedule_types c ON a.schedule_type_id = c.type_id
+      INNER JOIN task_category d ON d.task_category_id = a.task_category_id
+      INNER JOIN schedule_category e ON a.schedule_cat_id = e.schedule_cat_id
+      INNER JOIN comp_cat f ON a.comp_cat_id = f.comp_cat_id
+      INNER JOIN inspection_types g ON a.inspection_id = g.inspection_id
+      INNER JOIN ata_chapters h ON a.ata_chapter_id = h.ata_chapter_id
+      INNER JOIN schedule_details i ON a.schedule_id = i.schedule_id
+      WHERE c.type_id = 2';
+
+    return $this->db->query($sql_get_tasks)->result_array();
+  }
+
+  public function search_by_aircraft($aircraft_id){
+    $sql_get_tasks = 'SELECT a.schedule_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
+      a.part_number, a.serial_number, c.schedule_type, d.task_category, e.schedule_category, f.comp_cat, g.inspection,
+      h.ata_chapter, a.zone, a.location, a.reference, a.cum_cycles, a.cum_hours, a.last_done_cycles, a.last_done_hours,
+      a.date_checked, a.next_due_cycles, a.next_due_hours, a.next_due_date, a.life_limit_cycles, a.life_limit_hours,
+      a.life_limit_calendar, a.life_limit_period, a.alarm_cycles, a.alarm_hours, a.alarm_calendar, a.alarm_period,
+      a.date_posted, a.notes, a.posted_by, i.cycles, i.hours, i.calendar, i.period
+      FROM schedules a
+      INNER JOIN aircrafts b ON a.aircraft_id = b.aircraft_id
+      INNER JOIN schedule_types c ON a.schedule_type_id = c.type_id
+      INNER JOIN task_category d ON d.task_category_id = a.task_category_id
+      INNER JOIN schedule_category e ON a.schedule_cat_id = e.schedule_cat_id
+      INNER JOIN comp_cat f ON a.comp_cat_id = f.comp_cat_id
+      INNER JOIN inspection_types g ON a.inspection_id = g.inspection_id
+      INNER JOIN ata_chapters h ON a.ata_chapter_id = h.ata_chapter_id
+      INNER JOIN schedule_details i ON a.schedule_id = i.schedule_id
+      WHERE b.aircraft_id = ?';
+
+    return $this->db->query($sql_get_tasks, array($aircraft_id))->result_array();
+  }
 
 
   // Create Functions
