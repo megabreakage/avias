@@ -4,72 +4,65 @@
   <div class="col-xl-12 pt">
     <form action="maintenance/search_tasks" method="post">
       <div class="row">
-        <div class="col-xl-12">
-          <div class="row">
-            <div class="col-xl-2 input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Aircraft:</span>
-              </div>
-              <select class="form-control" name="aircraft_id">
-                <option value="all">All</option>
-                <?php foreach ($aircrafts as $aircraft): ?>
-                  <option value="<?php echo $aircraft['aircraft_id'] ?>"><?php echo $aircraft['aircraft_reg'] ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-          </div>
-        </div>
         <div class="col-xl-2 input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Search by:</span>
           </div>
           <select class="form-control" id="search_by">
-            <option value="1">ATA chapter</option>
-            <option value="2">Component category</option>
-            <option value="3">Inspection type</option>
-            <option value="4">Schedule category</option>
-            <option value="5">Schedule type</option>
-            <option value="6">Task categoty</option>
+            <option value="1">Aircraft Reg</option>
+            <option value="2">ATA chapter</option>
+            <option value="3">Component category</option>
+            <option value="4">Inspection type</option>
+            <option value="5">Schedule category</option>
+            <option value="6">Schedule type</option>
+            <option value="7">Task categoty</option>
           </select>
         </div>
-        <div class="col-xl-2">
-          <select class="form-control" name="ata_chapter_id">
+        <div id="c_aircraft_id" class="col-xl-2">
+          <select id="cs_craft_id" class="form-control" name="aircraft_id">
+            <option value=""> -- select -- </option>
+            <?php foreach ($aircrafts as $aircraft): ?>
+              <option value="<?php echo $aircraft['aircraft_id'] ?>"><?php echo $aircraft['aircraft_reg'] ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div id="c_ata_chapter_id" class="col-xl-2 hidden">
+          <select id="cs_ata_id" class="form-control" name="ata_chapter_id">
             <?php foreach ($ata_chapters as $ata_chapter): ?>
               <option value="<?php echo $ata_chapter['ata_chapter_id']; ?>">00<?php echo $ata_chapter['ata_chapter']; ?>: <?php echo $ata_chapter['ata_name']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="col-xl-2">
-          <select class="form-control" name="comp_cat_id">
+        <div id="c_comp_cat_id" class="col-xl-2 hidden">
+          <select id="cs_comp_cat_id" class="form-control" name="comp_cat_id">
             <?php foreach ($comp_cats as $comp_cat): ?>
               <option value="<?php echo $comp_cat['comp_cat_id']; ?>"><?php echo $comp_cat['comp_cat']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="col-xl-2">
-          <select class="form-control" name="inspection_id">
+        <div id="c_inspection_id" class="col-xl-2 hidden">
+          <select id="cs_insp_id" class="form-control" name="inspection_id">
             <?php foreach ($inspection_types as $inspection_type): ?>
               <option value="<?php echo $inspection_type['inspection_id']; ?>"><?php echo $inspection_type['inspection']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="col-xl-2">
-          <select class="form-control" name="schedule_cat_id">
+        <div id="c_schedule_cat_id" class="col-xl-2 hidden">
+          <select id="cs_sche_cat_id" class="form-control" name="schedule_cat_id">
             <?php foreach ($schedule_categories as $schedule_cat): ?>
               <option value="<?php echo $schedule_cat['schedule_cat_id']; ?>"><?php echo $schedule_cat['schedule_category']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="col-xl-2">
-          <select class="form-control" name="schedule_type_id">
+        <div id="c_schedule_type_id" class="col-xl-2 hidden">
+          <select id="cs_type_id" class="form-control" name="schedule_type_id">
             <?php foreach ($schedule_types as $schedule_type): ?>
               <option value="<?php echo $schedule_type['type_id']; ?>"><?php echo $schedule_type['schedule_type']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="col-xl-2">
-          <select class="form-control" name="task_category_id">
-            <option value=""> -- select --</option>
+        <div id="c_task_category_id" class="col-xl-2 hidden">
+          <select id="cs_id_cat_id" class="form-control" name="task_category_id">
             <?php foreach ($task_categories as $task_cat): ?>
               <option value="<?php echo $task_cat['task_category_id']; ?>"><?php echo $task_cat['task_category']; ?></option>
             <?php endforeach; ?>
@@ -103,7 +96,7 @@
           <th></th>
           <th>Reg</th>
           <th>ATA</th>
-          <th>Component/Task</th>
+          <th>Component</th>
           <th class="text-center">Type</th>
           <th class="text-center">Last Check</th>
           <th class="text-center cat1">Cycles</th>
@@ -118,12 +111,12 @@
         </tr>
       </thead>
       <tbody>
-        <?php $i = 1; foreach ($scheduled_tasks as $task): ?>
+        <?php $i = 1; foreach ($component_tasks as $task): ?>
           <tr>
             <td><?php echo $i; ?>.</td>
             <td><?php echo $task['aircraft_reg']; ?></td>
             <td><?php echo "00".$task['ata_chapter']; ?></td>
-            <td> <a href="<?php echo base_url()?>maintenance/view_task/<?php echo $task['schedule_id']; ?>"><?php echo substr($task['task'], 0, 35); ?></a> </td>
+            <td> <a href="<?php echo base_url()?>maintenance/view_task/<?php echo $task['schedule_id']; ?>"><?php echo substr($task['part_name'], 0, 35); ?></a> </td>
             <td class="text-center"><?php echo $task['task_category']; ?></td>
             <td class="text-center"><?php echo date('d, M Y', strtotime($task['date_checked'])); ?></td>
             <td class="text-center cat1"><?php echo $task['cycles']; ?></td>
