@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $route['reports/(:any)'] = 'reports';
+$route['search_by_aircraft'] = 'maintenance/search_by_aircraft';
 $route['search_tasks'] = 'maintenance/search_tasks';
 $route['add_task'] = 'maintenance/add_task';
 $route['maintenance'] = 'maintenance';
