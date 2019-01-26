@@ -309,21 +309,20 @@ $(document).ready(function(){
     $("#cum_cycles").keyup(function(e){
       e.preventDefault();
 
-      c_cycs = parseFloat($("#cum_cycles").val());
-      ld_cycles = parseFloat($("#last_done_cycles").val());
-      discard_cycs = parseFloat($("#life_limit_cycles").val());
+      c_cycs = parseInt($("#cum_cycles").val());
+      ld_cycles = parseInt($("#last_done_cycles").val());
+      discard_cycs = parseInt($("#life_limit_cycles").val());
 
       for (var i = 0; i < frequencies.length; i++) {
-        nextDuecycs = ld_cycles + parseFloat(frequencies[i].cycles);
-        if (frequencies[i].maint_type_id == 1 & nextDuecycs <= parseFloat(frequencies[i].cycles) ) {
+        nextDuecycs = ld_cycles + parseInt(frequencies[i].cycles);
+        if (frequencies[i].maint_type_id == 1 & nextDuecycs <= parseInt(frequencies[i].cycles) ) {
           $("#next_due_cycles").val(nextDuecycs);
           break;
         } else if (frequencies[i].maint_type_id == 2 & nextDuecycs < discard_cycs) {
-          $("#next_due_hours").val(nextDuecycs);
+          $("#next_due_cycles").val(nextDuecycs);
           break;
         } else if(frequencies[i].maint_type_id == 3) {
-          nextDuecycs = parseFloat(frequencies[i].cycles);
-          $("#next_due_cycles").val(nextDuecycs);
+          $("#next_due_cycles").val(discard_cycs);
           break;
         }
       }
@@ -345,8 +344,7 @@ $(document).ready(function(){
           $("#next_due_hours").val(nextDuehrs);
           break;
         } else if(frequencies[i].maint_type_id == 3) {
-          nextDuehrs = parseFloat(frequencies[i].hours);
-          $("#next_due_hours").val(nextDuehrs);
+          $("#next_due_hours").val(discard_hrs);
           break;
         }
       }
@@ -354,12 +352,12 @@ $(document).ready(function(){
 
 
     $('#taskAdd').submit(function(e){
-      // e.preventDefault();
+      e.preventDefault();
       $('#frequencies').val(JSON.stringify(frequencies));
       task_details = $(this).serialize();
 
       $.ajax({
-        url: 'maintenance/add_task',
+        url: 'add_task',
         method: 'post',
         dataType: 'json',
         data: 'task_details',
@@ -379,7 +377,58 @@ $(document).ready(function(){
 
     });
 
+    $("#search_by").change(function(e){
+      // e.preventDefault();
+      id = $("#search_by").val();
+      switch (id) {
+        case '1':
+          $("#c_aircraft_id").removeClass('hidden');
+          $("#c_ata_chapter_id, #c_comp_cat_id, #c_inspection_id, #c_schedule_cat_id, #c_schedule_type_id, #c_task_category_id").addClass('hidden');
+          break;
+        case '2':
+          $("#c_ata_chapter_id").removeClass('hidden');
+          $("#c_aircraft_id, #c_comp_cat_id, #c_inspection_id, #c_schedule_cat_id, #c_schedule_type_id, #c_task_category_id").addClass('hidden');
+          break;
+        case '3':
+          $("#c_comp_cat_id").removeClass('hidden');
+          $("#c_aircraft_id, #c_ata_chapter_id, #c_inspection_id, #c_schedule_cat_id, #c_schedule_type_id, #c_task_category_id").addClass('hidden');
+          break;
+        case '4':
+          $("#c_inspection_id").removeClass('hidden');
+          $("#c_aircraft_id, #c_ata_chapter_id, #c_comp_cat_id, #c_schedule_cat_id, #c_schedule_type_id, #c_task_category_id").addClass('hidden');
+          break;
+        case '5':
+          $("#c_schedule_cat_id").removeClass('hidden');
+          $("#c_aircraft_id, #c_ata_chapter_id, #c_comp_cat_id, #c_inspection_id, #c_schedule_type_id, #c_task_category_id").addClass('hidden');
+          break;
+        case '6':
+          $("#c_schedule_type_id").removeClass('hidden');
+          $("#c_aircraft_id, #c_ata_chapter_id, #c_comp_cat_id, #c_inspection_id, #c_schedule_cat_id, #c_task_category_id").addClass('hidden');
+          break;
+        case '7':
+          $("#c_task_category_id").removeClass('hidden');
+        $ ("#c_aircraft_id, #c_ata_chapter_id, #c_comp_cat_id, #c_inspection_id, #c_schedule_cat_id, #c_schedule_type_id").addClass('hidden');
+          break;
+        default:
+          $("#c_aircraft_id, #c_ata_chapter_id, #c_comp_cat_id, #c_inspection_id, #c_schedule_cat_id, #c_schedule_type_id, #c_task_category_id").addClass('hidden');
 
+      }
+    })
+
+    $("#cs_craft_id").change(function(e){
+      e.preventDefault();
+      cs_id = JSON.stringify($("#cs_craft_id").val());
+
+      $.ajax({
+        url: 'search_by_aircraft',
+        method: 'post',
+        dataType: 'json',
+        data: cs_id,
+        success: function(data){
+          console.log(data);
+        }
+      });
+    })
 
   // Business logic
 
