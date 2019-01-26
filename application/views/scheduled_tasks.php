@@ -1,10 +1,10 @@
-<h3>Scheduled Maintenance Tasks</h3>
+<h5>Scheduled Maintenance Tasks</h5>
 
 <div class="row">
   <div class="col-xl-12 pt">
     <form action="maintenance/search_tasks" method="post">
       <div class="row">
-        <div class="col-xl-3 input-group mb-3">
+        <div class="col-xl-2 input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Select Aircraft:</span>
           </div>
@@ -15,7 +15,7 @@
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="col-xl-3 input-group mb-3">
+        <div class="col-xl-2 input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Schedule Type:</span>
           </div>
@@ -74,7 +74,7 @@
             <td><?php echo $i; ?>.</td>
             <td><?php echo $task['aircraft_reg']; ?></td>
             <td><?php echo "00".$task['ata_chapter']; ?></td>
-            <td> <a href="<?php echo base_url()?>maintenance/view_task/<?php echo $task['schedule_id']; ?>"><?php echo substr($task['task'], 0, 35); ?></a> </td>
+            <td> <a href="<?php echo base_url()?>maintenance/view_task/<?php echo $task['schedule_id']; ?>"><?php echo substr($task['task'], 0, 35); ?><?php echo substr($task['part_name'], 0, 35); ?></a> </td>
             <td class="text-center"><?php echo $task['task_category']; ?></td>
             <td class="text-center"><?php echo date('d, M Y', strtotime($task['date_checked'])); ?></td>
             <td class="text-center cat1"><?php echo $task['cycles']; ?></td>
