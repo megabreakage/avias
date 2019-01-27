@@ -161,7 +161,6 @@
                           <select id="maint_type_id" class="form-control">
                             <option value="1">Initial</option>
                             <option value="2">Repeat</option>
-                            <option value="3">Discard</option>
                           </select>
                         </div>
                         <div class="col-xl-3">
@@ -199,7 +198,7 @@
                           </div>
                           <input id="life_limit_cycles" class="form-control" type="text" name="life_limit_cycles" placeholder="cycles" value="0" title="cycles">
                           <input id="life_limit_hours" class="form-control" type="text" name="life_limit_hours" placeholder="hours" value="0" title="hours">
-                          <input class="form-control" type="text" name="life_limit_calendar" placeholder=" Calendar" value="0" title="calendar time">
+                          <input id="life_limit_calendar" class="form-control" type="text" name="life_limit_calendar" placeholder=" Calendar" value="0" title="calendar time">
                           <select id="life_limit_period" class="form-control" name="life_limit_period">
                             <option value="D">D</option>
                             <option value="M">M</option>
