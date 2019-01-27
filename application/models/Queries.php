@@ -205,6 +205,18 @@ class Queries extends CI_Model {
       $this->db->update('propellers', $data, array('propeller_id' => $prop_id));
     }
 
+    // add to components
+    $sql_get_tasks = 'SELECT cum_cycles, cum_hours FROM schedules WHERE aircraft_id = ?';
+    $task_data = $this->db->queries($sql_get_tasks, array($aircraft_id))->result_array();
+    foreach ($task_data as $task) {
+      $task_id = $task['schedule_id'];
+      $data = array(
+        'cum_cycles' => ($task['cum_cycles'] + $flight_data['cycles']),
+        'cum_hours' => ($task['cum_hours'] + $flight_data['hours'])
+      );
+      $this->db->update('schedules', $data, array('schedule_id' => $task_id));
+    }
+
     return $this->db->insert_id();
   }
 
