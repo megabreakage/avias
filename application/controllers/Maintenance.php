@@ -58,8 +58,6 @@ class Maintenance extends CI_Controller {
 		$this->load->view('modals/add_aircraft');
 		$this->load->view('modals/add_flight');
 		$this->load->view('modals/add_task');
-		$this->load->view('modals/view_task');
-		$this->load->view('modals/edit_task');
 
 		$this->load->view('templates/footer');
   }
@@ -218,7 +216,7 @@ class Maintenance extends CI_Controller {
       'cum_hours' => $this->input->post('cum_hours'),
       'next_due_cycles' => $this->input->post('next_due_cycles'),
       'next_due_hours' => $this->input->post('next_due_hours'),
-      'next_due_date' => $this->input->post('next_due_date'),
+      'next_due_date' => date('Y-m-d',strtotime($this->input->post('next_due_date'))),
       'posted_by' => 1
     );
     $schedule_id = $this->queries->add_schedule_task($schedule_data);
