@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
     <div class="card">
-      <form id="taskAdd" action="maintenance/add_task" method="post">
+      <form id="taskAdd" action="<?php echo base_url(); ?>maintenance/add_task" method="post">
         <div class="card-header text-center">
           <h5>Add Scheduled Task</h5>
         </div>
