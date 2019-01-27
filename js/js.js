@@ -318,11 +318,12 @@ $(document).ready(function(){
         if (frequencies[i].maint_type_id == 1 & nextDuecycs <= parseInt(frequencies[i].cycles) ) {
           $("#next_due_cycles").val(nextDuecycs);
           break;
-        } else if (frequencies[i].maint_type_id == 2 & nextDuecycs < discard_cycs) {
-          $("#next_due_cycles").val(nextDuecycs);
-          break;
-        } else if(frequencies[i].maint_type_id == 3) {
-          $("#next_due_cycles").val(discard_cycs);
+        } else if (frequencies[i].maint_type_id == 2) {
+          if (nextDuecycs < discard_cycs) {
+            $("#next_due_cycles").val(nextDuecycs);
+          } else {
+            $("#next_due_cycles").val(discard_cycs);
+          }
           break;
         }
       }
@@ -340,11 +341,12 @@ $(document).ready(function(){
         if (frequencies[i].maint_type_id == 1 & nextDuehrs <= parseFloat(frequencies[i].hours) ) {
           $("#next_due_hours").val(nextDuehrs);
           break;
-        } else if (frequencies[i].maint_type_id == 2 & nextDuehrs < discard_hrs) {
-          $("#next_due_hours").val(nextDuehrs);
-          break;
-        } else if(frequencies[i].maint_type_id == 3) {
-          $("#next_due_hours").val(discard_hrs);
+        } else if (frequencies[i].maint_type_id == 2) {
+          if (nextDuehrs < discard_hrs) {
+            $("#next_due_hours").val(nextDuehrs);
+          } else {
+            $("#next_due_hours").val(discard_hrs);
+          }
           break;
         }
       }
@@ -369,6 +371,26 @@ $(document).ready(function(){
               break;
             case 'Y':
               freq = (parseInt(frequencies[i].calendar) * 12 * 30.5 * 24) * 3.6e+6;
+              due_date = new Date((ld_date + freq)).toLocaleDateString();
+              $('#next_due_date').val((due_date));
+              break;
+            default:
+              $('#next_due_date').val(ld_date);
+          }
+        } else {
+          switch ($("#life_limit_period").val()) {
+            case 'D':
+              freq = (parseInt($("#life_limit_calendar").val()) * 24) * 3.6e+6;
+              due_date = new Date((ld_date + freq)).toLocaleDateString();
+              $('#next_due_date').val((due_date));
+              break;
+            case 'M':
+              freq = (parseInt($("#life_limit_calendar").val()) * 30.5 * 24) * 3.6e+6;
+              due_date = new Date((ld_date + freq)).toLocaleDateString();
+              $('#next_due_date').val((due_date));
+              break;
+            case 'Y':
+              freq = (parseInt($("#life_limit_calendar").val()) * 12 * 30.5 * 24) * 3.6e+6;
               due_date = new Date((ld_date + freq)).toLocaleDateString();
               $('#next_due_date').val((due_date));
               break;
