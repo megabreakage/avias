@@ -37,7 +37,7 @@ class Flights extends CI_controller {
 
   public function defects(){
     $data = array(
-      'title' => 'Flights',
+      'title' => 'Defects',
   		'aircrafts' => $this->queries->get_aircrafts(),
       'flights' => $this->queries->get_flights(),
   		'engineTypes' => $this->queries->get_engine_types(),
@@ -54,7 +54,7 @@ class Flights extends CI_controller {
     );
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('flights', $data);
+		$this->load->view('defects', $data);
 		// modal view call
 		$this->load->view('modals/add_aircraft');
 		$this->load->view('modals/add_flight');
