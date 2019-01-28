@@ -138,6 +138,31 @@ class Queries extends CI_Model {
     return $this->db->query($sql_get_tasks, array($aircraft_id))->result_array();
   }
 
+  public function get_defects(){
+    $sql_get_defects = '';
+    return $this->db->query($sql_get_defects)->result_array();
+  }
+
+  public function get_deferred_defects(){
+    $sql_get_defects = '';
+    return $this->db->query($sql_get_defects)->result_array();
+  }
+
+  public function get_defects_by_ata($ata_chapter_id){
+    $sql_get_defects = '';
+    return $this->db->query($sql_get_defects, array($ata_chapter_id))->result_array();
+  }
+
+  public function get_defects_by_aircraft($aircraft_id){
+    $sql_get_defects = '';
+    return $this->db->query($sql_get_defects, array($aircraft_id))->result_array();
+  }
+
+  public function get_defects_by_defer_category($dfr_category){
+    $sql_get_defects = '';
+    return $this->db->query($sql_get_defects, array($dfr_category))->result_array();
+  }
+
 
   // Create Functions
   public function add_aircraft($aircraft_data){
@@ -156,9 +181,6 @@ class Queries extends CI_Model {
   }
 
   public function add_flight($flight_data){
-    $this->db->insert('flights', $flight_data);
-
-    //Add hours/cycles to airframe, engines, propellers and components
     $aircraft_id = $flight_data['aircraft_id'];
 
     // add to Airframe
@@ -168,8 +190,9 @@ class Queries extends CI_Model {
       'cum_cycles' => $aircraft_data['cum_cycles'] + $flight_data['cycles'],
       'cum_hours' => $aircraft_data['cum_hours'] + $flight_data['hours']
     );
-    $this->db->update('aircrafts', $new_aircraft_data, array('aircraft_id'=>$aircraft_id));
-
+    if ($this->db->update('aircrafts', $new_aircraft_data, array('aircraft_id'=>$aircraft_id)) == FALSE) {
+      return 0;
+    }
 
     // add to engines
     $sql_get_engine = 'SELECT b.aircraft_id, a.engine_id, a.engine_cycles, a.engine_hours
@@ -185,7 +208,9 @@ class Queries extends CI_Model {
         'engine_cycles' => ($engine['engine_cycles'] + $flight_data['cycles']),
         'engine_hours' => ($engine['engine_hours'] + $flight_data['hours'])
       );
-      $this->db->update('engines', $data, array('engine_id'=>$engine_id));
+      if ($this->db->update('engines', $data, array('engine_id'=>$engine_id)) == FALSE) {
+        return 0;
+      }
     }
 
     // add to propellers
@@ -202,26 +227,38 @@ class Queries extends CI_Model {
         'propeller_cycles' => ($prop['propeller_cycles'] + $flight_data['cycles']),
         'propeller_hours' => ($prop['propeller_hours'] + $flight_data['hours'])
       );
-      $this->db->update('propellers', $data, array('propeller_id' => $prop_id));
+      if ($this->db->update('propellers', $data, array('propeller_id' => $prop_id)) == FALSE) {
+        return 0;
+      }
     }
 
-    // add to components
+    // add to components/tasks
     $sql_get_tasks = 'SELECT cum_cycles, cum_hours FROM schedules WHERE aircraft_id = ?';
-    $task_data = $this->db->queries($sql_get_tasks, array($aircraft_id))->result_array();
+    $task_data = $this->db->query($sql_get_tasks, array($aircraft_id))->result_array();
     foreach ($task_data as $task) {
       $task_id = $task['schedule_id'];
       $data = array(
         'cum_cycles' => ($task['cum_cycles'] + $flight_data['cycles']),
         'cum_hours' => ($task['cum_hours'] + $flight_data['hours'])
       );
-      $this->db->update('schedules', $data, array('schedule_id' => $task_id));
+      if ($this->db->update('schedules', $data, array('schedule_id' => $task_id)) == FALSE) {
+        return 0;
+      }
     }
 
-    return $this->db->insert_id();
+    if ($this->db->insert('flights', $flight_data) == FALSE) {
+      return 0;
+    } else {
+      return $this->db->insert_id();
+    }
   }
 
   public function add_logs($logs){
-    $this->db->insert('logs', $logs);
+    return $this->db->insert('logs', $logs);
+  }
+
+  public function add_pireps($defect){
+    $this->db->insert('pireps', $defect);
     return $this->db->insert_id();
   }
 
