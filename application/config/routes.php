@@ -55,6 +55,7 @@ $route['search_by_aircraft'] = 'maintenance/search_by_aircraft';
 $route['search_tasks'] = 'maintenance/search_tasks';
 $route['add_task'] = 'maintenance/add_task';
 $route['maintenance'] = 'maintenance';
+$route['defects'] = 'flights/defects';
 $route['flights'] = 'flights';
 $route['fleet'] = 'welcome/fleet';
 $route['aircraft_models'] = 'welcome/aircraft_models';
