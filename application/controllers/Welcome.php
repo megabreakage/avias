@@ -156,7 +156,9 @@ class Welcome extends CI_Controller {
 	}
 
 	public function add_flight(){
-		$flight = json_decode($this->input->post('logs'));
+		$flight_logs = json_decode($this->input->post('logs'));
+		$pireps = json_decode($this->input->post('pireps'));
+		$trend_monitors = json_decode($this->input->post('trend_monitor'));
 
 		$flight_data = array(
 			'aircraft_id' => $_POST['aircraftReg'],
@@ -172,21 +174,48 @@ class Welcome extends CI_Controller {
 		if($flight_id == 0){
 			echo json_encode(0);
 		}else{
-			foreach ($flight as $item) {
-				$logs = array(
-					'flight_id' =>$flight_id,
-					'origin' => strtoupper($item->to),
-					'destination' => strtoupper($item->from),
-					'takeoff' => $item->takeoff,
-					'landing' => $item->landing,
-					'hours' => $item->hours,
-					'cycles' => $item->cycles
-				);
-				$flight_add = $this->queries->add_logs($logs);
-				if($flight_add == 0){
-					echo json_encode($flight_add);
+			if (!empty($flight_logs)) {
+				foreach ($flight_logs as $flight) {
+					$logs = array(
+						'flight_id' =>$flight_id,
+						'origin' => strtoupper($flight->to),
+						'destination' => strtoupper($flight->from),
+						'takeoff' => $flight->takeoff,
+						'landing' => $flight->landing,
+						'hours' => $flight->hours,
+						'cycles' => $flight->cycles
+					);
+					$log_add = $this->queries->add_logs($logs);
+					if($log_add == 0){
+						echo json_encode(0);
+					}
 				}
 			}
+
+			// Pireps data
+			if (!empty($pireps)) {
+				foreach ($pireps as $pirep) {
+					$defect = array(
+						'flight_id' => $flight_id,
+						'defect' => strtoupper($pirep->defect),
+						'ata_chapter_id' => $pirep->ata_chapter_id,
+						'deferred' => $pirep->dfr_status,
+						'limitations' => $pirep->limitations,
+						'mel_reference' => $pirep->mel_reference,
+						'dfr_reason' => $pirep->dfr_reason,
+						'dfr_category' => $pirep->dfr_category,
+						'dfr_date' => $pirep->dfr_date,
+						'exp_date' => $pirep->exp_date
+					);
+					$defect_add = $this->queries->add_pireps($defect);
+					if ($defect_add == 0) {
+						echo json_encode(0);
+					}
+				}
+			}
+
+			// Engine trend monitoring data
+
 		}
 		echo json_encode(1);
 	}
