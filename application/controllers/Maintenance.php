@@ -104,7 +104,8 @@ class Maintenance extends CI_Controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+      'inspection_tasks' => $this->queries->get_inspection_tasks()
     );
 
 		$this->load->view('templates/header', $data);
@@ -131,7 +132,8 @@ class Maintenance extends CI_Controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+      'oop_tasks' => $this->queries->get_oop_tasks()
     );
 
 		$this->load->view('templates/header', $data);
@@ -158,7 +160,8 @@ class Maintenance extends CI_Controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+      'expired_tasks' => $this->queries->get_expired_tasks()
     );
 
 		$this->load->view('templates/header', $data);
@@ -242,7 +245,7 @@ class Maintenance extends CI_Controller {
          }
        }
      }
-     //
+
      // // check if schedule workpacks array is empty
      // if (empty($workpacks)) {
      //   echo json_encode('Workpack is empty!');
@@ -254,6 +257,7 @@ class Maintenance extends CI_Controller {
      //     echo json_encode(0);
      //   }
      // }
+
     }
     return redirect('maintenance', 'refresh');
     // echo json_encode(1);
