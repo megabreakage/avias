@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
   engineData = [];
   propData = [];
   airframe =[];
@@ -93,21 +94,31 @@ $(document).ready(function(){
     $("#pirepsTab").click(function(){
       $("#pirepsTab").addClass("tab");
       $("#pirepsData").removeClass("hidden");
-      $("#logTab").removeClass("tab");
-      $("#logData").addClass("hidden");
+      $("#logTab, #trendTab").removeClass("tab");
+      $("#logData, #trendData, #logDataEntry").addClass("hidden");
 
     });
 
     $("#logTab").click(function(){
       $("#logTab").addClass("tab");
-      $("#logData").removeClass("hidden");
-      $("#pirepsTab").removeClass("tab");
-      $("#pirepsData").addClass("hidden");
+      $("#logData, #logDataEntry").removeClass("hidden");
+      $("#pirepsTab, #trendTab").removeClass("tab");
+      $("#pirepsData, #trendData").addClass("hidden");
+    });
+
+    $("#trendTab").click(function(){
+      $("#trendTab").addClass("tab");
+      $("#trendData").removeClass("hidden");
+      $("#pirepsTab, #logTab").removeClass("tab");
+      $("#pirepsData, #logData, #logDataEntry").addClass("hidden");
     });
 
     totalCycles = 0;
     totalHours = 0;
     logs = [];
+    pireps = [];
+    trendMonitor = [];
+    dfr_status = 0;
 
     $("#landing").keyup(function(){
       takeoff = Date.parse($("#takeoff").val());
@@ -151,9 +162,46 @@ $(document).ready(function(){
 
     });
 
+    $("#dfr_status").change(function(){
+      if(this.checked){
+        dfr_status = 'Yes';
+      } else {
+        dfr_status = 'No';
+      }
+    });
+
+    // pireps data array create
+    $("#addDefect").click(function(e){
+      e.preventDefault();
+      data = {
+        'defect': $("#defect").val(),
+        'ata_chapter_id': $("#ata_chapter_id").val(),
+        'dfr_status': dfr_status,
+        'limitations': $("#limitations").val(),
+        'mel_reference': $("#mel_reference").val(),
+        'dfr_reason': $("#dfr_reason").val(),
+        'dfr_category': $("#dfr_category").val(),
+        'dfr_date': $("#dfr_date").val(),
+        'exp_date': $("#exp_date").val()
+      }
+      pireps.push(data);
+      $("#tblDefects").empty();
+      for (var i = 0; i < pireps.length; i++) {
+        td1 = '<tr><td>'+pireps[i].defect+'</td>';
+        td2 = '<td>'+pireps[i].mel_reference+'</td>';
+        td3 = '<td class="text-center">'+pireps[i].dfr_category+'</td>';
+        td4 = '<td class="text-center">'+pireps[i].dfr_status+'</td>';
+        td5 = '<td>'+pireps[i].dfr_reason+'</td>';
+        td6 = '<td class="text-center">'+pireps[i].dfr_date+'</td>';
+        td7 = '<td><a href="#"><i class="fa fa-times" title="remove"></i></a></td></tr>';
+        $("#tblDefects").append(td1+td2+td3+td4+td5+td6+td7);
+      }
+    });
+
     $("#flightAdd").submit(function(e){
-      // e.preventDefault();
+      e.preventDefault();
       $("#logs").val(JSON.stringify(logs));
+      $("#pireps").val(JSON.stringify(pireps));
       flight = $(this).serialize();
 
       $.ajax({
@@ -190,17 +238,17 @@ $(document).ready(function(){
         dataType: 'json',
         data: aircraft_id,
         success: function(data){
-          if (data.length < 0) {
+          if (data === undefined || data.length < 0) {
             $('#flightDisplay').html('<tr class="text-center">There is Flight data for this aircraft!</tr>')
           }else {
             j = 1;
             for (var i = 0; i < data.length; i++) {
               td1 = '<tr><td>'+j+'</td>';
               td2 = '<td>'+data[i].techlog+'</td>';
-              td3 = '<td>'+data[i].aircraft_reg+'</td>';
-              td4 = '<td>'+data[i].cycles+'</td>';
-              td5 = '<td>'+data[i].hours+'</td>';
-              td6 = '<td>'+data[i].date_posted+'</td>';
+              td3 = '<td class="text-center">'+data[i].aircraft_reg+'</td>';
+              td4 = '<td class="text-right">'+data[i].cycles+'</td>';
+              td5 = '<td class="text-right">'+data[i].hours+'</td>';
+              td6 = '<td class="text-center">'+data[i].date_posted+'</td>';
               td7 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view flight ?>"></i></a></td></tr>'
               j++;
               $("#flightDisplay").append(td1+td2+td3+td4+td5+td6+td7);
@@ -306,8 +354,7 @@ $(document).ready(function(){
     });
 
     // check if frequencies is empty. If empty; disable the calc button
-    $("#cum_cycles").keyup(function(e){
-      e.preventDefault();
+    $("#cum_cycles").keyup(function(){
 
       c_cycs = parseInt($("#cum_cycles").val());
       ld_cycles = parseInt($("#last_done_cycles").val());
@@ -329,8 +376,7 @@ $(document).ready(function(){
       }
     });
 
-    $("#cum_hours").keyup(function(e){
-      e.preventDefault();
+    $("#cum_hours").keyup(function(){
 
       c_hrs = parseFloat($("#cum_hours").val());
       ld_hours = parseFloat($("#last_done_hours").val());
@@ -352,8 +398,7 @@ $(document).ready(function(){
       }
     });
 
-    $('#last_done_date').keyup(function(e){
-      e.preventDefault();
+    $('#last_done_date').keyup(function(){
 
       ld_date = Date.parse($("#last_done_date").val());
       for (var i = 0; i < frequencies.length; i++) {
@@ -428,8 +473,7 @@ $(document).ready(function(){
 
     });
 
-    $("#search_by").change(function(e){
-      // e.preventDefault();
+    $("#search_by").change(function(){
       id = $("#search_by").val();
       switch (id) {
         case '1':
@@ -466,8 +510,7 @@ $(document).ready(function(){
       }
     })
 
-    $("#cs_craft_id").change(function(e){
-      e.preventDefault();
+    $("#cs_craft_id").change(function(){
       cs_id = JSON.stringify($("#cs_craft_id").val());
 
       $.ajax({
@@ -479,7 +522,7 @@ $(document).ready(function(){
           console.log(data);
         }
       });
-    })
+    });
 
   // Business logic
 
