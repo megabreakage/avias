@@ -8,6 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>Avia Support</title>
+  <link rel="shortcut icon" type="image/png" href="<?php echo base_url("images/logo2.png")?>">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
   <link href="<?php echo base_url(); ?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -70,6 +71,9 @@
             </li>
             <li>
               <a href="<?php echo base_url(); ?>flights">Flights</a>
+            </li>
+            <li>
+              <a href="<?php echo base_url(); ?>defects">Defects</a>
             </li>
           </ul>
         </li>
