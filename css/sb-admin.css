@@ -485,10 +485,7 @@ footer.sticky-footer {
 
 /* AVIAS CUSTOM */
 .landing{
-  background-image: url("../images/engine.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+
 }
 
 .pt{
@@ -534,6 +531,7 @@ input {
 .tab{
   background-color: #E0E0E0;
 }
+
 .cat1{
   background-color: #90CAF9;
 }
@@ -583,4 +581,18 @@ tr a:hover{
 
 #deleteAircraft span{
   color: red;
+}
+.chck_label{
+  padding-top: 5px;
+}
+.chck_label span{
+  color: #ffffff;
+}
+
+.btBorder{
+  border-top: 1px solid #E0E0E0
+}
+
+.defectDetails{
+  border-right: 2px dashed #E0E0E0;
 }
