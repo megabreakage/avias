@@ -7,7 +7,7 @@
             <h5>Add Flight</h5>
           </div>
           <div class="card-body">
-            <div id="response" class="col-md-6 offset-md-3 alert hidden">
+            <div id="log_response" class="col-md-6 offset-md-3 alert hidden">
               <!-- response texts -->
             </div>
               <div class="row">
