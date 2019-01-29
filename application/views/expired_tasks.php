@@ -1,10 +1,10 @@
 <h5>Expired tasks</h5>
 
 <div class="row">
-  <div class="col-xl-12 pt">
+  <div class="col-md-12 pt">
     <form action="maintenance/search_tasks" method="post">
       <div class="row">
-        <div class="col-xl-2 input-group mb-3">
+        <div class="col-md-2 input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Search by:</span>
           </div>
@@ -18,7 +18,7 @@
             <option value="7">Task categoty</option>
           </select>
         </div>
-        <div id="c_aircraft_id" class="col-xl-2">
+        <div id="c_aircraft_id" class="col-md-2">
           <select id="cs_craft_id" class="form-control" name="aircraft_id">
             <option value=""> -- select -- </option>
             <?php foreach ($aircrafts as $aircraft): ?>
@@ -26,42 +26,42 @@
             <?php endforeach; ?>
           </select>
         </div>
-        <div id="c_ata_chapter_id" class="col-xl-2 hidden">
+        <div id="c_ata_chapter_id" class="col-md-2 hidden">
           <select id="cs_ata_id" class="form-control" name="ata_chapter_id">
             <?php foreach ($ata_chapters as $ata_chapter): ?>
               <option value="<?php echo $ata_chapter['ata_chapter_id']; ?>">00<?php echo $ata_chapter['ata_chapter']; ?>: <?php echo $ata_chapter['ata_name']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div id="c_comp_cat_id" class="col-xl-2 hidden">
+        <div id="c_comp_cat_id" class="col-md-2 hidden">
           <select id="cs_comp_cat_id" class="form-control" name="comp_cat_id">
             <?php foreach ($comp_cats as $comp_cat): ?>
               <option value="<?php echo $comp_cat['comp_cat_id']; ?>"><?php echo $comp_cat['comp_cat']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div id="c_inspection_id" class="col-xl-2 hidden">
+        <div id="c_inspection_id" class="col-md-2 hidden">
           <select id="cs_insp_id" class="form-control" name="inspection_id">
             <?php foreach ($inspection_types as $inspection_type): ?>
               <option value="<?php echo $inspection_type['inspection_id']; ?>"><?php echo $inspection_type['inspection']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div id="c_schedule_cat_id" class="col-xl-2 hidden">
+        <div id="c_schedule_cat_id" class="col-md-2 hidden">
           <select id="cs_sche_cat_id" class="form-control" name="schedule_cat_id">
             <?php foreach ($schedule_categories as $schedule_cat): ?>
               <option value="<?php echo $schedule_cat['schedule_cat_id']; ?>"><?php echo $schedule_cat['schedule_category']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div id="c_schedule_type_id" class="col-xl-2 hidden">
+        <div id="c_schedule_type_id" class="col-md-2 hidden">
           <select id="cs_type_id" class="form-control" name="schedule_type_id">
             <?php foreach ($schedule_types as $schedule_type): ?>
               <option value="<?php echo $schedule_type['type_id']; ?>"><?php echo $schedule_type['schedule_type']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-        <div id="c_task_category_id" class="col-xl-2 hidden">
+        <div id="c_task_category_id" class="col-md-2 hidden">
           <select id="cs_id_cat_id" class="form-control" name="task_category_id">
             <?php foreach ($task_categories as $task_cat): ?>
               <option value="<?php echo $task_cat['task_category_id']; ?>"><?php echo $task_cat['task_category']; ?></option>
@@ -71,7 +71,7 @@
       </div>
     </form>
   </div>
-  <div class="col-xl-12 pt pb scheduledTasks">
+  <div class="col-md-12 pt pb scheduledTasks">
     <table class="table table-sm table-hover table-bodered table-striped">
       <thead>
         <tr>

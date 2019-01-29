@@ -1,6 +1,6 @@
 <h5>Flights</h5>
 <div class="row">
-  <div class="col-xl-3 input-group">
+  <div class="col-md-3 input-group">
     <div class="input-group-prepend">
       <span class="input-group-text">Select Aircraft: </span>
     </div>
@@ -11,7 +11,7 @@
       <?php endforeach; ?>
     </select>
   </div>
-  <div class="col-xl-12 pt pb models">
+  <div class="col-md-12 pt pb models">
     <table class="table table-sm table-hover table-bodered table-striped">
       <thead>
         <tr>
