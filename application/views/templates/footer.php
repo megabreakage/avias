@@ -3,7 +3,7 @@
 <footer class="sticky-footer">
   <div class="container">
     <div class="text-center">
-      <small>Copyright © AviaS by iO Sync 2018</small>
+      <small>Copyright © AviaS by <a href="http://www.iosync.co.ke" target="_blank">iO Sync</a> 2018</small>
     </div>
   </div>
 </footer>
