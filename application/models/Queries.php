@@ -321,7 +321,7 @@ class Queries extends CI_Model {
     }
 
     // add to components/tasks
-    $sql_get_tasks = 'SELECT cum_cycles, cum_hours FROM schedules WHERE aircraft_id = ?';
+    $sql_get_tasks = 'SELECT schedule_id, cum_cycles, cum_hours FROM schedules WHERE aircraft_id = ?';
     $task_data = $this->db->query($sql_get_tasks, array($aircraft_id))->result_array();
     foreach ($task_data as $task) {
       $task_id = $task['schedule_id'];
