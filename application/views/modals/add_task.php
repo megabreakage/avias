@@ -7,7 +7,7 @@
           <h5>Add Scheduled Task</h5>
         </div>
         <div class="card-body">
-          <div id="response" class="col-xl-6 offset-md-3 alert hidden">
+          <div id="task_response" class="col-md-6 offset-md-3 alert hidden">
             <!-- response texts -->
           </div>
           <!-- Airframe data -->
@@ -16,9 +16,9 @@
               <h6>Task Details</h6>
               <hr>
               <div class="row">
-                <div class="col-xl-12">
+                <div class="col-md-12">
                   <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-md-6">
                       <label>Aircraft Reg</label>
                       <select class="form-control" name="aircraft_id" required>
                         <option value=""> -- select aircraft --</option>
@@ -27,19 +27,19 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-md-6">
                       <label>Task Number</label>
                       <input class="form-control" type="text" name="task_card" placeholder="Task number">
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-12">
+                <div class="col-md-12">
                   <label>Task</label>
                   <textarea class="form-control" name="task" rows="2 " cols="80" placeholder="Task"></textarea>
                 </div>
-                <div class="col-xl-12">
+                <div class="col-md-12">
                   <div class="row">
-                    <div class="col-xl-4">
+                    <div class="col-md-4">
                       <label>Category</label>
                       <select class="form-control" name="comp_cat_id" required>
                         <option value=""> -- select category --</option>
@@ -48,19 +48,19 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-xl-4">
+                    <div class="col-md-4">
                       <label>Zone</label>
                       <input class="form-control" type="text" name="zone" placeholder="Zone">
                     </div>
-                    <div class="col-xl-4">
+                    <div class="col-md-4">
                       <label>Location</label>
                       <input class="form-control" type="text" name="location" placeholder="Location">
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-12 pt">
+                <div class="col-md-12 pt">
                   <div class="row">
-                    <div class="col-xl-3">
+                    <div class="col-md-3">
                       <label>Schedule type</label>
                       <select class="form-control" name="schedule_type_id" required>
                         <option value=""> -- select --</option>
@@ -69,7 +69,7 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-xl-3">
+                    <div class="col-md-3">
                       <label>Task category</label>
                       <select class="form-control" name="task_category_id" required>
                         <option value=""> -- select --</option>
@@ -78,7 +78,7 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-xl-3">
+                    <div class="col-md-3">
                       <label>Schedule category</label>
                       <select class="form-control" name="schedule_cat_id" required>
                         <option value=""> -- select --</option>
@@ -87,7 +87,7 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-xl-3">
+                    <div class="col-md-3">
                       <label>Inspection type</label>
                       <select class="form-control" name="inspection_id" required>
                         <option value=""> -- select --</option>
@@ -98,7 +98,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-12 pb">
+                <div class="col-md-12 pb">
                   <label>ATA Chapter</label>
                   <select class="form-control" name="ata_chapter_id" required>
                     <option value=""> -- select ATA Chapter --</option>
@@ -107,25 +107,25 @@
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <div class="col-xl-12 pt pb">
+                <div class="col-md-12 pt pb">
                   <h6>Component details</h6>
                   <hr>
                   <div class="row">
-                    <div class="col-xl-4">
+                    <div class="col-md-4">
                       <label>Part name</label>
                       <input class="form-control" type="text" name="part_name" placeholder="Part name">
                     </div>
-                    <div class="col-xl-4">
+                    <div class="col-md-4">
                       <label>Part number</label>
                       <input class="form-control" type="text" name="part_number" placeholder="Part number">
                     </div>
-                    <div class="col-xl-4">
+                    <div class="col-md-4">
                       <label>Serial number</label>
                       <input class="form-control" type="text" name="serial_number" placeholder="Serial number">
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-12">
+                <div class="col-md-12">
                   <textarea class="form-control" name="reference" rows="2" cols="80" placeholder="Task/Component reference"></textarea>
                 </div>
 
@@ -135,9 +135,9 @@
               <h6>Frequencies</h6>
               <hr>
               <div class="row">
-                <div class="col-xl-12">
+                <div class="col-md-12">
                   <div class="row">
-                    <div class="col-xl-12">
+                    <div class="col-md-12">
                       <table class="table table-sm table-bordered table-hover">
                         <thead>
                           <tr>
@@ -154,27 +154,27 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="col-xl-12">
+                    <div class="col-md-12">
                       <div class=row>
-                        <div class="col-xl-3">
+                        <div class="col-md-3">
                           <label>Type</label>
                           <select id="maint_type_id" class="form-control">
                             <option value="1">Initial</option>
                             <option value="2">Repeat</option>
                           </select>
                         </div>
-                        <div class="col-xl-3">
+                        <div class="col-md-3">
                           <label>Cycles</label>
                           <input id="freq_cycles" class="form-control" type="text" placeholder="cycles" value="0">
                         </div>
-                        <div class="col-xl-3">
+                        <div class="col-md-3">
                           <label>Hours</label>
                           <input id="freq_hours" class="form-control" type="text" placeholder="hours" value="0.00">
                         </div>
-                        <div class="col-xl-3">
+                        <div class="col-md-3">
                           <label>Calendar</label>
                           <div class="row">
-                            <div class="col-xl-12 input-group mb-3">
+                            <div class="col-md-12 input-group mb-3">
                               <input id="freq_calendar" class="form-control" name="freq_calendar" type="text" placeholder=" Calendar" value="0">
                               <select id="freq_period" class="form-control" name="period">
                                 <option value="D">D</option>
@@ -184,7 +184,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-xl-12 pb text-right">
+                        <div class="col-md-12 pb text-right">
                           <button id="add_freq" type="button" class="aviaBtn btn btn-primary">Add</button>
                         </div>
                         <input id="frequencies" type="hidden" name="frequencies" value="">
@@ -192,7 +192,7 @@
                     </div>
                     <div class="col-12">
                       <div class="row">
-                        <div class="col-xl-12 input-group mb-3">
+                        <div class="col-md-12 input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">Life Limits:</span>
                           </div>
@@ -205,7 +205,7 @@
                             <option value="Y">Y</option>
                           </select>
                         </div>
-                        <div class="col-xl-12 input-group mb-3">
+                        <div class="col-md-12 input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">Alarm:</span>
                           </div>
@@ -221,11 +221,11 @@
 
                       </div>
                     </div>
-                    <div class="col-xl-12 pt">
+                    <div class="col-md-12 pt">
                       <h6>Compliance details</h6>
                       <hr>
                       <div class="row">
-                        <div class="col-xl-12 input-group mb-3">
+                        <div class="col-md-12 input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">Last done:</span>
                           </div>
@@ -233,14 +233,14 @@
                           <input id="last_done_hours"  class="form-control" type="text" name="last_done_hours" placeholder="hours" value="0" title="hours" required>
                           <input id="last_done_date"  class="form-control" type="date" name="last_done_date" placeholder="Date" title="date">
                         </div>
-                        <div class="col-xl-12 input-group mb-3">
+                        <div class="col-md-12 input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">Cumulative:</span>
                           </div>
                           <input id="cum_cycles" class="form-control" type="text" name="cum_cycles" placeholder="cycles" value="0" title="cycles" required>
                           <input id="cum_hours" class="form-control" type="text" name="cum_hours" placeholder="hours" value="0" title="hours" required>
                         </div>
-                        <div class="col-xl-12 input-group mb-3">
+                        <div class="col-md-12 input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">Next due:</span>
                           </div>
@@ -249,7 +249,7 @@
                           <input id="next_due_hours" class="form-control" type="text" name="next_due_hours" placeholder="hours" value="" readonly title="Due hours">
                           <input id="next_due_date" class="form-control" type="text" name="next_due_date" placeholder="Date" value="" readonly title="Due date">
                         </div>
-                        <div class="col-xl-12 text-right">
+                        <div class="col-md-12 text-right">
                           <!-- <button id="calcDues" class="aviaBtn btn btn-primary" type="button" >Calculate</button> -->
                         </div>
 
@@ -262,7 +262,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <div class="col-xl-12 text-right">
+          <div class="col-md-12 text-right">
             <button name="clear" class="aviaBtn btn btn-danger" data-dismiss="modal"> Cancel</button>
             <button type="submit" class="aviaBtn btn btn-primary">Submit</button>
           </div>
