@@ -1,10 +1,10 @@
 <h5>Scheduled Maintenance Tasks</h5>
 
 <div class="row">
-  <div class="col-xl-12 pt">
+  <div class="col-md-12 pt">
     <form action="maintenance/search_tasks" method="post">
       <div class="row">
-        <div class="col-xl-2 input-group mb-3">
+        <div class="col-md-2 input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Select Aircraft:</span>
           </div>
@@ -15,7 +15,7 @@
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="col-xl-2 input-group mb-3">
+        <div class="col-md-2 input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Schedule Type:</span>
           </div>
@@ -29,7 +29,7 @@
       </div>
     </form>
   </div>
-  <div class="col-xl-12 pt pb scheduledTasks">
+  <div class="col-md-12 pt pb scheduledTasks">
     <table class="table table-sm table-hover table-bodered table-striped">
       <thead>
         <tr>
