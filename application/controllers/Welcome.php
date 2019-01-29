@@ -122,33 +122,37 @@ class Welcome extends CI_Controller {
 			echo json_encode(0); //aircraft database entry error code
 		}else {
 			// engine data
-			foreach ($eng as $item) {
-				$engine_data = array(
-					'aircraft_id' => $aircraft_id,
-					'serial_number' => $item->serial_number,
-					'model' => strtoupper($item->model),
-					'number' => $item->number,
-					'engine_hours' => $item->engine_hours,
-					'engine_cycles' => $item->engine_cycles
-				);
-				$engine_id = $this->queries->add_engine($engine_data);
-				if($engine_id == 0){
-					json_encode(0x001); //engine database entry error code
+			if (!empty($eng)) {
+				foreach ($eng as $item) {
+					$engine_data = array(
+						'aircraft_id' => $aircraft_id,
+						'serial_number' => $item->serial_number,
+						'model' => strtoupper($item->model),
+						'number' => $item->number,
+						'engine_hours' => $item->engine_hours,
+						'engine_cycles' => $item->engine_cycles
+					);
+					$engine_id = $this->queries->add_engine($engine_data);
+					if($engine_id == 0){
+						json_encode(0); //engine database entry error code
+					}
 				}
 			}
 			// propeller data
-			foreach ($prop as $item) {
-				$prop_data = array(
-					'aircraft_id' => $aircraft_id,
-					'serial_number' => $item->serial_number,
-					'model' => strtoupper($item->model),
-					'number' => $item->number,
-					'propeller_hours' => $item->prop_hours,
-					'propeller_cycles' => $item->prop_cycles
-				);
-				$prop_id = $this->queries->add_propeller($prop_data);
-				if( $prop_id == 0){
-					echo json_encode(0x002); //database entry error code
+			if(!empty($prop)){
+				foreach ($prop as $item) {
+					$prop_data = array(
+						'aircraft_id' => $aircraft_id,
+						'serial_number' => $item->serial_number,
+						'model' => strtoupper($item->model),
+						'number' => $item->number,
+						'propeller_hours' => $item->prop_hours,
+						'propeller_cycles' => $item->prop_cycles
+					);
+					$prop_id = $this->queries->add_propeller($prop_data);
+					if( $prop_id == 0){
+						echo json_encode(0); //database entry error code
+					}
 				}
 			}
 		}
@@ -163,6 +167,7 @@ class Welcome extends CI_Controller {
 		$flight_data = array(
 			'aircraft_id' => $_POST['aircraftReg'],
 			'techlog' => $_POST['techLogNumber'],
+			'techlog_type' => $_POST['type'],
 			'hours' => $_POST['totalHours'],
 			'cycles' => $_POST['totalCycles'],
 			'date_posted' => $_POST['entryDate'],
@@ -200,9 +205,9 @@ class Welcome extends CI_Controller {
 						'defect' => strtoupper($pirep->defect),
 						'ata_chapter_id' => $pirep->ata_chapter_id,
 						'deferred' => $pirep->dfr_status,
-						'limitations' => $pirep->limitations,
-						'mel_reference' => $pirep->mel_reference,
-						'dfr_reason' => $pirep->dfr_reason,
+						'limitations' => strtoupper($pirep->limitations),
+						'mel_reference' => strtoupper($pirep->mel_reference),
+						'dfr_reason' => strtoupper($pirep->dfr_reason),
 						'dfr_category' => $pirep->dfr_category,
 						'dfr_date' => $pirep->dfr_date,
 						'exp_date' => $pirep->exp_date
@@ -215,7 +220,6 @@ class Welcome extends CI_Controller {
 			}
 
 			// Engine trend monitoring data
-
 		}
 		echo json_encode(1);
 	}
