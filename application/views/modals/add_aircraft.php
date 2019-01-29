@@ -7,22 +7,22 @@
           <h5>Add Aircraft</h5>
         </div>
         <div class="card-body">
-          <div class="col-xl-6 offset-md-3 alert hidden">
+          <div id="response" class="col-md-6 offset-md-3 alert hidden">
             <!-- response texts -->
           </div>
           <h6>Airframe</h6>
           <hr>
           <!-- Airframe data -->
           <div class="row">
-            <div class="col-xl-3">
+            <div class="col-md-3">
               <label>Registration</label>
               <input id="registration" type="text" name="registration" class="form-control" placeholder="Aircraft Registration" required>
             </div>
-            <div class="col-xl-3">
+            <div class="col-md-3">
               <label>Serial Number</label>
               <input id="serialNumber" type="text" name="serialNumber" class="form-control" placeholder="Serial Number" required>
             </div>
-            <div class="col-xl-3">
+            <div class="col-md-3">
               <label>Manufacturer</label>
               <select id="manufacturer" name="manufacturer" class="form-control" required>
                 <option value=""> -- select manufacturer --</option>
@@ -31,15 +31,15 @@
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-xl-3">
+            <div class="col-md-3">
               <label>Manufacture Date</label>
               <input id="manufactureDate" type="date" name="manufactureDate" class="form-control" required>
             </div>
-            <div class="col-xl-3">
+            <div class="col-md-3">
               <label>Series</label>
               <input id="series" type="text" name="series" class="form-control" placeholder="Aircraft Series" required>
             </div>
-            <div class="col-xl-3">
+            <div class="col-md-3">
               <label>Model</label>
               <select id="model" class="form-control" name="model" required>
                 <option value=""> -- Select Model --</option>
@@ -48,7 +48,7 @@
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-xl-3">
+            <div class="col-md-3">
               <label>Type</label>
               <select id="engineType" class="form-control" name="engineType" required>
                 <option value=""> -- Select Type --</option>
@@ -57,7 +57,7 @@
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-xl-3">
+            <div class="col-md-3">
               <label>Category</label>
               <select id="category" class="form-control" name="category" required>
                 <option value=""> -- Select Category --</option>
@@ -65,37 +65,37 @@
                 <option value="private">Private</option>
               </select>
             </div>
-            <div class="col-xl-12 pt">
+            <div class="col-md-12 pt">
               <div class="row">
-                <div class="col-xl-2">
+                <div class="col-md-2">
                   <label>No. Engines</label>
                   <select id="engines" class="form-control" name="engines" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
                   </select>
                 </div>
-                <div class="col-xl-3">
+                <div class="col-md-3">
                   <label>TAT</label>
                   <input id="tat" type="text" name="tat" class="form-control" placeholder="Aircraft Hours" required>
                 </div>
-                <div class="col-xl-3">
+                <div class="col-md-3">
                   <label>TAC</label>
                   <input id="tac" type="text" name="tac" class="form-control" placeholder="Aircraft Cycles" required>
                 </div>
-                <div class="col-xl-4">
+                <div class="col-md-4">
                   <label>Update Date</label>
                   <input id="updateDate" type="date" name="updateDate" class="form-control" placeholder="Update Date" required>
                 </div>
               </div>
             </div>
             <!-- Engine data -->
-            <div class="col-xl-12 pt">
+            <div class="col-md-12 pt">
               <h6>Engines</h6>
               <hr>
               <div class="row">
-                <div class="col-xl-12 pt">
+                <div class="col-md-12 pt">
                   <div class="row">
-                    <div class="col-xl-12">
+                    <div class="col-md-12">
                       <table class="table table-sm table-hover table-stripped">
                         <thead>
                           <tr>
@@ -113,9 +113,9 @@
                     </div>
                   </div>
                 </div>
-                <div id="engineAdd" class="col-xl-12">
+                <div id="engineAdd" class="col-md-12">
                   <div class="row">
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <select id="engineNumber" class="form-control">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -123,19 +123,19 @@
                         <option value="4">4</option>
                       </select>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <input id="engineSerialNumber" type="text" class="form-control" placeholder="Serial No." required>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <input id="engineModel" type="text" class="form-control" placeholder="Model" required>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <input id="teh" type="number" class="form-control" placeholder="Hours" required>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <input id="tec" type="number" class="form-control" placeholder="Cycles" required>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <button id="addEngine" class="aviaBtn btn btn-primary" title="add engine"> Add</button>
                     </div>
                   </div>
@@ -143,13 +143,13 @@
               </div>
             </div>
             <!-- Propeller data -->
-            <div class="col-xl-12 pt">
+            <div class="col-md-12 pt">
               <h6>Propellers</h6>
               <hr>
               <div class="row">
-                <div class="col-xl-12 pt">
+                <div class="col-md-12 pt">
                   <div class="row">
-                    <div class="col-xl-12">
+                    <div class="col-md-12">
                       <table class="table table-sm table-hover table-stripped">
                         <thead>
                           <tr>
@@ -167,9 +167,9 @@
                     </div>
                   </div>
                 </div>
-                <div id="propAdd" class="col-xl-12">
+                <div id="propAdd" class="col-md-12">
                   <div class="row">
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <select id="propNumber" class="form-control">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -177,19 +177,19 @@
                         <option value="4">4</option>
                       </select>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <input id="propSerialNumber" type="text" class="form-control" placeholder="Serial No." required>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <input id="propModel" type="text" class="form-control" placeholder="Model" required>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <input id="tph" type="number" class="form-control" placeholder="Hours" required>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <input id="tpc" type="number" class="form-control" placeholder="Cycles" required>
                     </div>
-                    <div class="col-xl-2 pt">
+                    <div class="col-md-2 pt">
                       <button id="addProp" class="aviaBtn btn btn-primary" title="add propeller"> Add</button>
                     </div>
                   </div>
@@ -201,7 +201,7 @@
           <input id="prop_data" type="hidden" name="prop_data" value="">
         </div>
         <div class="card-footer">
-          <div class="col-xl-12 text-right">
+          <div class="col-md-12 text-right">
             <button name="clear" class="aviaBtn btn btn-danger" data-dismiss="modal" title="cancel and reset"> Cancel</button>
             <button type="submit" class="aviaBtn btn btn-primary" title="Add aircraft">Submit</button>
           </div>
