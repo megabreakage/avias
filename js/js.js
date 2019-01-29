@@ -72,18 +72,18 @@ $(document).ready(function(){
       success: function(data){
         console.log(data);
         if (data == 1) {
-          $("#response").removeClass("hidden");
-          $("#response").addClass("alert-success");
-          $("#response").html("Aircraft added successfully!");
+          $("#craft_response").removeClass("hidden");
+          $("#craft_response").addClass("alert-success");
+          $("#craft_response").html("Aircraft added successfully!");
           engineData = [];
           propData = [];
           $("#engData, #propData").empty();
           $('#aircraftAdd')[0].reset();
           // $("#response").fadeOut(8000);
         } else {
-          $("#response").removeClass("hidden");
-          $("#response").addClass("alert-danger");
-          $("#response").html("Aircraft adding failed!");
+          $("#craft_response").removeClass("hidden");
+          $("#craft_response").addClass("alert-danger");
+          $("#craft_response").html("Aircraft adding failed!");
           engineData = [];
           propData = [];
           $("#engData, #propData").empty();
@@ -217,19 +217,19 @@ $(document).ready(function(){
         success: function(data){
           console.log(data);
           if (data == 1) {
-            $("#response").removeClass("hidden");
-            $("#response").addClass("alert-success");
-            $("#response").html("<p>Flight added successfully!</p>");
+            $("#log_response").removeClass("hidden");
+            $("#log_response").addClass("alert-success");
+            $("#log_response").html("Flight added successfully!");
             logs = [];
             pireps = [];
             $("#entryRow, #tblDefects").empty();
             $('#flightAdd')[0].reset();
-            $("#response").fadeOut(8000);
+            $("#log_response").fadeOut(8000);
           } else {
-            $("#response").removeClass("hidden");
-            $("#response").addClass("alert-danger");
-            $("#response").html("<p>Flight adding failed!</p>");
-            $("#response").fadeOut(8000);
+            $("#log_response").removeClass("hidden");
+            $("#log_response").addClass("alert-danger");
+            $("#log_response").html("Flight adding failed!");
+            $("#log_response").fadeOut(8000);
           }
         }
       });
@@ -468,14 +468,16 @@ $(document).ready(function(){
         data: 'task_details',
         success: function(data){
           if(data == 0){
-            $("#response").removeClass('hidden');
-            $("#response").addClass('alert-danger');
-            $("#response").html('Task was not added, try again!');
+            $("#task_response").removeClass('hidden');
+            $("#task_response").addClass('alert-danger');
+            $("#task_response").html('Task was not added, try again!');
           }else {
-            $("#response").removeClass('hidden');
-            $("#response").addClass('alert-sucess');
-            $("#response").html('Task was added successfully!');
-            $('#flightAdd')[0].reset();
+            $("#task_response").removeClass('hidden');
+            $("#task_response").addClass('alert-sucess');
+            $("#task_response").html('Task was added successfully!');
+            $("#schedule_details").empty();
+            frequencies = [];
+            $('#task_flightAdd')[0].reset();
           }
         }
       });
