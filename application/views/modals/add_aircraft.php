@@ -7,7 +7,7 @@
           <h5>Add Aircraft</h5>
         </div>
         <div class="card-body">
-          <div id="response" class="col-md-6 offset-md-3 alert hidden">
+          <div id="craft_response" class="col-md-6 offset-md-3 alert hidden">
             <!-- response texts -->
           </div>
           <h6>Airframe</h6>
