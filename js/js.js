@@ -285,7 +285,7 @@ $(document).ready(function(){
       })
     });
 
-    //update task
+    // update task
     $('#scheduledTask_update').submit(function(e){
       e.preventDefault();
 
@@ -302,7 +302,7 @@ $(document).ready(function(){
       })
     });
 
-    //update task
+    // delete task
     $('#scheduledTask_delete').submit(function(e){
       e.preventDefault();
 
@@ -381,6 +381,8 @@ $(document).ready(function(){
             $("#next_due_cycles").val(discard_cycs);
           }
           break;
+        }else if (frequencies[i].maint_type_id == 3) {
+          $("#next_due_cycles").val(discard_cycs);
         }
       }
     });
@@ -403,6 +405,8 @@ $(document).ready(function(){
             $("#next_due_hours").val(discard_hrs);
           }
           break;
+        } else if (frequencies[i].maint_type_id == 3) {
+          $("#next_due_hours").val(discard_hrs);
         }
       }
     });
@@ -411,46 +415,49 @@ $(document).ready(function(){
 
       ld_date = Date.parse($("#last_done_date").val());
       for (var i = 0; i < frequencies.length; i++) {
-        if (parseInt(frequencies[i].calendar) > 0) {
-          switch (frequencies[i].period) {
-            case 'D':
-              freq = (parseInt(frequencies[i].calendar) * 24) * 3.6e+6;
-              due_date = new Date((ld_date + freq)).toLocaleDateString();
-              $('#next_due_date').val((due_date));
-              break;
-            case 'M':
-              freq = (parseInt(frequencies[i].calendar) * 30.5 * 24) * 3.6e+6;
-              due_date = new Date((ld_date + freq)).toLocaleDateString();
-              $('#next_due_date').val((due_date));
-              break;
-            case 'Y':
-              freq = (parseInt(frequencies[i].calendar) * 12 * 30.5 * 24) * 3.6e+6;
-              due_date = new Date((ld_date + freq)).toLocaleDateString();
-              $('#next_due_date').val((due_date));
-              break;
-            default:
-              $('#next_due_date').val(ld_date);
+        if (frequencies[i].maint_type_id <= 2) {
+          if (parseInt(frequencies[i].calendar) > 0) {
+            switch (frequencies[i].period) {
+              case 'D':
+                freq = (parseInt(frequencies[i].calendar) * 24) * 3.6e+6;
+                due_date = new Date((ld_date + freq)).toLocaleDateString();
+                $('#next_due_date').val((due_date));
+                break;
+              case 'M':
+                freq = (parseInt(frequencies[i].calendar) * 30.5 * 24) * 3.6e+6;
+                due_date = new Date((ld_date + freq)).toLocaleDateString();
+                $('#next_due_date').val((due_date));
+                break;
+              case 'Y':
+                freq = (parseInt(frequencies[i].calendar) * 12 * 30.5 * 24) * 3.6e+6;
+                due_date = new Date((ld_date + freq)).toLocaleDateString();
+                $('#next_due_date').val((due_date));
+                break;
+              default:
+                $('#next_due_date').val(ld_date);
+            }
+          } else {
+            switch ($("#life_limit_period").val()) {
+              case 'D':
+                freq = (parseInt($("#life_limit_calendar").val()) * 24) * 3.6e+6;
+                due_date = new Date((ld_date + freq)).toLocaleDateString();
+                $('#next_due_date').val((due_date));
+                break;
+              case 'M':
+                freq = (parseInt($("#life_limit_calendar").val()) * 30.5 * 24) * 3.6e+6;
+                due_date = new Date((ld_date + freq)).toLocaleDateString();
+                $('#next_due_date').val((due_date));
+                break;
+              case 'Y':
+                freq = (parseInt($("#life_limit_calendar").val()) * 12 * 30.5 * 24) * 3.6e+6;
+                due_date = new Date((ld_date + freq)).toLocaleDateString();
+                $('#next_due_date').val((due_date));
+                break;
+              default:
+                $('#next_due_date').val(ld_date);
+            }
           }
-        } else {
-          switch ($("#life_limit_period").val()) {
-            case 'D':
-              freq = (parseInt($("#life_limit_calendar").val()) * 24) * 3.6e+6;
-              due_date = new Date((ld_date + freq)).toLocaleDateString();
-              $('#next_due_date').val((due_date));
-              break;
-            case 'M':
-              freq = (parseInt($("#life_limit_calendar").val()) * 30.5 * 24) * 3.6e+6;
-              due_date = new Date((ld_date + freq)).toLocaleDateString();
-              $('#next_due_date').val((due_date));
-              break;
-            case 'Y':
-              freq = (parseInt($("#life_limit_calendar").val()) * 12 * 30.5 * 24) * 3.6e+6;
-              due_date = new Date((ld_date + freq)).toLocaleDateString();
-              $('#next_due_date').val((due_date));
-              break;
-            default:
-              $('#next_due_date').val(ld_date);
-          }
+          break;
         }
       }
     })
@@ -462,22 +469,23 @@ $(document).ready(function(){
       task_details = $(this).serialize();
 
       $.ajax({
-        url: 'add_task',
+        url: 'http://localhost/avia/maintenance/add_task',
         method: 'post',
         dataType: 'json',
         data: 'task_details',
         success: function(data){
-          if(data == 0){
-            $("#task_response").removeClass('hidden');
-            $("#task_response").addClass('alert-danger');
-            $("#task_response").html('Task was not added, try again!');
-          }else {
+          console.log(data);
+          if(data == 1){
             $("#task_response").removeClass('hidden');
             $("#task_response").addClass('alert-sucess');
             $("#task_response").html('Task was added successfully!');
             $("#schedule_details").empty();
             frequencies = [];
             $('#task_flightAdd')[0].reset();
+          }else {
+            $("#task_response").removeClass('hidden');
+            $("#task_response").addClass('alert-danger');
+            $("#task_response").html('Task was not added, try again!');
           }
         }
       });
