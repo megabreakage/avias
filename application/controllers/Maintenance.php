@@ -228,9 +228,7 @@ class Maintenance extends CI_Controller {
      echo json_encode(0);
     } else {
      // check if schedule details array is empty
-     if (empty($frequencies)) {
-       echo json_encode('frequencies is empty!');
-     } else {
+     if (!empty($frequencies)) {
        foreach ($frequencies as $freq) {
          $schedule_details_data = array(
           'schedule_id' => $schedule_id,
