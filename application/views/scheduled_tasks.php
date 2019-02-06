@@ -73,7 +73,7 @@
           <tr>
             <td><?php echo $i; ?>.</td>
             <td><?php echo $task['aircraft_reg']; ?></td>
-            <td><?php echo "00".$task['ata_chapter']; ?></td>
+            <td><?php echo $task['ata_chapter']."00"; ?></td>
             <td> <a href="<?php echo base_url()?>maintenance/view_task/<?php echo $task['schedule_id']; ?>"><?php echo substr($task['task'], 0, 35); ?><?php echo substr($task['part_name'], 0, 35); ?></a> </td>
             <td class="text-center"><?php echo $task['task_category']; ?></td>
             <td class="text-center"><?php echo date('d, M Y', strtotime($task['date_checked'])); ?></td>
