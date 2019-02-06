@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
     <div class="card">
-      <form id="taskAdd" action="<?php echo base_url(); ?>maintenance/add_task" method="post">
+      <form id="taskAdd" action="<?php echo base_url("maintenance/add_task"); ?>" method="post">
         <div class="card-header text-center">
           <h5>Add Scheduled Task</h5>
         </div>
@@ -12,7 +12,7 @@
           </div>
           <!-- Airframe data -->
           <div class="row">
-            <div class="col-xl-6">
+            <div class="col-xl-6 pb">
               <h6>Task Details</h6>
               <hr>
               <div class="row">
@@ -103,7 +103,7 @@
                   <select class="form-control" name="ata_chapter_id" required>
                     <option value=""> -- select ATA Chapter --</option>
                     <?php foreach ($ata_chapters as $ata_chapter): ?>
-                      <option value="<?php echo $ata_chapter['ata_chapter_id']; ?>">00<?php echo $ata_chapter['ata_chapter']; ?>: <?php echo $ata_chapter['ata_name']; ?></option>
+                      <option value="<?php echo $ata_chapter['ata_chapter_id']; ?>"><?php echo $ata_chapter['ata_chapter']; ?>00: <?php echo $ata_chapter['ata_name']; ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
@@ -161,6 +161,7 @@
                           <select id="maint_type_id" class="form-control">
                             <option value="1">Initial</option>
                             <option value="2">Repeat</option>
+                            <option value="3">Discard</option>
                           </select>
                         </div>
                         <div class="col-md-3">
