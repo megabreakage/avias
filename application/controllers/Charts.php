@@ -26,6 +26,11 @@ class Charts extends CI_controller {
 
 		$this->load->view('templates/footer');
 	}
+
+  public function fleet_data(){
+    $data = $this->queries->get_aircrafts();
+    echo json_encode($data);
+  }
 }
 
 
