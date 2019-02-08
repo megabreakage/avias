@@ -24,8 +24,9 @@ class Queries extends CI_Model {
   }
 
   public function get_aircrafts(){
-    $sql_get_aircrafts = 'SELECT a.aircraft_id, a.aircraft_reg, a.series, a.serial_number, a.manufacturer_id, b.manufacturer, a.manufacturer_date, a.model_id, a.engines, a.engine_type_id, a.propellers, a.cum_hours, a.cum_cycles, a.nextCofA
+    $sql_get_aircrafts = 'SELECT a.aircraft_id, a.aircraft_reg, c.model, a.series, a.serial_number, a.manufacturer_id, b.manufacturer, a.manufacturer_date, a.model_id, a.engines, a.engine_type_id, a.propellers, a.cum_hours, a.cum_cycles, a.nextCofA
       FROM aircrafts a
+      INNER JOIN aircraft_models c ON a.model_id = c.model_id
       INNER JOIN manufacturers b
       ON a.manufacturer_id = b.manufacturer_id';
     return $this->db->query($sql_get_aircrafts)->result_array();
