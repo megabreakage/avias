@@ -1,158 +1,154 @@
+$(document).ready(function(){
+  // get graph data
+  $.get('fleet_data', function(data){
+    data = JSON.parse(data);
+    console.log(data.length);
+    reg = [];
+    craft_cycs = [];
+    margin = [];
+    console.log(craft_cycs);
 
+    for (var i = 0; i < data.length; i++) {
+      reg.push(data[i].aircraft_reg);
+      craft_cycs.push(data[i].cum_cycles);
+      margin.push(40000);
+    }
 
-let barChart = document.getElementById('barChart').getContext('2d');
-let cycles = [47594, 41045, 39060, 35519, 41512, 40072];
-// Global options
-// Chart.defaults.global.defaultFontFamily = 'Lato';
-// Chart.defaults.global.defaultFontSize = '11';
-// Chart.defaults.global.defaultFontColor = '#777';
-
-let massBarChart =  new Chart(barChart, {
-  type: 'bar',
-  data: {
-    labels: ['5Y-BXB', '5Y-BXC', '5Y-CGL', '5Y-CGH', '5Y-BUZ'],
-    datasets: [{
-      label: 'Cycles',
-      data: cycles,
-      backgroundColor: ['red', 'yellow', 'green', 'blue', 'orange'],
-      boderWidth: 1,
-      borderColor: '#777',
-      hoverBorderWidth: 1,
-      hoverBorderColor: '#000'
-    },
-    {
-      label: 'Mid Life',
-      data: [40000, 40000, 40000, 40000, 40000, 40000],
-      type: 'line',
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      borderColor: 'purple'
-    }]
-  },
-  options:{
-    title:{
-      display: true,
-      text: 'Aircraft Cycles'
-    },
-    legend: {
-      display: false,
-      position: 'right',
-      labels: {
-        fontColor: '#000'
-      }
-    },
-    scales: {
-      xAxes:[{
-        gridLines: {
-          display: false
+    // Bar chart
+    let barChart = $("#barChart");
+    let cycBarChart = new Chart(barChart, {
+      type: 'bar',
+      data: {
+        labels: reg,
+        datasets: [{
+          label: 'Cycles',
+          data: craft_cycs,
+          backgroundColor: ['red', 'yellow', 'green', 'blue', 'orange', 'grey']
+        }, {
+          type: 'line',
+          label: 'Mid Life',
+          data: margin,
+          backgroundColor: 'rgba(255, 255, 255, 0)',
+          borderColor: 'purple'
+        }]
+      },
+      options:{
+        title:{
+          display: true,
+          text: 'Aircraft Cycles'
+        },
+        legend: {
+          display: false,
+          position: 'right',
+          labels: {
+            fontColor: '#000'
+          }
+        },
+        scales: {
+          xAxes:[{
+            stacked: true,
+            gridLines: {
+              display: false
+            }
+          }],
+          yAxes:[{
+            stacked: true
+          }]
         }
-      }],
-      yAxes:[{
-        stacked: true
-      }]
-    }
-  },
-});
-
-let pieChart = document.getElementById('pieChart').getContext('2d');
-let massPieChart = new Chart(pieChart, {
-  type: 'pie',
-  data: {
-    labels: ['5Y-BXB', '5Y-BXC', '5Y-CGL', '5Y-CGH', '5Y-BUZ'],
-    datasets: [{
-      label: 'Cycles',
-      data: cycles,
-      backgroundColor: ['red', 'yellow', 'green', 'blue', 'orange'],
-      boderWidth: 1,
-      // borderColor: '#777',
-      hoverBorderWidth: 1,
-      hoverBorderColor: '#000'
-    }]
-  },
-  options:{
-    title:{
-      display: true,
-      text: 'Aircraft Cycles'
-    },
-    legend: {
-      position: 'right',
-      labels: {
-        fontColor: '#000'
       }
-    }
-  },
-});
+    });
 
-let lineChart = document.getElementById('lineChart').getContext('2d');
-let massLineChart =  new Chart(lineChart, {
-  type: 'line',
-  data: {
-    labels: ['5Y-BXB', '5Y-BXC', '5Y-CGL', '5Y-CGH', '5Y-BUZ'],
-    datasets: [{
-      label: 'Cycles',
-      data: cycles,
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      boderWidth: 1,
-      borderColor: 'red',
-      hoverBorderWidth: 1,
-      hoverBorderColor: '#000'
-    }, {
-      label: 'Mid Life',
-      data: [40000, 40000, 40000, 40000, 40000, 40000],
-      type: 'line',
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      borderColor: 'purple'
-    }]
-  },
-  options:{
-    title:{
-      display: true,
-      text: 'Aircraft Cycles'
-    }, legend: {
-      display: false,
-      position: 'right',
-      labels: {
-        fontColor: '#000'
-      }
-    }, scales: {
-      xAxes:[{
-        // stacked: true,
-        gridLines: {
-          display: false
+    // Pie chart
+    let pieChart = $("#pieChart");
+    let cycPieChart = new Chart(pieChart, {
+      type: 'pie',
+      data: {
+        labels: reg,
+        datasets: [{
+          label: 'Cycles',
+          data: craft_cycs,
+          backgroundColor: ['red', 'yellow', 'green', 'blue', 'orange', 'grey']
+        }]
+      },
+      options:{
+        title:{
+          display: true,
+          text: 'Aircraft Cycles'
+        },
+        legend: {
+          position: 'right',
+          labels: {
+            fontColor: '#000'
+          }
         }
-      }],
-      yAxes:[{
-        // stacked: true
-      }]
-    }
-  },
-});
-
-let radarChart = document.getElementById('radarChart').getContext('2d');
-let massRadarChart =  new Chart(radarChart, {
-  type: 'radar',
-  data: {
-    labels: ['5Y-BXB', '5Y-BXC', '5Y-CGL', '5Y-CGH', '5Y-BUZ'],
-    datasets: [{
-      label: 'Cycles',
-      data: cycles,
-      backgroundColor: 'pink',
-      boderWidth: 1,
-      borderColor: 'pink',
-      hoverBorderWidth: 1,
-      hoverBorderColor: '#000'
-    }]
-  },
-  options:{
-    title:{
-      display: true,
-      text: 'Aircraft Cycles'
-    },
-    legend: {
-      display: false,
-      position: 'right',
-      labels: {
-        fontColor: '#000'
       }
-    }
-  },
+    });
+
+    // Line chart
+    let lineChart = $("#lineChart");
+    let cycLineChart = new Chart(lineChart, {
+      type: 'line',
+      data: {
+        labels: reg,
+        datasets: [{
+          label: 'Cycles',
+          data: craft_cycs,
+          backgroundColor: 'rgba(255, 255, 255, 0)',
+          borderColor: 'red'
+        }, {
+          label: 'Mid Life',
+          data: margin,
+          backgroundColor: 'rgba(255, 255, 255, 0)',
+          borderColor: 'purple',
+        }]
+      },
+      options:{
+        title:{
+          display: true,
+          text: 'Aircraft Cycles'
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          xAxes:[{
+            stacked: true,
+            gridLines: {
+              display: false
+            }
+          }],
+          yAxes:[{
+            stacked: false
+          }]
+        }
+      }
+    });
+
+    // Radar chart
+    let radarChart = $("#radarChart");
+    let cycRadarChart = new Chart(radarChart, {
+      type: 'radar',
+      data: {
+        labels: reg,
+        datasets: [{
+          label: 'Cycles',
+          data: craft_cycs
+        }]
+      },
+      options:{
+        title:{
+          display: true,
+          text: 'Aircraft Cycles'
+        },
+        legend: {
+          display: false,
+          position: 'right',
+          labels: {
+            fontColor: '#000'
+          }
+        }
+      }
+    });
+
+  });
 });
