@@ -5,16 +5,17 @@
     <table class="table table-hover table-bodered table-striped">
       <thead>
         <tr>
-          <td></td>
-          <td>Aircraft Reg</td>
-          <td>Series</td>
-          <td>Serial #</td>
-          <td class="text-center">Engines</td>
-          <td>Manufacturer</td>
-          <td class="text-right">TAC</td>
-          <td class="text-right">TAT</td>
-          <td class="text-center">Next CofA</td>
-          <td class="text-center">Action</td>
+          <th></th>
+          <th>Aircraft Reg</th>
+          <th>Model</th>
+          <th>Series</th>
+          <th>Serial #</th>
+          <th class="text-center">Engines</th>
+          <th>Manufacturer</th>
+          <th class="text-right">TAC</th>
+          <th class="text-right">TAT</th>
+          <th class="text-center">Next CofA</th>
+          <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +23,7 @@
           <tr>
             <td><?php echo $i ?>.</td>
             <td><?php echo $aircraft['aircraft_reg']; ?></td>
+            <td><?php echo $aircraft['model']; ?></td>
             <td><?php echo $aircraft['series']; ?></td>
             <td><?php echo $aircraft['serial_number']; ?></td>
             <td class="text-center"><?php echo $aircraft['engines']; ?></td>
