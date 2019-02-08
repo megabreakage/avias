@@ -210,7 +210,12 @@ class Welcome extends CI_Controller {
 						'dfr_reason' => strtoupper($pirep->dfr_reason),
 						'dfr_category' => $pirep->dfr_category,
 						'dfr_date' => $pirep->dfr_date,
-						'exp_date' => $pirep->exp_date
+						'exp_date' => $pirep->exp_date,
+						'rectification' => $pirep->rectification,
+						'techlog_number' => $pirep->techlog_number,
+						'cleared_date' => $pirep->cleared_date,
+						'wo_number' => $pirep->wo_number,
+						'remarks' => $pirep->remarks
 					);
 					$defect_add = $this->queries->add_pireps($defect);
 					if ($defect_add == 0) {
