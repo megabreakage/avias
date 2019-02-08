@@ -163,9 +163,8 @@
                             <div class="col-md-12">
                               <hr>
                             </div>
-                            <div class="col-md-7 defectDetails">
+                            <div class="col-md-6 defectDetails">
                               <p>Defect details</p>
-                              <hr>
                               <div class="row">
                                 <div class="col-md-8">
                                   <!-- <label>defect</label> -->
@@ -191,24 +190,28 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-5 deferredDetails">
+                            <div id="deferredDetails" class="col-md-6 deferredDetails hidden">
+                              <p>Defer details</p>
                               <div class="row">
                                 <div class="col-md-12">
                                   <div class="row">
-                                    <div class="col-md-8">
-                                      <textarea id="limitations" class="form-control" rows="4" cols="80" placeholder="Operational limitations" title="Operational limitations"></textarea>
+                                    <div class="col-md-12">
+                                      <textarea id="limitations" class="form-control" rows="1" cols="80" placeholder="Operational limitations" title="Operational limitations"></textarea>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                       <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-4 pt">
                                           <input id="mel_reference" type="text" class="form-control" placeholder="MEL" title="MEL reference">
                                         </div>
-                                        <div class="col-md-12 pt">
+                                        <div class="col-md-4 pt">
                                           <select id="dfr_reason" class="form-control" title="Deferred reason">
                                             <option value="">-- select reason --</option>
                                             <option value="Lack of spares">Lack of spares</option>
                                             <option value="Insufficient time">Insufficient time</option>
                                           </select>
+                                        </div>
+                                        <div class="col-md-4 pt">
+                                          <input id="add_number" type="text" class="form-control" title="add_number" placeholder="ADD number">
                                         </div>
                                       </div>
                                     </div>
@@ -231,22 +234,23 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-12 dfrClearanceDetails hidden">
+                            <div class="col-md-12 clearanceDetails">
+                              <p>Rectification details</p>
                               <div class="row">
                                 <div class="col-md-3 pt">
-                                  <textarea id="rectification" class="form-control" rows="1" cols="80" placeholder="Rectification/Actions taken" title="Rectification/Action taken"></textarea>
+                                  <textarea id="rectification" name="rectification" class="form-control" rows="1" cols="80" placeholder="Rectification/Actions taken" title="Rectification/Action taken"></textarea>
                                 </div>
                                 <div class="col-md-2 pt">
-                                  <input id="techlog_number" type="text" class="form-control" placeholder="Techlog number" title="Techlog number">
+                                  <input id="techlog_number" name="techlog_number" type="text" class="form-control" placeholder="Techlog number" title="Techlog number">
                                 </div>
                                 <div class="col-md-2 pt">
-                                  <input id="cleared_date" type="date" class="form-control" title="Cleared date">
+                                  <input id="cleared_date" name="cleared_date" type="date" class="form-control" title="Cleared date">
                                 </div>
                                 <div class="col-md-2 pt">
-                                  <input id="wo_number" type="text" class="form-control" placeholder="Work order number" title="Work order number">
+                                  <input id="wo_number" name="wo_number" type="text" class="form-control" placeholder="Work order number" title="Work order number">
                                 </div>
                                 <div class="col-md-3 pt">
-                                  <textarea id="remarks" class="form-control" rows="1" cols="80" placeholder="Remarks" title="Remarks"></textarea>
+                                  <textarea id="remarks" name="remarks" class="form-control" rows="1" cols="80" placeholder="Remarks" title="Remarks"></textarea>
                                 </div>
                               </div>
                             </div>
@@ -262,6 +266,45 @@
                     </div>
                     <!-- Trend monitor data entry point -->
                     <div id="trendData" class="pt col-md-12 hidden">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <table class="table table-sm table-hover table-bordered">
+                            <thead>
+                              <th>Trend</th>
+                              <th class="text-center">Engine 1</th>
+                              <th class="text-center">Engine 2</th>
+                              <th></th>
+                            </thead>
+                            <tbody id="trendTable">
+                              <!-- JavaScript populated table -->
+                              <tr>
+                                <td>Start(ITT)</td>
+                                <td class="text-center">175</td>
+                                <td class="text-center">172</td>
+                                <td class="text-center"> <a href="#"><i class="fa fa-times"></i></a> </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="col-md-12 pt">
+                          <div class="row">
+                            <div class="col-md-3">
+                              <select class="form-control" class="form-control">
+                                <option value="">-- select --</option>
+                              </select>
+                            </div>
+                            <div class="col-md-3">
+                              <input id="lh_eng_trend" type="text" class="form-control" value="">
+                            </div>
+                            <div class="col-md-3">
+                              <input id="rh_eng_trend" type="text" class="form-control" value="">
+                            </div>
+                            <div class="col-md-3 text-center">
+                              <button id="addTrend" type="button" class="aviaBtn btn btn-primary">Add</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                       <input id="trendMonitor" type="hidden" name="trend_monitor" value=""> <!-- JavaScript assigned value -->
                     </div>
