@@ -170,8 +170,11 @@ $(document).ready(function(){
     $("#dfr_status").change(function(){
       if(this.checked){
         dfr_status = 'Yes';
+        $("#deferredDetails").removeClass("hidden");
       } else {
         dfr_status = 'No';
+        $("#deferredDetails").addClass("hidden");
+        $("#limitations, #mel_reference, #dfr_reason, #add_number, #dfr_category, #dfr_date, #exp_date").val("");
       }
     });
 
@@ -266,7 +269,7 @@ $(document).ready(function(){
         }
       });
 
-    })
+    });
 
     // add task
     $('#scheduledTask').submit(function(e){
@@ -371,7 +374,7 @@ $(document).ready(function(){
       });
     });
 
-  // Business logic
 
+});
 
-})
+//Business Logic
