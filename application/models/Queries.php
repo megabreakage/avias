@@ -43,7 +43,7 @@ class Queries extends CI_Model {
   }
 
   public function get_flight_by_aircraft($aircraft_id){
-    $sql_get_flights = 'SELECT a.flight_id, a.techlog, a.aircraft_id, b.aircraft_reg, a.takeoff, a.landing, a.hours, a.cycles, a.date_posted
+    $sql_get_flights = 'SELECT a.flight_id, a.techlog, a.aircraft_id, b.aircraft_reg, a.hours, a.cycles, a.date_posted
       FROM flights a
       INNER JOIN aircrafts b
       ON a.aircraft_id = b.aircraft_id
