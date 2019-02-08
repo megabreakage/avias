@@ -43,6 +43,9 @@
 <script src="<?php echo base_url(); ?>js/sb-admin.min.js"></script>
 <script src="<?php echo base_url(); ?>js/sb-admin-datatables.min.js"></script>
 <script src="<?php echo base_url(); ?>js/js.js"></script>
+<script src="<?php echo base_url(); ?>js/jsCharts.js"></script>
+<script src="<?php echo base_url(); ?>js/add_task.js"></script>
+
 </div>
 </body>
 
