@@ -79,21 +79,33 @@ class Flights extends CI_controller {
     echo json_encode($data);
   }
 
-  public function get_deferred_defects(){
-
-  }
-
-  public function get_defects_by_ata(){
-
-  }
-
   public function get_defects_by_aircraft(){
+		$aircraft_id = json_decode($_POST['aircraft_id']);
+		echo json_encode($this->queries->get_defects_by_aircraft($aircraft_id));
+	}
 
-  }
+	public function get_defects_by_ata(){
+		$ata_id = $_POST['ata_id'];
+		echo json_encode($this->queries->get_defects_by_ata($ata_id));
+	}
 
-  public function get_defects_by_defer_category(){
+	public function get_defects_by_status(){
+		$dfr_status = $_POST['dfr_status'];
+		echo json_encode($this->queries->get_defects_by_status($dfr_status));
+	}
 
-  }
+	public function get_defects_by_date(){
+		$dates = array(
+			'from' => $_POST['from'],
+			'to' => $_POST['to']
+		);
+		echo json_encode($this->queries->get_defects_by_date($dates));
+	}
+
+	public function get_defects_by_defer_category(){
+		$dfr_category = $_POST['dfr_category'];
+		echo json_encode($this->queries->get_defects_by_defer_category($dfr_category));
+	}
 
 }
 
