@@ -20,7 +20,8 @@ class Flights extends CI_controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+      'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -50,7 +51,8 @@ class Flights extends CI_controller {
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
       'comp_cats' => $this->queries->get_comp_cats(),
-      'defects' => $this->queries->get_defects()
+      'defects' => $this->queries->get_defects(),
+      'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);

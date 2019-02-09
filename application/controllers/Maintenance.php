@@ -22,7 +22,8 @@ class Maintenance extends CI_Controller {
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
       'comp_cats' => $this->queries->get_comp_cats(),
-      'scheduled_tasks' => $this->queries->get_scheduled_tasks()
+      'scheduled_tasks' => $this->queries->get_scheduled_tasks(),
+      'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -49,7 +50,8 @@ class Maintenance extends CI_Controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+      'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -77,7 +79,8 @@ class Maintenance extends CI_Controller {
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
       'comp_cats' => $this->queries->get_comp_cats(),
-      'component_tasks' => $this->queries->get_component_tasks()
+      'component_tasks' => $this->queries->get_component_tasks(),
+      'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -105,7 +108,8 @@ class Maintenance extends CI_Controller {
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
       'comp_cats' => $this->queries->get_comp_cats(),
-      'inspection_tasks' => $this->queries->get_inspection_tasks()
+      'inspection_tasks' => $this->queries->get_inspection_tasks(),
+      'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -133,7 +137,8 @@ class Maintenance extends CI_Controller {
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
       'comp_cats' => $this->queries->get_comp_cats(),
-      'oop_tasks' => $this->queries->get_oop_tasks()
+      'oop_tasks' => $this->queries->get_oop_tasks(),
+      'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -161,7 +166,8 @@ class Maintenance extends CI_Controller {
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
       'comp_cats' => $this->queries->get_comp_cats(),
-      'expired_tasks' => $this->queries->get_expired_tasks()
+      'expired_tasks' => $this->queries->get_expired_tasks(),
+      'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -260,6 +266,7 @@ class Maintenance extends CI_Controller {
     return redirect('maintenance', 'refresh');
     // echo json_encode(1);
   }
+
   public function search_by_aircraft(){
     $aircraft_id = json_decode($this->input->post('cs_id'));
 
