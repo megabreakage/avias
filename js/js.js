@@ -410,6 +410,249 @@ $(document).ready(function(){
       });
     });
 
+    $("#d_search_by").change(function(){
+      search = $("#d_search_by").val()
+      switch (search) {
+        case '1':
+          aircraft_id = { "aircraft_id": $("#dfr_aircraft_id").val() };
+          $.ajax({
+            url: 'flights/get_defects_by_aircraft',
+            method: 'POST',
+            data: aircraft_id,
+            dataType: 'json',
+            success: function(defects){
+              $("#defectsDisplay").empty();
+              j = 1;
+              for (var i = 0; i < defects.length; i++) {
+                td1 = '<tr><td>'+j+'.</td>';
+                td2 = '<td>'+defects[i].techlog+'</td>';
+                td3 = '<td class="text-center">'+defects[i].aircraft_reg+'</td>';
+                td4 = '<td class="text-center">'+defects[i].ata_chapter+'00</td>';
+                td5 = '<td>'+defects[i].defect+'</td>';
+                td6 = '<td class="text-center">'+defects[i].deferred+'</td>';
+                td7 = '<td class="text-center">'+defects[i].dfr_category+'</td>';
+                td8 = '<td class="text-center">'+defects[i].dfr_date+'</td>';
+                td9 = '<td class="text-center">'+defects[i].exp_date+'</td>';
+                td10 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view defect>"></i></a></td></tr>';
+                $("#defectsDisplay").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10);
+                j++;
+              }
+            }
+          });
+          $("#d_aircraft_id").removeClass('hidden');
+          $("#d_ata_id, #d_status, #d_dates").addClass('hidden');
+          break;
+        case '2':
+          ata_id = { 'ata_id': $("#dfr_ata_id").val() };
+          $.ajax({
+            url: 'flights/get_defects_by_ata',
+            method: 'POST',
+            data: ata_id,
+            dataType: 'json',
+            success: function(defects){
+              $("#defectsDisplay").empty();
+              j = 1;
+              for (var i = 0; i < defects.length; i++) {
+                td1 = '<tr><td>'+j+'.</td>';
+                td2 = '<td>'+defects[i].techlog+'</td>';
+                td3 = '<td class="text-center">'+defects[i].aircraft_reg+'</td>';
+                td4 = '<td class="text-center">'+defects[i].ata_chapter+'00</td>';
+                td5 = '<td>'+defects[i].defect+'</td>';
+                td6 = '<td class="text-center">'+defects[i].deferred+'</td>';
+                td7 = '<td class="text-center">'+defects[i].dfr_category+'</td>';
+                td8 = '<td class="text-center">'+defects[i].dfr_date+'</td>';
+                td9 = '<td class="text-center">'+defects[i].exp_date+'</td>';
+                td10 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view defect>"></i></a></td></tr>';
+                $("#defectsDisplay").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10);
+                j++;
+              }
+            }
+          });
+          $("#d_ata_id").removeClass('hidden');
+          $("#d_status, #d_dates, #d_aircraft_id").addClass('hidden');
+          break;
+        case '3':
+          dfr_status = { 'dfr_status': $("#dfr_status").val() };
+          $.ajax({
+            url: 'flights/get_defects_by_status',
+            method: 'POST',
+            data: dfr_status,
+            dataType: 'json',
+            success: function(defects){
+              $("#defectsDisplay").empty();
+              j = 1;
+              for (var i = 0; i < defects.length; i++) {
+                td1 = '<tr><td>'+j+'.</td>';
+                td2 = '<td>'+defects[i].techlog+'</td>';
+                td3 = '<td class="text-center">'+defects[i].aircraft_reg+'</td>';
+                td4 = '<td class="text-center">'+defects[i].ata_chapter+'00</td>';
+                td5 = '<td>'+defects[i].defect+'</td>';
+                td6 = '<td class="text-center">'+defects[i].deferred+'</td>';
+                td7 = '<td class="text-center">'+defects[i].dfr_category+'</td>';
+                td8 = '<td class="text-center">'+defects[i].dfr_date+'</td>';
+                td9 = '<td class="text-center">'+defects[i].exp_date+'</td>';
+                td10 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view defect>"></i></a></td></tr>';
+                $("#defectsDisplay").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10);
+                j++;
+              }
+            }
+          });
+          $("#d_status").removeClass('hidden');
+          $("#d_dates, #d_aircraft_id, #d_ata_id").addClass('hidden');
+          break;
+        case '4':
+          dates = {
+            'to': $("#dfr_to_date").val(),
+            'from': $("#dfr_from_date").val()
+          };
+          $.ajax({
+            url: 'flights/get_defects_by_date',
+            method: 'POST',
+            data: dates,
+            dataType: 'json',
+            success: function(defects){
+              $("#defectsDisplay").empty();
+              j = 1;
+              for (var i = 0; i < defects.length; i++) {
+                td1 = '<tr><td>'+j+'.</td>';
+                td2 = '<td>'+defects[i].techlog+'</td>';
+                td3 = '<td class="text-center">'+defects[i].aircraft_reg+'</td>';
+                td4 = '<td class="text-center">'+defects[i].ata_chapter+'00</td>';
+                td5 = '<td>'+defects[i].defect+'</td>';
+                td6 = '<td class="text-center">'+defects[i].deferred+'</td>';
+                td7 = '<td class="text-center">'+defects[i].dfr_category+'</td>';
+                td8 = '<td class="text-center">'+defects[i].dfr_date+'</td>';
+                td9 = '<td class="text-center">'+defects[i].exp_date+'</td>';
+                td10 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view defect>"></i></a></td></tr>';
+                $("#defectsDisplay").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10);
+                j++;
+              }
+            }
+          });
+          $("#d_dates").removeClass('hidden');
+          $("#d_aircraft_id, #d_ata_id, #d_status").addClass('hidden');
+          break;
+        default:
+          $("#d_aircraft_id, #d_ata_id, #d_status, #d_dates").addClass('hidden');
+      }
+
+    });
+
+    $("#dfr_aircraft_id").change(function(){
+      aircraft_id = { "aircraft_id": $("#dfr_aircraft_id").val() };
+      $.ajax({
+        url: 'flights/get_defects_by_aircraft',
+        method: 'POST',
+        data: aircraft_id,
+        dataType: 'json',
+        success: function(defects){
+          $("#defectsDisplay").empty();
+          j = 1;
+          for (var i = 0; i < defects.length; i++) {
+            td1 = '<tr><td>'+j+'.</td>';
+            td2 = '<td>'+defects[i].techlog+'</td>';
+            td3 = '<td class="text-center">'+defects[i].aircraft_reg+'</td>';
+            td4 = '<td class="text-center">'+defects[i].ata_chapter+'00</td>';
+            td5 = '<td>'+defects[i].defect+'</td>';
+            td6 = '<td class="text-center">'+defects[i].deferred+'</td>';
+            td7 = '<td class="text-center">'+defects[i].dfr_category+'</td>';
+            td8 = '<td class="text-center">'+defects[i].dfr_date+'</td>';
+            td9 = '<td class="text-center">'+defects[i].exp_date+'</td>';
+            td10 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view defect>"></i></a></td></tr>';
+            $("#defectsDisplay").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10);
+            j++;
+          }
+        }
+      });
+    });
+
+    $("#dfr_ata_id").change(function(){
+      console.log(ata_id);
+      $.ajax({
+        url: 'flights/get_defects_by_ata',
+        method: 'POST',
+        data: ata_id,
+        dataType: 'json',
+        success: function(defects){
+          $("#defectsDisplay").empty();
+          j = 1;
+          for (var i = 0; i < defects.length; i++) {
+            td1 = '<tr><td>'+j+'.</td>';
+            td2 = '<td>'+defects[i].techlog+'</td>';
+            td3 = '<td class="text-center">'+defects[i].aircraft_reg+'</td>';
+            td4 = '<td class="text-center">'+defects[i].ata_chapter+'00</td>';
+            td5 = '<td>'+defects[i].defect+'</td>';
+            td6 = '<td class="text-center">'+defects[i].deferred+'</td>';
+            td7 = '<td class="text-center">'+defects[i].dfr_category+'</td>';
+            td8 = '<td class="text-center">'+defects[i].dfr_date+'</td>';
+            td9 = '<td class="text-center">'+defects[i].exp_date+'</td>';
+            td10 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view defect>"></i></a></td></tr>';
+            $("#defectsDisplay").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10);
+            j++;
+          }
+        }
+      });
+    });
+
+    $("#dfr_status").change(function(){
+      $.ajax({
+        url: 'flights/get_defects_by_status',
+        method: 'POST',
+        data: dfr_status,
+        dataType: 'json',
+        success: function(defects){
+          $("#defectsDisplay").empty();
+          j = 1;
+          for (var i = 0; i < defects.length; i++) {
+            td1 = '<tr><td>'+j+'.</td>';
+            td2 = '<td>'+defects[i].techlog+'</td>';
+            td3 = '<td class="text-center">'+defects[i].aircraft_reg+'</td>';
+            td4 = '<td class="text-center">'+defects[i].ata_chapter+'00</td>';
+            td5 = '<td>'+defects[i].defect+'</td>';
+            td6 = '<td class="text-center">'+defects[i].deferred+'</td>';
+            td7 = '<td class="text-center">'+defects[i].dfr_category+'</td>';
+            td8 = '<td class="text-center">'+defects[i].dfr_date+'</td>';
+            td9 = '<td class="text-center">'+defects[i].exp_date+'</td>';
+            td10 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view defect>"></i></a></td></tr>';
+            $("#defectsDisplay").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10);
+            j++;
+          }
+        }
+      });
+      console.log("Ok");
+    });
+
+    $("#dfr_to_date").keyup(function(){
+      dates = {
+        'to': $("#dfr_to_date").val(),
+        'from': $("#dfr_from_date").val()
+      };
+      $.ajax({
+        url: 'flights/get_defects_by_date',
+        method: 'POST',
+        data: dates,
+        dataType: 'json',
+        success: function(defects){
+          $("#defectsDisplay").empty();
+          j = 1;
+          for (var i = 0; i < defects.length; i++) {
+            td1 = '<tr><td>'+j+'.</td>';
+            td2 = '<td>'+defects[i].techlog+'</td>';
+            td3 = '<td class="text-center">'+defects[i].aircraft_reg+'</td>';
+            td4 = '<td class="text-center">'+defects[i].ata_chapter+'00</td>';
+            td5 = '<td>'+defects[i].defect+'</td>';
+            td6 = '<td class="text-center">'+defects[i].deferred+'</td>';
+            td7 = '<td class="text-center">'+defects[i].dfr_category+'</td>';
+            td8 = '<td class="text-center">'+defects[i].dfr_date+'</td>';
+            td9 = '<td class="text-center">'+defects[i].exp_date+'</td>';
+            td10 = '<td class="text-center"><a href="#"><i class="fa fa-pencil tableIcons" title="view defect>"></i></a></td></tr>';
+            $("#defectsDisplay").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10);
+            j++;
+          }
+        }
+      });
+    })
+
 
 });
 
