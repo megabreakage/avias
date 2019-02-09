@@ -96,9 +96,9 @@ class Welcome extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-
-
 	// End calls to views
+
+
 
 	// Main Functions calls to Model functions
 	public function add_aircraft(){
@@ -245,6 +245,7 @@ class Welcome extends CI_Controller {
 		}
 		echo json_encode(1);
 	}
+
 
 	// End calls to Model functions
 
