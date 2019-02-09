@@ -201,7 +201,7 @@ class Queries extends CI_Model {
       INNER JOIN inspection_types g ON a.inspection_id = g.inspection_id
       INNER JOIN ata_chapters h ON a.ata_chapter_id = h.ata_chapter_id
       INNER JOIN schedule_details i ON a.schedule_id = i.schedule_id
-      WHERE b.aircraft_id = ?';
+      WHERE a.schedule_id = ?';
 
     return $this->db->query($sql_get_tasks, array($aircraft_id))->result_array();
   }
@@ -253,6 +253,29 @@ class Queries extends CI_Model {
     INNER JOIN ata_chapters d ON a.ata_chapter_id = d.ata_chapter_id
     WHERE a.dfr_category = ?';
     return $this->db->query($sql_get_defects, array($dfr_category))->result_array();
+  }
+
+  public function get_defects_by_status($dfr_status){
+    $sql_get_defects = 'SELECT c.aircraft_reg, a.pirep_id, b.flight_id, b.techlog, a.defect, d.ata_chapter, a.deferred, a.limitations, a.mel_reference, a.dfr_reason, a.dfr_category, a.dfr_date, a.exp_date
+    FROM pireps a
+    INNER JOIN flights b ON a.flight_id = b.flight_id
+    INNER JOIN aircrafts c ON b.aircraft_id = c.aircraft_id
+    INNER JOIN ata_chapters d ON a.ata_chapter_id = d.ata_chapter_id
+    WHERE a.deferred = ?';
+    return $this->db->query($sql_get_defects, array($dfr_status))->result_array();
+  }
+
+  public function get_defects_by_date($dates){
+    $from = $dates['from'];
+    $to = $dates['to'];
+    $sql_get_defects = "SELECT c.aircraft_reg, a.pirep_id, b.flight_id, b.techlog, a.defect, d.ata_chapter, a.deferred, a.limitations, a.mel_reference, a.dfr_reason, a.dfr_category, a.dfr_date, a.exp_date
+    FROM pireps a
+    INNER JOIN flights b ON a.flight_id = b.flight_id
+    INNER JOIN aircrafts c ON b.aircraft_id = c.aircraft_id
+    INNER JOIN ata_chapters d ON a.ata_chapter_id = d.ata_chapter_id
+    WHERE a.dfr_date BETWEEN '$from' AND '$to'";
+
+    return $this->db->query($sql_get_defects)->result_array();
   }
 
 
