@@ -596,3 +596,9 @@ tr a:hover{
 .defectDetails{
   border-right: 2px dashed #E0E0E0;
 }
+
+#trendAlert{
+  color: red;
+  font-style: italic;
+  font-family: 'Times Roman';
+}
