@@ -77,6 +77,10 @@ class Queries extends CI_Model {
     return $this->db->get('comp_cat')->result_array();
   }
 
+  public function get_trends(){
+    return $this->db->get('engine_trend_types')->result_array();
+  }
+
   public function get_scheduled_tasks(){
     $sql_get_tasks = 'SELECT a.schedule_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
       a.part_number, a.serial_number, c.schedule_type, d.task_category, e.schedule_category, f.comp_cat, g.inspection,
@@ -180,7 +184,6 @@ class Queries extends CI_Model {
 
     return $this->db->query($sql_get_tasks)->result_array();
   }
-
 
   public function search_by_aircraft($aircraft_id){
     $sql_get_tasks = 'SELECT a.schedule_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
@@ -347,8 +350,12 @@ class Queries extends CI_Model {
   }
 
   public function add_pireps($defect){
-    $this->db->insert('pireps', $defect);
-    return $this->db->insert_id();
+    return $this->db->insert('pireps', $defect);
+    // $this->db->insert_id();
+  }
+
+  public function add_trend_monitor($trend_data){
+    return $this->db->insert('engine_trend_monitor', $trend_data);
   }
 
   public function add_schedule_task($schedule_data){

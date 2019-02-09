@@ -23,7 +23,8 @@ class Welcome extends CI_Controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+			'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -50,7 +51,8 @@ class Welcome extends CI_Controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+			'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -79,7 +81,8 @@ class Welcome extends CI_Controller {
       'task_categories' => $this->queries->get_task_categories(),
       'schedule_categories' => $this->queries->get_schedule_categories(),
       'ata_chapters' => $this->queries->get_ata_chapters(),
-      'comp_cats' => $this->queries->get_comp_cats()
+      'comp_cats' => $this->queries->get_comp_cats(),
+			'trends' => $this->queries->get_trends()
     );
 
 		$this->load->view('templates/header', $data);
@@ -170,7 +173,7 @@ class Welcome extends CI_Controller {
 			'techlog_type' => $_POST['type'],
 			'hours' => $_POST['totalHours'],
 			'cycles' => $_POST['totalCycles'],
-			'date_posted' => $_POST['entryDate'],
+			'flight_date' => $_POST['entryDate'],
 			'posted_by' => 1
 		);
 
@@ -183,8 +186,8 @@ class Welcome extends CI_Controller {
 				foreach ($flight_logs as $flight) {
 					$logs = array(
 						'flight_id' =>$flight_id,
-						'origin' => strtoupper($flight->to),
-						'destination' => strtoupper($flight->from),
+						'origin' => strtoupper($flight->from),
+						'destination' => strtoupper($flight->to),
 						'takeoff' => $flight->takeoff,
 						'landing' => $flight->landing,
 						'hours' => $flight->hours,
@@ -211,11 +214,11 @@ class Welcome extends CI_Controller {
 						'dfr_category' => $pirep->dfr_category,
 						'dfr_date' => $pirep->dfr_date,
 						'exp_date' => $pirep->exp_date,
-						'rectification' => $pirep->rectification,
+						'rectification' => strtoupper($pirep->rectification),
 						'techlog_number' => $pirep->techlog_number,
 						'cleared_date' => $pirep->cleared_date,
-						'wo_number' => $pirep->wo_number,
-						'remarks' => $pirep->remarks
+						'wo_number' => strtoupper($pirep->wo_number),
+						'remarks' => strtoupper($pirep->remarks)
 					);
 					$defect_add = $this->queries->add_pireps($defect);
 					if ($defect_add == 0) {
@@ -225,6 +228,20 @@ class Welcome extends CI_Controller {
 			}
 
 			// Engine trend monitoring data
+			if(!empty($trend_monitors)){
+				foreach ($trend_monitors as $trend) {
+					$trend_data = array(
+						'flight_id' => $flight_id,
+						'trend_id' => $trend->trend_id,
+						'engine_1' => $trend->engine_1,
+						'engine_2' => $trend->engine_2
+					);
+					$trend_add = $this->queries->add_trend_monitor($trend_data);
+					if ($trend_add == 0) {
+						echo json_encode(0);
+					}
+				}
+			}
 		}
 		echo json_encode(1);
 	}

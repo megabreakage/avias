@@ -277,30 +277,32 @@
                             </thead>
                             <tbody id="trendTable">
                               <!-- JavaScript populated table -->
-                              <tr>
-                                <td>Start(ITT)</td>
-                                <td class="text-center">175</td>
-                                <td class="text-center">172</td>
-                                <td class="text-center"> <a href="#"><i class="fa fa-times"></i></a> </td>
-                              </tr>
+
                             </tbody>
                           </table>
                         </div>
                         <div class="col-md-12 pt">
+                          <hr>
                           <div class="row">
                             <div class="col-md-3">
-                              <select class="form-control" class="form-control">
-                                <option value="">-- select --</option>
+                              <select id="trend" class="form-control" class="form-control">
+                                <option value="">-- select* --</option>
+                                <?php foreach ($trends as $trend): ?>
+                                  <option value="<?php echo $trend['trend_id']; ?>"><?php echo $trend['trend']; ?></option>
+                                <?php endforeach; ?>
                               </select>
                             </div>
                             <div class="col-md-3">
-                              <input id="lh_eng_trend" type="text" class="form-control" value="">
+                              <input id="lh_eng_trend" type="text" class="form-control" value="" placeholder="Engine 1 trend *">
                             </div>
                             <div class="col-md-3">
-                              <input id="rh_eng_trend" type="text" class="form-control" value="">
+                              <input id="rh_eng_trend" type="text" class="form-control" value="" placeholder="Engine 2 trend *">
                             </div>
                             <div class="col-md-3 text-center">
                               <button id="addTrend" type="button" class="aviaBtn btn btn-primary">Add</button>
+                            </div>
+                            <div class="col-md-12 text-center">
+                              <p id="trendAlert"></p>
                             </div>
                           </div>
                         </div>

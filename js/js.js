@@ -121,6 +121,7 @@ $(document).ready(function(){
     totalHours = 0;
     logs = [];
     pireps = [];
+    trends = [];
     trendMonitor = [];
     dfr_status = 0;
 
@@ -190,7 +191,12 @@ $(document).ready(function(){
         'dfr_reason': $("#dfr_reason").val(),
         'dfr_category': $("#dfr_category").val(),
         'dfr_date': $("#dfr_date").val(),
-        'exp_date': $("#exp_date").val()
+        'exp_date': $("#exp_date").val(),
+        'rectification': $("#rectification").val(),
+        'techlog_number': $("#techlog_number").val(),
+        'cleared_date': $("#cleared_date").val(),
+        'wo_number': $("#wo_number").val(),
+        'remarks': $("#remarks").val()
       }
       pireps.push(data);
       $("#tblDefects").empty();
@@ -206,10 +212,39 @@ $(document).ready(function(){
       }
     });
 
+    $("#addTrend").click(function(e){
+      e.preventDefault();
+      trend_id = $("#trend").val();
+      trend_desc = $("#trend option:selected").text();
+      lh_eng_trend = $("#lh_eng_trend").val();
+      rh_eng_trend = $("#rh_eng_trend").val();
+
+      if($("#trend, #lh_eng_trend, #rh_eng_trend").val() === ''){
+        $("#trendAlert").html('*Fill in all necessary field to add engine trend monitor.');
+      } else {
+        data = {
+          'trend_id': $("#trend").val(),
+          'trend': trend_desc,
+          'engine_1': lh_eng_trend,
+          'engine_2': rh_eng_trend
+        }
+        trends.push(data);
+        $("#trendTable").empty();
+        for (var i = 0; i < trends.length; i++) {
+          td1 = '<tr><td>'+trends[i].trend+'</td>';
+          td2 = '<td class="text-center">'+trends[i].engine_1+'</td>';
+          td3 = '<td class="text-center">'+trends[i].engine_2+'</td>';
+          td4 = '<td class="text-center"> <a href="#"><i class="fa fa-times" title="remove"></i></a> </td></tr>';
+          $("#trendTable").append(td1+td2+td3+td4);
+        }
+      }
+    });
+
     $("#flightAdd").submit(function(e){
       e.preventDefault();
       $("#logs").val(JSON.stringify(logs));
       $("#pireps").val(JSON.stringify(pireps));
+      $("#trendMonitor").val(JSON.stringify(trends));
       flight = $(this).serialize();
 
       $.ajax({
@@ -225,7 +260,8 @@ $(document).ready(function(){
             $("#log_response").html("Flight added successfully!");
             logs = [];
             pireps = [];
-            $("#entryRow, #tblDefects").empty();
+            trends = [];
+            $("#entryRow, #tblDefects, #trendTable").empty();
             $('#flightAdd')[0].reset();
             $("#log_response").fadeOut(8000);
           } else {
