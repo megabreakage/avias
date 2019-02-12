@@ -50,7 +50,7 @@
           </select>
         </div>
         <div id="c_schedule_cat_id" class="col-md-2 hidden">
-          <select id="cs_sche_cat_id" class="form-control" name="schedule_cat_id">
+          <select id="cs_schedule_cat_id" class="form-control" name="schedule_cat_id">
             <option value=""> -- select -- </option>
             <?php foreach ($schedule_categories as $schedule_cat): ?>
               <option value="<?php echo $schedule_cat['schedule_cat_id']; ?>"><?php echo $schedule_cat['schedule_category']; ?></option>
