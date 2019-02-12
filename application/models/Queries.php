@@ -185,8 +185,8 @@ class Queries extends CI_Model {
     return $this->db->query($sql_get_tasks)->result_array();
   }
 
-  public function search_by_aircraft($aircraft_id){
-    $sql_get_tasks = 'SELECT a.schedule_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
+  public function cs_search_by_aircraft($aircraft_id){
+    $sql_get_tasks = "SELECT a.schedule_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
       a.part_number, a.serial_number, c.schedule_type, d.task_category, e.schedule_category, f.comp_cat, g.inspection,
       h.ata_chapter, a.zone, a.location, a.reference, a.cum_cycles, a.cum_hours, a.last_done_cycles, a.last_done_hours,
       a.date_checked, a.next_due_cycles, a.next_due_hours, a.next_due_date, a.life_limit_cycles, a.life_limit_hours,
@@ -201,9 +201,9 @@ class Queries extends CI_Model {
       INNER JOIN inspection_types g ON a.inspection_id = g.inspection_id
       INNER JOIN ata_chapters h ON a.ata_chapter_id = h.ata_chapter_id
       INNER JOIN schedule_details i ON a.schedule_id = i.schedule_id
-      WHERE b.aircraft_id = ?';
+      WHERE b.aircraft_id = ".$aircraft_id;
 
-    return $this->db->query($sql_get_tasks, array($aircraft_id))->result_array();
+    return $this->db->query($sql_get_tasks)->result_array();
   }
 
   public function get_defects(){
