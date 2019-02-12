@@ -27,13 +27,15 @@
         </div>
         <div id="c_ata_chapter_id" class="col-md-2 hidden">
           <select id="cs_ata_id" class="form-control" name="ata_chapter_id">
+            <option value=""> -- select -- </option>
             <?php foreach ($ata_chapters as $ata_chapter): ?>
-              <option value="<?php echo $ata_chapter['ata_chapter_id']; ?>">00<?php echo $ata_chapter['ata_chapter']; ?>: <?php echo $ata_chapter['ata_name']; ?></option>
+              <option value="<?php echo $ata_chapter['ata_chapter_id']; ?>"><?php echo $ata_chapter['ata_chapter']; ?>00: <?php echo $ata_chapter['ata_name']; ?></option>
             <?php endforeach; ?>
           </select>
         </div>
         <div id="c_comp_cat_id" class="col-md-2 hidden">
           <select id="cs_comp_cat_id" class="form-control" name="comp_cat_id">
+            <option value=""> -- select -- </option>
             <?php foreach ($comp_cats as $comp_cat): ?>
               <option value="<?php echo $comp_cat['comp_cat_id']; ?>"><?php echo $comp_cat['comp_cat']; ?></option>
             <?php endforeach; ?>
@@ -41,6 +43,7 @@
         </div>
         <div id="c_inspection_id" class="col-md-2 hidden">
           <select id="cs_insp_id" class="form-control" name="inspection_id">
+            <option value=""> -- select -- </option>
             <?php foreach ($inspection_types as $inspection_type): ?>
               <option value="<?php echo $inspection_type['inspection_id']; ?>"><?php echo $inspection_type['inspection']; ?></option>
             <?php endforeach; ?>
@@ -48,6 +51,7 @@
         </div>
         <div id="c_schedule_cat_id" class="col-md-2 hidden">
           <select id="cs_sche_cat_id" class="form-control" name="schedule_cat_id">
+            <option value=""> -- select -- </option>
             <?php foreach ($schedule_categories as $schedule_cat): ?>
               <option value="<?php echo $schedule_cat['schedule_cat_id']; ?>"><?php echo $schedule_cat['schedule_category']; ?></option>
             <?php endforeach; ?>
@@ -55,6 +59,7 @@
         </div>
         <div id="c_schedule_type_id" class="col-md-2 hidden">
           <select id="cs_type_id" class="form-control" name="schedule_type_id">
+            <option value=""> -- select -- </option>
             <?php foreach ($schedule_types as $schedule_type): ?>
               <option value="<?php echo $schedule_type['type_id']; ?>"><?php echo $schedule_type['schedule_type']; ?></option>
             <?php endforeach; ?>
@@ -62,6 +67,7 @@
         </div>
         <div id="c_task_category_id" class="col-md-2 hidden">
           <select id="cs_id_cat_id" class="form-control" name="task_category_id">
+            <option value=""> -- select -- </option>
             <?php foreach ($task_categories as $task_cat): ?>
               <option value="<?php echo $task_cat['task_category_id']; ?>"><?php echo $task_cat['task_category']; ?></option>
             <?php endforeach; ?>
@@ -114,7 +120,7 @@
           <tr>
             <td><?php echo $i; ?>.</td>
             <td><?php echo $task['aircraft_reg']; ?></td>
-            <td><?php echo "00".$task['ata_chapter']; ?></td>
+            <td><?php echo $task['ata_chapter']; ?>00</td>
             <td> <a href="<?php echo base_url()?>maintenance/view_task/<?php echo $task['schedule_id']; ?>"><?php echo substr($task['part_name'], 0, 35); ?></a> </td>
             <td class="text-center"><?php echo $task['task_category']; ?></td>
             <td class="text-center"><?php echo date('d, M Y', strtotime($task['date_checked'])); ?></td>
