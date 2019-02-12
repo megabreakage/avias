@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // get graph data
-  $.get('fleet_data', function(data){
+  $.get('http://localhost/avia/charts/fleet_data', function(data){
     data = JSON.parse(data);
     console.log(data.length);
     reg = [];
