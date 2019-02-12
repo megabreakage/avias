@@ -397,15 +397,38 @@ $(document).ready(function(){
     })
 
     $("#cs_craft_id").change(function(){
-      cs_id = JSON.stringify($("#cs_craft_id").val());
-
+      cs_id = { cs_id: $("#cs_craft_id").val() };
       $.ajax({
-        url: 'search_by_aircraft',
+        url: 'cs_search_by_aircraft',
         method: 'post',
         dataType: 'json',
         data: cs_id,
         success: function(data){
-          console.log(data);
+          $("#tblComponents").empty();
+          j = 1
+          for (var i = 0; i < data.length; i++) {
+            td1 = '<tr><td>'+j+'.</td>';
+            td2 = '<td>'+data[i].aircraft_reg+'</td>';
+            td3 = '<td>'+data[i].ata_chapter+'</td>';
+            td4 = '<td> <a href="maintenance/view_task/'+data[i].schedule_id+'">'+data[i].task+data[i].part_name+'</a> </td>';
+            td5 = '<td class="text-center">'+data[i].task_category+'</td>';
+            td6 = '<td class="text-center">'+data[i].date_checked+'</td>';
+            td7 = '<td class="text-center cat1">'+data[i].cycles+'</td>';
+            td8 = '<td class="text-center cat1">'+data[i].hours+'</td>';
+            td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
+            td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
+            td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
+            td12 = '<td class="text-center cat2">'+data[i].calendar+data[i].period+'</td>';
+            td13 = '<td class="text-center cat3">'+data[i].next_due_cycles - +data[i].cum_cycles+'</td>';
+            td14 = '<td class="text-center cat3">'+data[i].next_due_hours - data[i].cum_hours+'</td>';
+            let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+            let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+            let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            td15 = '<td class="text-center cat3">'+diffDays+'</td>';
+            td16 = '<td class="text-center"> <a href="maintenance/edit_task/"'+data[i].schedule_id+'><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
+            $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
+            j++;
+          }
         }
       });
     });
@@ -539,7 +562,7 @@ $(document).ready(function(){
     });
 
     $("#dfr_aircraft_id").change(function(){
-      aircraft_id = { "aircraft_id": $("#dfr_aircraft_id").val() };
+      aircraft_id = { aircraft_id: $("#dfr_aircraft_id").val() };
       $.ajax({
         url: 'flights/get_defects_by_aircraft',
         method: 'POST',
@@ -567,7 +590,7 @@ $(document).ready(function(){
     });
 
     $("#dfr_ata_id").change(function(){
-      console.log(ata_id);
+      ata_id = { ata_id : $("#dfr_ata_id").val() };
       $.ajax({
         url: 'flights/get_defects_by_ata',
         method: 'POST',
@@ -595,6 +618,7 @@ $(document).ready(function(){
     });
 
     $("#dfr_status").change(function(){
+      dfr_status = { dfr_status : $("#dfr_status").val() }
       $.ajax({
         url: 'flights/get_defects_by_status',
         method: 'POST',
@@ -619,7 +643,6 @@ $(document).ready(function(){
           }
         }
       });
-      console.log("Ok");
     });
 
     $("#dfr_to_date").keyup(function(){
