@@ -248,7 +248,7 @@ $(document).ready(function(){
       flight = $(this).serialize();
 
       $.ajax({
-        url: 'http://localhost/avia/add_flight',
+        url: 'http://192.168.2.114/avia/add_flight',
         method: 'post',
         dataType: 'json',
         data : flight,
@@ -409,7 +409,7 @@ $(document).ready(function(){
           for (var i = 0; i < data.length; i++) {
             td1 = '<tr><td>'+j+'.</td>';
             td2 = '<td>'+data[i].aircraft_reg+'</td>';
-            td3 = '<td>'+data[i].ata_chapter+'</td>';
+            td3 = '<td>'+data[i].ata_chapter+'00</td>';
             td4 = '<td> <a href="maintenance/view_task/'+data[i].schedule_id+'">'+data[i].task+data[i].part_name+'</a> </td>';
             td5 = '<td class="text-center">'+data[i].task_category+'</td>';
             td6 = '<td class="text-center">'+data[i].date_checked+'</td>';
@@ -418,14 +418,17 @@ $(document).ready(function(){
             td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
             td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
             td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
-            td12 = '<td class="text-center cat2">'+data[i].calendar+data[i].period+'</td>';
-            td13 = '<td class="text-center cat3">'+data[i].next_due_cycles - +data[i].cum_cycles+'</td>';
-            td14 = '<td class="text-center cat3">'+data[i].next_due_hours - data[i].cum_hours+'</td>';
-            let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
-            let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
-            let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            td15 = '<td class="text-center cat3">'+diffDays+'</td>';
-            td16 = '<td class="text-center"> <a href="maintenance/edit_task/"'+data[i].schedule_id+'><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
+              let today = new Date(), date_done = new Date(data[i].date_checked);
+              let diff_days = Math.abs(today.getTime() - date_done.getTime());
+              let since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+            td12 = '<td class="text-center cat2">'+since_days+'D</td>';
+            td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
+            td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
+              let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
+            td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
             $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
             j++;
           }
