@@ -282,16 +282,19 @@ class Maintenance extends CI_Controller {
     echo json_encode($this->queries->cs_search_by_comp_cat($comp_cat_id));
   }
 
+  public function cs_search_by_inspection_type(){
+    $insp_id = $_POST['insp_id'];
+    echo json_encode($this->queries->cs_search_by_inspection_type($insp_id));
+  }
+
   public function update_task(){
     $data = $this->input->post();
-
     $task_update = $this->queries->update_task($data);
 
   }
 
   public function delete_task(){
     $data = $this->input->post();
-
     $task_delete = $this->queries->update_task($data);
   }
 
