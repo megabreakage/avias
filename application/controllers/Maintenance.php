@@ -277,6 +277,11 @@ class Maintenance extends CI_Controller {
     echo json_encode($this->queries->cs_search_by_ata($ata_id));
   }
 
+  public function cs_search_by_comp_cat(){
+    $comp_cat_id = $_POST['comp_cat_id'];
+    echo json_encode($this->queries->cs_search_by_comp_cat($comp_cat_id));
+  }
+
   public function update_task(){
     $data = $this->input->post();
 
