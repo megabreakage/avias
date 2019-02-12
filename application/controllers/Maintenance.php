@@ -268,11 +268,8 @@ class Maintenance extends CI_Controller {
   }
 
   public function search_by_aircraft(){
-    $aircraft_id = json_decode($this->input->post('cs_id'));
-
-    $comp_tasks = $this->queries->search_by_aircraft($aircraft_id);
-
-    echo json_encode($comp_tasks);
+    $aircraft_id = json_decode($_POST['cs_id']);
+    echo json_encode($this->queries->search_by_aircraft($aircraft_id));
   }
 
   public function update_task(){
