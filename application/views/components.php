@@ -109,7 +109,7 @@
           <th class="text-center cat3">Days</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="tblComponents">
         <?php $i = 1; foreach ($component_tasks as $task): ?>
           <tr>
             <td><?php echo $i; ?>.</td>
