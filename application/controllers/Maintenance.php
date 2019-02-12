@@ -292,6 +292,16 @@ class Maintenance extends CI_Controller {
     echo json_encode($this->queries->cs_search_by_schedule_cat($schedule_cat_id));
   }
 
+  public function cs_search_by_schedule_type(){
+    $schedule_type_id = $_POST['schedule_type_id'];
+    echo json_encode($this->queries->cs_search_by_schedule_type($schedule_type_id));
+  }
+
+  public function cs_search_by_task_cat(){
+    $task_cat_id = $_POST['task_cat_id'];
+    echo json_encode($this->queries->cs_search_by_task_cat($task_cat_id));
+  }
+
   public function update_task(){
     $data = $this->input->post();
     $task_update = $this->queries->update_task($data);

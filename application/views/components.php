@@ -66,7 +66,7 @@
           </select>
         </div>
         <div id="c_task_category_id" class="col-md-2 hidden">
-          <select id="cs_id_cat_id" class="form-control" name="task_category_id">
+          <select id="cs_task_cat_id" class="form-control" name="task_category_id">
             <option value=""> -- select -- </option>
             <?php foreach ($task_categories as $task_cat): ?>
               <option value="<?php echo $task_cat['task_category_id']; ?>"><?php echo $task_cat['task_category']; ?></option>
