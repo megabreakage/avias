@@ -201,7 +201,7 @@ class Queries extends CI_Model {
       INNER JOIN inspection_types g ON a.inspection_id = g.inspection_id
       INNER JOIN ata_chapters h ON a.ata_chapter_id = h.ata_chapter_id
       INNER JOIN schedule_details i ON a.schedule_id = i.schedule_id
-      WHERE b.aircraft_id = ".$aircraft_id;
+      WHERE c.type_id = 2 AND b.aircraft_id = ".$aircraft_id;
 
     return $this->db->query($sql_get_tasks)->result_array();
   }
