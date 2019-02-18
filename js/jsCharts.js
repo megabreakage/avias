@@ -2,11 +2,9 @@ $(document).ready(function(){
   // get graph data
   $.get('http://192.168.2.114/avia/charts/fleet_data', function(data){
     data = JSON.parse(data);
-    console.log(data.length);
     reg = [];
     craft_cycs = [];
     margin = [];
-    console.log(craft_cycs);
 
     for (var i = 0; i < data.length; i++) {
       reg.push(data[i].aircraft_reg);
