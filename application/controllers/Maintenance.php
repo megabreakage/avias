@@ -180,20 +180,74 @@ class Maintenance extends CI_Controller {
 		$this->load->view('templates/footer');
   }
 
+  public function recently_updated(){
+    $data = array(
+      'title' => 'Recently Updated Tasks',
+      'flights' => $this->queries->get_flights(),
+  		'aircrafts' => $this->queries->get_aircrafts(),
+  		'engineTypes' => $this->queries->get_engine_types(),
+  		'aircraft_models' => $this->queries->get_aircraft_models(),
+  		'manufacturers' => $this->queries->get_manufacturers(),
+  		'locations' => $this->queries->get_locations(),
+      'schedule_types' => $this->queries->get_schedule_types(),
+      'inspection_types' => $this->queries->get_inspection_types(),
+      'task_categories' => $this->queries->get_task_categories(),
+      'schedule_categories' => $this->queries->get_schedule_categories(),
+      'ata_chapters' => $this->queries->get_ata_chapters(),
+      'comp_cats' => $this->queries->get_comp_cats(),
+      'component_tasks' => $this->queries->get_component_tasks(),
+      'trends' => $this->queries->get_trends()
+    );
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('recently_updated', $data);
+		// modal view call
+		$this->load->view('modals/add_aircraft');
+		$this->load->view('modals/add_flight');
+		$this->load->view('modals/add_task');
+
+		$this->load->view('templates/footer');
+  }
+
+  public function view_task($schedule_id){
+    $schedule = $this->queries->get_task($schedule_id);
+    $data = array(
+      'title' => 'View Task/Part: '.$schedule['task'].$schedule['part_name'],
+      'flights' => $this->queries->get_flights(),
+  		'aircrafts' => $this->queries->get_aircrafts(),
+  		'engineTypes' => $this->queries->get_engine_types(),
+  		'aircraft_models' => $this->queries->get_aircraft_models(),
+  		'manufacturers' => $this->queries->get_manufacturers(),
+  		'locations' => $this->queries->get_locations(),
+      'schedule_types' => $this->queries->get_schedule_types(),
+      'inspection_types' => $this->queries->get_inspection_types(),
+      'task_categories' => $this->queries->get_task_categories(),
+      'schedule_categories' => $this->queries->get_schedule_categories(),
+      'ata_chapters' => $this->queries->get_ata_chapters(),
+      'comp_cats' => $this->queries->get_comp_cats(),
+      'expired_tasks' => $this->queries->get_expired_tasks(),
+      'trends' => $this->queries->get_trends(),
+      'schedule' => $this->queries->get_task($schedule_id),
+      'schedule_details' => $this->queries->get_task_details($schedule_id),
+      'schedule_id' => $schedule['schedule_id'],
+      'task' => $schedule['task'],
+      'part_name' => $schedule['part_name']
+    );
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('view_task', $data);
+		// modal view call
+		$this->load->view('modals/add_aircraft');
+		$this->load->view('modals/add_flight');
+		$this->load->view('modals/add_task');
+
+		$this->load->view('templates/footer');
+  }
+
   // Function calls to Model functions
   public function add_task(){
     $frequencies = json_decode($this->input->post('frequencies'));
     // $workpacks = json_decode($this->input->post('workpacks'));
-
-    // $data = array( array('Type ID', 'Cycles', 'Hours', 'Calendar') );
-    // foreach ($frequencies as $freq) {
-    //   $item = array(
-    //     array($freq->maint_type_id, $freq->cycles, $freq->hours, $freq->calendar.$freq->period)
-    //   );
-    //   $data[] = $item;
-    // }
-    // echo $this->table->generate($data);
-    // exit();
 
     $schedule_data = array(
       'aircraft_id' => $this->input->post('aircraft_id'),
@@ -208,6 +262,7 @@ class Maintenance extends CI_Controller {
       'inspection_id' => $this->input->post('inspection_id'),
       'ata_chapter_id' => $this->input->post('ata_chapter_id'),
       'part_name' => strtoupper($this->input->post('part_name')),
+      'part_number' => strtoupper($this->input->post('part_number')),
       'serial_number' => strtoupper($this->input->post('serial_number')),
       'reference' => strtoupper($this->input->post('reference')),
       'life_limit_cycles' => $this->input->post('life_limit_cycles'),
@@ -263,8 +318,24 @@ class Maintenance extends CI_Controller {
      // }
 
     }
+    echo json_encode(1);
     return redirect('maintenance', 'refresh');
-    // echo json_encode(1);
+
+  }
+
+  public function delete_frequency() {
+    $schedule_details_id = ($_POST['schedule_details_id']);
+    $freq = $this->queries->delete_frequency($schedule_details_id);
+    if ($freq == FALSE) {
+      echo json_encode(0);
+    } else {
+      echo json_encode($freq);
+    }
+  }
+
+  public function tasks_search_by_aircraft(){
+    $aircraft_id = $_POST['aircraft_id'];
+    echo json_encode($this->queries->tasks_search_by_aircraft($aircraft_id));
   }
 
   public function cs_search_by_aircraft(){
@@ -306,6 +377,19 @@ class Maintenance extends CI_Controller {
     $data = $this->input->post();
     $task_update = $this->queries->update_task($data);
 
+  }
+
+  public function update_frequencies() {
+    json_encode($_POST['schedule_details_id']);
+    exit();
+
+    $freq_data = array(
+      'maint_type_id' => $_POST['maint_type_id'],
+      'cycles' => $_POST['cycles'],
+      'hours' => $_POST['hours'],
+      'calendar' => $_POST['calendar'],
+      'period' => $_POST['periof']
+    );
   }
 
   public function delete_task(){
