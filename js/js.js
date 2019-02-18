@@ -1,8 +1,6 @@
 $(document).ready(function(){
 
-  engineData = [];
-  propData = [];
-  airframe =[];
+  engineData = [], propData = [], airframe = [];
 
   // user logic
 
@@ -117,12 +115,8 @@ $(document).ready(function(){
       $("#pirepsData, #logData, #logDataEntry").addClass("hidden");
     });
 
-    totalCycles = 0;
-    totalHours = 0;
-    logs = [];
-    pireps = [];
-    trends = [];
-    trendMonitor = [];
+    totalCycles = 0, totalHours = 0;
+    logs = [], pireps = [], trends = [], trendMonitor = [];
     dfr_status = 0;
 
     $("#landing").keyup(function(){
@@ -154,7 +148,6 @@ $(document).ready(function(){
 
       totalCycles += cycs;
       $("#totalCycles").val(totalCycles);
-
       totalHours += hrs;
       $("#totalHours").val(parseFloat(totalHours).toFixed(2));
 
@@ -253,7 +246,6 @@ $(document).ready(function(){
         dataType: 'json',
         data : flight,
         success: function(data){
-          console.log(data);
           if (data == 1) {
             $("#log_response").removeClass("hidden");
             $("#log_response").addClass("alert-success");
@@ -272,13 +264,11 @@ $(document).ready(function(){
           }
         }
       });
-
     });
 
     $("#aircraft_reg").change(function(e){
       e.preventDefault();
       $("#flightDisplay").empty();
-
       aircraft_id = $(this).serialize();
       $.ajax({
         url: 'flights/flight_by_aircraft',
@@ -304,58 +294,6 @@ $(document).ready(function(){
           }
         }
       });
-
-    });
-
-    // add task
-    $('#scheduledTask').submit(function(e){
-      e.preventDefault();
-
-      task_data = $(this).serialize();
-
-      $.ajax({
-        url: 'maintenance/add_task',
-        method: 'post',
-        dataType: 'json',
-        data: task_data,
-        sucess: function(data){
-          console.log(data);
-        }
-      })
-    });
-
-    // update task
-    $('#scheduledTask_update').submit(function(e){
-      e.preventDefault();
-
-      task_data = $(this).serialize();
-
-      $.ajax({
-        url: 'maintenance/update_task',
-        method: 'post',
-        dataType: 'json',
-        data: task_data,
-        sucess: function(data){
-          console.log(data);
-        }
-      })
-    });
-
-    // delete task
-    $('#scheduledTask_delete').submit(function(e){
-      e.preventDefault();
-
-      task_data = $(this).serialize();
-
-      $.ajax({
-        url: 'maintenance/delete_task',
-        method: 'post',
-        dataType: 'json',
-        data: task_data,
-        sucess: function(data){
-          console.log(data);
-        }
-      })
     });
 
 
@@ -394,7 +332,47 @@ $(document).ready(function(){
           $("#c_aircraft_id, #c_ata_chapter_id, #c_comp_cat_id, #c_inspection_id, #c_schedule_cat_id, #c_schedule_type_id, #c_task_category_id").addClass('hidden');
 
       }
-    })
+    });
+
+    $("#all_search_id").change(function(){
+      aircraft_id = { aircraft_id: $("#all_search_id").val() };
+      $.ajax({
+        url: 'tasks_search_by_aircraft',
+        method: 'post',
+        dataType: 'json',
+        data: aircraft_id,
+        success: function(data){
+          $("#tblAllTasks").empty();
+          j = 1
+          for (var i = 0; i < data.length; i++) {
+            td1 = '<tr><td>'+j+'.</td>';
+            td2 = '<td>'+data[i].aircraft_reg+'</td>';
+            td3 = '<td>'+data[i].ata_chapter+'00</td>';
+            td4 = '<td> <a href="maintenance/view_task/'+data[i].schedule_id+'">'+data[i].task+data[i].part_name+'</a> </td>';
+            td5 = '<td class="text-center">'+data[i].task_category+'</td>';
+            td6 = '<td class="text-center">'+data[i].date_checked+'</td>';
+            td7 = '<td class="text-center cat1">'+data[i].cycles+'</td>';
+            td8 = '<td class="text-center cat1">'+data[i].hours+'</td>';
+            td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
+            td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
+            td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
+              today = new Date(), date_done = new Date(data[i].date_checked);
+              diff_days = Math.abs(today.getTime() - date_done.getTime());
+              since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+            td12 = '<td class="text-center cat2">'+since_days+'D</td>';
+            td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
+            td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
+              next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
+            td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
+            $("#tblAllTasks").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
+            j++;
+          }
+        }
+      });
+    });
 
     $("#cs_craft_id").change(function(){
       cs_id = { cs_id: $("#cs_craft_id").val() };
@@ -418,15 +396,15 @@ $(document).ready(function(){
             td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
             td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
             td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
-              let today = new Date(), date_done = new Date(data[i].date_checked);
-              let diff_days = Math.abs(today.getTime() - date_done.getTime());
-              let since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+              today = new Date(), date_done = new Date(data[i].date_checked);
+              diff_days = Math.abs(today.getTime() - date_done.getTime());
+              since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
             td12 = '<td class="text-center cat2">'+since_days+'D</td>';
             td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
             td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
-              let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
-              let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
-              let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
             td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
             $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
@@ -458,15 +436,15 @@ $(document).ready(function(){
             td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
             td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
             td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
-              let today = new Date(), date_done = new Date(data[i].date_checked);
-              let diff_days = Math.abs(today.getTime() - date_done.getTime());
-              let since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+              today = new Date(), date_done = new Date(data[i].date_checked);
+              diff_days = Math.abs(today.getTime() - date_done.getTime());
+              since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
             td12 = '<td class="text-center cat2">'+since_days+'D</td>';
             td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
             td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
-              let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
-              let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
-              let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
             td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
             $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
@@ -498,15 +476,15 @@ $(document).ready(function(){
             td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
             td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
             td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
-              let today = new Date(), date_done = new Date(data[i].date_checked);
-              let diff_days = Math.abs(today.getTime() - date_done.getTime());
-              let since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+              today = new Date(), date_done = new Date(data[i].date_checked);
+              diff_days = Math.abs(today.getTime() - date_done.getTime());
+              since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
             td12 = '<td class="text-center cat2">'+since_days+'D</td>';
             td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
             td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
-              let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
-              let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
-              let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
             td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
             $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
@@ -538,15 +516,15 @@ $(document).ready(function(){
             td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
             td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
             td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
-              let today = new Date(), date_done = new Date(data[i].date_checked);
-              let diff_days = Math.abs(today.getTime() - date_done.getTime());
-              let since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+              today = new Date(), date_done = new Date(data[i].date_checked);
+              diff_days = Math.abs(today.getTime() - date_done.getTime());
+              since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
             td12 = '<td class="text-center cat2">'+since_days+'D</td>';
             td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
             td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
-              let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
-              let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
-              let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
             td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
             $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
@@ -578,15 +556,15 @@ $(document).ready(function(){
             td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
             td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
             td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
-              let today = new Date(), date_done = new Date(data[i].date_checked);
-              let diff_days = Math.abs(today.getTime() - date_done.getTime());
-              let since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+              today = new Date(), date_done = new Date(data[i].date_checked);
+              diff_days = Math.abs(today.getTime() - date_done.getTime());
+              since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
             td12 = '<td class="text-center cat2">'+since_days+'D</td>';
             td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
             td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
-              let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
-              let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
-              let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
             td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
             $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
@@ -618,15 +596,15 @@ $(document).ready(function(){
             td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
             td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
             td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
-              let today = new Date(), date_done = new Date(data[i].date_checked);
-              let diff_days = Math.abs(today.getTime() - date_done.getTime());
-              let since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+              today = new Date(), date_done = new Date(data[i].date_checked);
+              diff_days = Math.abs(today.getTime() - date_done.getTime());
+              since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
             td12 = '<td class="text-center cat2">'+since_days+'D</td>';
             td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
             td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
-              let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
-              let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
-              let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
             td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
             $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
@@ -658,15 +636,15 @@ $(document).ready(function(){
             td9 = '<td class="text-center cat1">'+data[i].calendar+data[i].period+'</td>';
             td10 = '<td class="text-center cat2">'+data[i].cum_cycles+'</td>';
             td11 = '<td class="text-center cat2">'+data[i].cum_hours+'</td>';
-              let today = new Date(), date_done = new Date(data[i].date_checked);
-              let diff_days = Math.abs(today.getTime() - date_done.getTime());
-              let since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
+              today = new Date(), date_done = new Date(data[i].date_checked);
+              diff_days = Math.abs(today.getTime() - date_done.getTime());
+              since_days = Math.ceil(diff_days / (1000 * 3600 * 24));
             td12 = '<td class="text-center cat2">'+since_days+'D</td>';
             td13 = '<td class="text-center cat3">'+( (data[i].next_due_cycles)-(data[i].cum_cycles) )+'</td>';
             td14 = '<td class="text-center cat3">'+( (data[i].next_due_hours)-(data[i].cum_hours) )+'</td>';
-              let next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
-              let timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
-              let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              next_date = new Date(data[i].next_due_date), date_due = new Date(data[i].date_checked);
+              timeDiff = Math.abs(next_date.getTime() - date_due.getTime());
+              diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             td15 = '<td class="text-center cat3">'+diffDays+'D</td>';
             td16 = '<td class="text-center"> <a href="maintenance/edit_task/'+data[i].schedule_id+'"><i class="fa fa-pencil tableIcons" title="edit"'+data[i].schedule_id+'></i></a> </td></tr>'
             $("#tblComponents").append(td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16);
@@ -917,7 +895,25 @@ $(document).ready(function(){
           }
         }
       });
-    })
+    });
+
+    $("#reportCategory").change(function(){
+      report = $("#reportCategory").val();
+      switch (report) {
+        case '4':
+          $("#engineSelect").removeClass('hidden');
+          $("#propellerSelect").addClass('hidden');
+          break;
+        case '5':
+          $("#propellerSelect").removeClass('hidden');
+          $("#engineSelect").addClass('hidden');
+          break;
+        default:
+          $("#engineSelect, #propellerSelect").addClass('hidden');
+      }
+    });
+
+
 
 
 });
