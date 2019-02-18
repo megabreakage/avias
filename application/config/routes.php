@@ -49,15 +49,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+$route['logout'] = 'auth/logout';
+$route['reset'] = 'auth/reset';
+$route['login_user'] = 'auth/login_user';
+$route['auth'] = 'auth';
 $route['fleet_data'] = 'charts/fleet_data';
 $route['reports/(:any)'] = 'reports';
+$route['update_frequencies'] = 'maintenance/update_frequencies';
+$route['delete_frequency'] = 'maintenance/delete_frequency';
+$route['update_task'] = 'maintenance/update_task';
+$route['view_task/$'] = 'maintenance/view_task/$';
 $route['cs_search_by_task_cat'] = 'maintenance/cs_search_by_task_cat';
 $route['cs_search_by_schedule_type'] = 'maintenance/cs_search_by_schedule_type';
 $route['cs_search_by_schedule_cat'] = 'maintenance/cs_search_by_schedule_cat';
 $route['cs_search_by_inpection_type'] = 'maintenance/cs_search_by_inspection_type';
 $route['cs_search_by_comp_cat'] = 'maintenance/cs_search_by_comp_cat';
 $route['cs_search_by_ata'] = 'maintenance/cs_search_by_ata';
-$route['search_by_aircraft'] = 'maintenance/search_by_aircraft';
+$route['search_by_aircraft'] = 'maintenance/cs_search_by_aircraft';
+$route['tasks_search_by_aircraft'] = 'maintenance/tasks_search_by_aircraft';
 $route['search_tasks'] = 'maintenance/search_tasks';
 $route['add_task'] = 'maintenance/add_task';
 $route['maintenance'] = 'maintenance';
@@ -72,6 +81,7 @@ $route['fleet'] = 'welcome/fleet';
 $route['aircraft_models'] = 'welcome/aircraft_models';
 $route['add_flight'] = 'welcome/add_flight';
 $route['add_aircraft'] = 'welcome/add_aircraft';
+$route['messages'] = 'welcome/messages';
 $route['admin'] = 'welcome/admin';
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
