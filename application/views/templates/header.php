@@ -19,7 +19,9 @@
 <body class="fixed-nav sticky-footer bg-dark landing" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="<?php echo base_url(); ?>">AviaS</a>
+    <a class="navbar-brand" href="<?php echo base_url(); ?>">
+      <img src="images/logo3.png" alt="">
+    </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -50,13 +52,13 @@
           </a>
           <ul class="sidenav-second-level collapse" id="collapseComponents">
             <li>
-              <a href="#" data-toggle="modal" data-target=".addAircraft">Add Aircraft</a>
+              <a href="<?php echo base_url(); ?>addAircraft" data-toggle="modal" data-target=".addAircraft">Add Aircraft</a>
             </li>
             <li>
-              <a href="fleet">Fleet</a>
+              <a href="<?php echo base_url(); ?>fleet">Fleet</a>
             </li>
             <li>
-              <a href="aircraft_models">Models</a>
+              <a href="<?php echo base_url(); ?>aircraft_models">Models</a>
             </li>
           </ul>
         </li>
@@ -67,7 +69,7 @@
           </a>
           <ul class="sidenav-second-level collapse" id="collapseFlights">
             <li>
-              <a href="#" data-toggle="modal" data-target=".addFlight">Add Flight</a>
+              <a href="<?php echo base_url(); ?>addFlight" data-toggle="modal" data-target=".addFlight">Add Flight</a>
             </li>
             <li>
               <a href="<?php echo base_url(); ?>flights">Flights</a>
@@ -84,7 +86,7 @@
           </a>
           <ul class="sidenav-second-level collapse" id="collapseExamplePages">
             <li>
-              <a href="#" data-toggle="modal" data-target=".addTask">Add Task</a>
+              <a href="<?php echo base_url(); ?>addTask" data-toggle="modal" data-target=".addTask">Add Task</a>
             </li>
             <li>
               <a href="<?php echo base_url(); ?>maintenance">All Tasks</a>
@@ -148,6 +150,13 @@
         <li class="nav-item">
           <a class="nav-link text-center" id="sidenavToggler">
             <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link">
+            Welcome <i class="fa fa-fw fa-user"></i> <strong> <?php echo $_SESSION['fname']; ?> </strong>!
           </a>
         </li>
       </ul>
@@ -229,20 +238,12 @@
             <a class="dropdown-item small" href="#">View all alerts</a>
           </div>
         </li>
-        <li class="nav-item">
-          <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-              <input class="form-control" type="text" placeholder="Search for...">
-              <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-          </form>
+        <li>
+          <div class="col-md-3">
+          </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+          <a class="nav-link" data-toggle="modal" data-target="#logOut">
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
         </li>
       </ul>
