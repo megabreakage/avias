@@ -1,3 +1,5 @@
+<?php if (isset($_SESSION['loggedin'])) { ?>
+
 <h2>List of Aircrafts</h2>
 
 <div class="row">
@@ -45,3 +47,9 @@
     </table>
   </div>
 </div>
+
+<?php
+} else {
+  redirect('auth', 'refresh');
+}
+ ?>

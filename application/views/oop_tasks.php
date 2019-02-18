@@ -1,3 +1,5 @@
+<?php if (isset($_SESSION['loggedin'])) { ?>
+
 <h5>OOP tasks</h5>
 
 <div class="row">
@@ -137,3 +139,9 @@
     </table>
   </div>
 </div>
+
+<?php
+} else {
+  redirect('auth', 'refresh');
+}
+ ?>

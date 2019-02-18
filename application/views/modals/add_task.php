@@ -1,3 +1,5 @@
+<?php if (isset($_SESSION['loggedin'])) { ?>
+
 <div id="addAircraft" class="modal fade addTask" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
@@ -7,7 +9,7 @@
           <h5>Add Scheduled Task</h5>
         </div>
         <div class="card-body">
-          <div id="task_response" class="col-md-6 offset-md-3 alert hidden">
+          <div id="task_response" class="col-md-6 offset-md-3 alert hidden text-center">
             <!-- response texts -->
           </div>
           <!-- Airframe data -->
@@ -273,3 +275,9 @@
     </div>
   </div>
 </div>
+
+<?php
+  } else {
+    redirect('auth', 'refresh');
+  }
+ ?>

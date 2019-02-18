@@ -1,3 +1,5 @@
+<?php if (isset($_SESSION['loggedin'])) { ?>
+
 <h5>Flights</h5>
 <div class="row">
   <div class="col-md-3 input-group">
@@ -42,3 +44,9 @@
     </table>
   </div>
 </div>
+
+<?php
+} else {
+  redirect('auth', 'refresh');
+}
+ ?>
