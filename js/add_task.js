@@ -140,19 +140,20 @@ $(document).ready(function(){
     task_details = $(this).serialize();
 
     $.ajax({
-      url: 'http://localhost/avia/maintenance/add_task',
+      url: 'http://192.168.2.114/avia/maintenance/add_task',
       method: 'post',
       dataType: 'json',
       data: 'task_details',
       success: function(data){
         console.log(data);
-        if(data == 1){
+        if(data === 1){
           $("#task_response").removeClass('hidden');
           $("#task_response").addClass('alert-sucess');
-          $("#task_response").html('Task was added successfully!');
+          $("#task_response").html('Task added successfully!');
           $("#schedule_details").empty();
           frequencies = [];
           $('#task_flightAdd')[0].reset();
+          $("#task_response").fadeOut(10000);
         }else {
           $("#task_response").removeClass('hidden');
           $("#task_response").addClass('alert-danger');
