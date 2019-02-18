@@ -290,6 +290,14 @@ body.sidenav-toggled #mainNav.static-top #sidenavToggler i {
   background: white;
 }
 
+.dBoard{
+  background-image: url("../images/engine2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 @media (min-width: 992px) {
   .content-wrapper {
     margin-left: 250px;
@@ -601,4 +609,33 @@ tr a:hover{
   color: red;
   font-style: italic;
   font-family: 'Times Roman';
+}
+.pstn{
+position: absolute;
+}
+
+#task_response{
+  position: absolute;
+  z-index: 999;
+  top: 40vh;
+}
+
+.login{
+  top: 25vh;
+}
+.login{
+  color: #ffffff;
+}
+
+#login_response{
+  font-family: 'Times Roman', cursive;
+  font-style: italic;
+}
+
+.modal-footer a{
+  font-size: 10px;
+}
+
+.displayInfo{
+  top: 25vh;
 }
