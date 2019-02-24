@@ -148,7 +148,7 @@ class Queries extends CI_Model {
       INNER JOIN ata_chapters h ON a.ata_chapter_id = h.ata_chapter_id
       INNER JOIN schedule_details i ON a.schedule_id = i.schedule_id
       WHERE c.type_id = 2
-      ORDER BY h.ata_chapter ASC";
+      ORDER BY a.schedule_id ASC";
 
     return $this->db->query($sql_get_tasks)->result_array();
   }
@@ -474,6 +474,10 @@ class Queries extends CI_Model {
     return $this->db->query($sql_get_defects)->result_array();
   }
 
+  public function get_schedule_detail_task($schedule_detail_id){
+    return $this->db->get_where('schedule_details', array('schedule_details_id' => $schedule_details_id))->result_array();
+  }
+
 
   // Create Functions
   public function add_aircraft($aircraft_data){
@@ -592,8 +596,20 @@ class Queries extends CI_Model {
 
 
   // Update functions
-  public function update_task($data){
+  public function update_schedule($schedule_data, $schedule_id){
+    return $this->db->update('schedules', $schedule_data, array('schedule_id' => $schedule_id));
+  }
 
+  public function update_schedule_details($schedule_details_data, $schedule_details_id){
+    $schedule_id = $schedule_details_data['schedule_id'];
+    $check_sd = $this->db->get_where('schedule_details', array('schedule_details_id' => $schedule_details_id))->row_array();
+    if(!empty($check_sd)){
+      $this->db->update('schedule_details', $schedule_details_data, array('schedule_details_id' => $schedule_details_id));
+      return $this->db->get_where('schedule_details', array('schedule_id' => $schedule_id))->result_array();
+    } else {
+      $this->db->insert('schedule_details', $schedule_details_data);
+      return $this->db->get_where('schedule_details', array('schedule_id' => $schedule_id))->result_array();
+    };
   }
 
   // Delete Functions
@@ -602,14 +618,12 @@ class Queries extends CI_Model {
   }
 
   public function delete_frequency($schedule_details_id){
-    $this->db->delete('schedule_details', array('schedule_details_id' => $schedule_details_id));
-    return $this->db->get_where('schedule_details', array('schedule_details_id' => $schedule_details_id) )->result_array();
+    return $this->db->delete('schedule_details', array('schedule_details_id' => $schedule_details_id));
   }
 
   public function delete_multiple_tasks($data){
 
   }
-
 
 
 

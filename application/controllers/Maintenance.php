@@ -323,16 +323,6 @@ class Maintenance extends CI_Controller {
 
   }
 
-  public function delete_frequency() {
-    $schedule_details_id = ($_POST['schedule_details_id']);
-    $freq = $this->queries->delete_frequency($schedule_details_id);
-    if ($freq == FALSE) {
-      echo json_encode(0);
-    } else {
-      echo json_encode($freq);
-    }
-  }
-
   public function tasks_search_by_aircraft(){
     $aircraft_id = $_POST['aircraft_id'];
     echo json_encode($this->queries->tasks_search_by_aircraft($aircraft_id));
@@ -374,22 +364,109 @@ class Maintenance extends CI_Controller {
   }
 
   public function update_task(){
-    $data = $this->input->post();
-    $task_update = $this->queries->update_task($data);
+    $frequencies = json_decode($this->input->post('frequencies'));
+    $schedule_id = $_POST['schedule_id'];
+    $schedule_data = array(
+      'aircraft_id' => $this->input->post('aircraft_id'),
+      'task_card' => strtoupper($this->input->post('task_card')),
+      'task' => strtoupper($this->input->post('task')),
+      'comp_cat_id' => $this->input->post('comp_cat_id'),
+      'zone' => strtoupper($this->input->post('zone')),
+      'location' => strtoupper($this->input->post('location')),
+      'schedule_type_id' => $this->input->post('schedule_type_id'),
+      'schedule_cat_id' => $this->input->post('schedule_cat_id'),
+      'task_category_id' => $this->input->post('task_category_id'),
+      'inspection_id' => $this->input->post('inspection_id'),
+      'ata_chapter_id' => $this->input->post('ata_chapter_id'),
+      'part_name' => strtoupper($this->input->post('part_name')),
+      'part_number' => strtoupper($this->input->post('part_number')),
+      'serial_number' => strtoupper($this->input->post('serial_number')),
+      'reference' => strtoupper($this->input->post('reference')),
+      'life_limit_cycles' => $this->input->post('life_limit_cycles'),
+      'life_limit_hours' => $this->input->post('life_limit_hours'),
+      'life_limit_calendar' => $this->input->post('life_limit_calendar'),
+      'life_limit_period' => $this->input->post('life_limit_period'),
+      'alarm_cycles' => $this->input->post('alarm_cycles'),
+      'alarm_hours' => $this->input->post('alarm_hours'),
+      'alarm_calendar' => $this->input->post('alarm_calendar'),
+      'alarm_period' => $this->input->post('alarm_period'),
+      'last_done_cycles' => $this->input->post('last_done_cycles'),
+      'last_done_hours' => $this->input->post('last_done_hours'),
+      'date_checked' => $this->input->post('last_done_date'),
+      'cum_cycles' => $this->input->post('cum_cycles'),
+      'cum_hours' => $this->input->post('cum_hours'),
+      'next_due_cycles' => $this->input->post('next_due_cycles'),
+      'next_due_hours' => $this->input->post('next_due_hours'),
+      'next_due_date' => date('Y-m-d',strtotime($this->input->post('next_due_date'))),
+      'posted_by' => 1
+    );
+
+    $schedule_res = $this->queries->update_schedule($schedule_data, $schedule_id);
+    if ($schedule_res == FALSE) {
+      echo json_encode(0);
+    } else {
+      if(!empty($frequencies)){
+        foreach ($frequencies as $freq) {
+          $schedule_details_id = $freq->schedule_details_id;
+          $schedule_details_data = array(
+           'schedule_id' => $schedule_id,
+           'maint_type_id' => $freq->maint_type_id,
+           'cycles' => $freq->cycles,
+           'hours' => $freq->hours,
+           'calendar' => $freq->calendar,
+           'period' => $freq->period
+          );
+          $schedule_details_res = $this->queries->update_schedule_details($schedule_details_data, $schedule_details_id);
+          if ($schedule_details_res === FALSE) {
+            echo json_encode(0);
+          }
+        }
+      }
+      echo json_encode(1);
+    }
+  }
+
+
+  public function update_frequencies() {
+    $frequencies = json_decode($this->input->post('freq_data'));
+    $schedule_details = 0;
+
+    if (!empty($frequencies)) {
+      foreach ($frequencies as $freq) {
+        $schedule_details_id = $freq->schedule_details_id;
+        $schedule_id = $freq->schedule_id;
+        $schedule_details_data = array(
+         'schedule_id' => $freq->schedule_id,
+         'maint_type_id' => $freq->maint_type_id,
+         'cycles' => $freq->cycles,
+         'hours' => $freq->hours,
+         'calendar' => $freq->calendar,
+         'period' => $freq->period
+        );
+        $schedule_details_res = $this->queries->update_schedule_details($schedule_details_data, $schedule_details_id);
+        if ($schedule_details_res === FALSE) {
+          echo json_encode(0);
+        } else {
+          $schedule_details = $schedule_details_res;
+        }
+      }
+    } else {
+      echo json_encode("Frequency Empty");
+    }
+
+    echo json_encode($schedule_details);
 
   }
 
-  public function update_frequencies() {
-    json_encode($_POST['schedule_details_id']);
-    exit();
+  public function delete_frequency() {
+    $schedule_details_id =  $this->input->post('id');
 
-    $freq_data = array(
-      'maint_type_id' => $_POST['maint_type_id'],
-      'cycles' => $_POST['cycles'],
-      'hours' => $_POST['hours'],
-      'calendar' => $_POST['calendar'],
-      'period' => $_POST['periof']
-    );
+    $freq = $this->queries->delete_frequency($schedule_details_id);
+    if ($freq == FALSE) {
+      echo json_encode(0);
+    } else {
+      echo json_encode($freq);
+    }
   }
 
   public function delete_task(){
