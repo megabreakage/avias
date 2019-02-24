@@ -22,7 +22,7 @@
       </canvas>
     </div>
   </div>
-  
+
 <?php
 } else {
   redirect('auth', 'refresh');

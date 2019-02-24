@@ -86,7 +86,7 @@
       </table>
     </div>
   </div>
-  
+
 <?php
   } else {
     redirect('auth', 'refresh');
