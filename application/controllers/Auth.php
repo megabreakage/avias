@@ -30,7 +30,7 @@ public function login_user(){
       'loggedin' => TRUE
     );
     $this->session->set_userdata($user_data);
-    echo json_encode($user_data);
+    echo json_encode(1);
   }
 }
 
