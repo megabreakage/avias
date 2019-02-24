@@ -1,6 +1,7 @@
 $(document).ready(function(){
   v_frequencies = [];
 
+
   $('#v_add_freq').click(function(e){
     e.preventDefault();
     maint_type_id = $('#v_maint_type_id option:selected').text();
@@ -10,15 +11,16 @@ $(document).ready(function(){
     freq_period = $('#v_freq_period').val();
 
     data = {
-      'schedule_details_id': $("#v_schedule_details_id").val(),
+      'schedule_details_id': '0',
+      'schedule_id': $("#v_schedule_id").val(),
       'maint_type_id': $('#v_maint_type_id').val(),
       'cycles': $('#v_freq_cycles').val(),
       'hours': $('#v_freq_hours').val(),
       'calendar': $('#v_freq_calendar').val(),
       'period': $('#v_freq_period').val()
     };
-    v_frequencies.push(data);
-    console.log(v_frequencies);
+    task_frequencies.push(data);
+    // console.log(task_frequencies);
 
     for (var i = 0; i < v_frequencies.length; i++) {
       if (v_frequencies[i].maint_type_id == 1) {
@@ -33,21 +35,28 @@ $(document).ready(function(){
       };
     }
 
-    freq_data = JSON.stringify(v_frequencies);
+    freq_data = JSON.stringify(task_frequencies);
     $.ajax({
-      url: 'http://192.168.2.114/avia/maintenance/update_frequencies',
+      url: 'http://localhost/avia/maintenance/update_frequencies',
       method: 'post',
       dataType: 'json',
-      data: freq_data,
+      data: {freq_data},
       success: function(data){
-        td1 = '<tr><td>'+maint_type_id+'</td>';
-        td2 = '<td class="text-right">'+freq_cycles+'</td>';
-        td3 = '<td class="text-right">'+freq_hours+'</td>';
-        td4 = '<td class="text-center">'+freq_calendar+' '+freq_period+'</td>';
-        td5 = '<td class="text-center"> <i onclick="removeFreq()" class="fa fa-times iconDel"></i> </td></tr>'
-        $('#freqScheduleDetails').append(td1+td2+td3+td4+td5);
+        console.log(data);
+        $("#v_freqScheduleDetails").empty();
+        for (var i = 0; i < data.length; i++) {
+          td1 = '<tr><td class="hidden">'+data[i].schedule_detail_id+'</td>';
+          td2 = '<td>'+data[i].maint_type_id+'</td>';
+          td3 = '<td class="text-right">'+data[i].cycles+'</td>';
+          td4 = '<td class="text-right">'+data[i].hours+'</td>';
+          td5 = '<td class="text-center">'+data[i].calendar+' '+data[i].period+'</td>';
+          td6 = '<td class="text-center"> <i onclick="removeFreq()" class="fa fa-times iconDel"></i> </td></tr>'
+          $('#v_freqScheduleDetails').append(td1+td2+td3+td4+td5+td6);
+        }
       }
     });
+
+    $("#v_frequencies").val(JSON.stringify(task_frequencies));
 
   });
 
@@ -143,16 +152,16 @@ $(document).ready(function(){
   })
 
 
-  $('#v_taskUpdate').submit(function(e){
-    // e.preventDefault();
-    $('#v_frequencies').val(JSON.stringify(v_frequencies));
+  $('#taskUpdate').submit(function(e){
+    e.preventDefault();
+    $('#v_frequencies').val(JSON.stringify(task_frequencies));
     task_details = $(this).serialize();
 
     $.ajax({
-      url: 'http://192.168.2.114/avia/maintenance/add_task',
+      url: 'http://localhost/avia/maintenance/update_task',
       method: 'post',
       dataType: 'json',
-      data: 'task_details',
+      data: task_details,
       success: function(data){
         console.log(data);
         if(data === 1){
@@ -174,25 +183,34 @@ $(document).ready(function(){
   });
 });
 
+
 function removeFreq(){
-  schedule_details_id = { schedule_details_id: $("#v_schedule_details_id").val()};
-  $.ajax({
-    url:'http://192.168.2.114/avia/maintenance/delete_frequency',
-    method: 'post',
-    data: schedule_details_id,
-    dataType: 'json',
-    success: function(data){
-      $("#v_freqScheduleDetails").empty();
-      for (var i = 0; i < data.length; i++) {
-        td1 = '<tr><input id="schedule_details_id" type="hidden" name="" value="'+data[i].schedule_details_id+'">';
-        td2 = '<td>'+data[i].maint_type_id+'</td>';
-        td3 = '<td class="text-right">'+data[i].cycles+'</td>';
-        td4 = '<td class="text-right">'+data[i].hours+'</td>';
-        td5 = '<td class="text-center">'+data[i].calendar+data[i].period+'</td>';
-        td6 = '<td class="text-center"> <i onclick="removeFreq()" class="fa fa-times iconDel"></i> </td></tr></tr>';
-        $("#v_freqScheduleDetails").append(td1+td2+td3+td4+td5+td6);
+  var table = document.getElementsByTagName("table")[0];
+  var tbody = table.getElementsByTagName("tbody")[0];
+  tbody.onclick = function (e) {
+      e = e || window.event;
+      var data = [];
+      var target = e.srcElement || e.target;
+      while (target && target.nodeName !== "TR") {
+          target = target.parentNode;
       }
-      location.reload();
-    }
-  });
+      if (target) {
+          var cells = target.getElementsByTagName("td");
+          for (var i = 0; i < cells.length; i++) {
+              data.push(cells[i].innerHTML);
+          }
+      }
+      schedule_details_id =  { id:data[0] };
+
+      $.ajax({
+        url:'http://localhost/avia/maintenance/delete_frequency',
+        method: 'post',
+        data: schedule_details_id,
+        dataType: 'json',
+        success: function(data){
+          console.log(data);
+          location.reload();
+        }
+      });
+  };
 }
