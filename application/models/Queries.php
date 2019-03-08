@@ -106,6 +106,10 @@ class Queries extends CI_Model {
     return $this->db->query($sql_get_tasks)->result_array();
   }
 
+  public function scheduled_tasks_row_count(){
+    return $this->db->count_all('schedules');
+  }
+
   public function get_task($schedule_id){
     $sql_get_tasks = "SELECT a.schedule_id, b.aircraft_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
       a.part_number, a.serial_number, c.schedule_type, c.type_id, d.task_category, d.task_category_id, e.schedule_category, e.schedule_cat_id, f.comp_cat, f.comp_cat_id, g.inspection, g.inspection_id,
