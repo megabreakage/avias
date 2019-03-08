@@ -3,7 +3,7 @@
 </script>
 
 <form id="taskUpdate" action="<?php echo base_url('maintenance/update_task')?>" method="post">
-  <div id="v_task_response" class="col-md-6 offset-md-3 alert hidden">
+  <div id="v_task_response" class="col-md-6 offset-md-3 alert hidden text-center">
     <!-- response texts -->
   </div>
   <!-- Airframe data -->
@@ -256,7 +256,7 @@
                   </div>
                   <input id="v_last_done_cycles"  class="form-control" type="text" name="last_done_cycles" placeholder="cycles" value="<?php echo $schedule['last_done_cycles']; ?>" title="cycles" required>
                   <input id="v_last_done_hours"  class="form-control" type="text" name="last_done_hours" placeholder="hours" value="<?php echo $schedule['alarm_hours']; ?>" title="hours" required>
-                  <input id="v_last_done_date"  class="form-control" type="date" name="last_done_date" placeholder="Date" value="<?php echo $schedule['date_checked']; ?>" title="date">
+                  <input id="v_last_done_date"  class="form-control" type="date" name="last_done_date" placeholder="Date" value="<?php echo date('Y-m-d', strtotime($schedule['date_checked'])); ?>" title="date">
                 </div>
                 <div class="col-md-12 input-group mb-3">
                   <div class="input-group-prepend">
@@ -272,7 +272,7 @@
                   <!-- populate details from JavaScript/Db -->
                   <input id="v_next_due_cycles" class="form-control" type="text" name="next_due_cycles" placeholder="cycles" value="<?php echo $schedule['next_due_cycles']; ?>" readonly title="Due cycles">
                   <input id="v_next_due_hours" class="form-control" type="text" name="next_due_hours" placeholder="hours" value="<?php echo $schedule['next_due_hours']; ?>" readonly title="Due hours">
-                  <input id="v_next_due_date" class="form-control" type="text" name="next_due_date" placeholder="Date" value="<?php echo $schedule['next_due_date']; ?>" readonly title="Due date">
+                  <input id="v_next_due_date" class="form-control" type="text" name="next_due_date" placeholder="Date" value="<?php echo date('Y-m-d', strtotime($schedule['next_due_date'])); ?>" readonly title="Due date">
                 </div>
                 <div class="col-md-12 text-right">
                   <!-- <button id="v_calcDues" class="aviaBtn btn btn-primary" type="button" >Calculate</button> -->
