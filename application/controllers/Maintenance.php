@@ -26,6 +26,15 @@ class Maintenance extends CI_Controller {
       'trends' => $this->queries->get_trends()
     );
 
+    $row_count = $this->queries->scheduled_tasks_row_count();
+    $config = array(
+      'base_url' => base_url().'maintenance',
+      'total_rows' => $row_count,
+      'per_page' => 15
+    );
+    $this->pagination->initialize($config);
+    $data['links'] = $this->pagination->create_links();
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('scheduled_tasks', $data);
 		// modal view call
