@@ -1,96 +1,96 @@
+// user logic
 $(document).ready(function(){
 
   engineData = [], propData = [], airframe = [];
 
-  // user logic
+  // Aircraft data enntry
+    $("#addEngine").click(function(e){
+      e.preventDefault();
+      number = $("#engineNumber").val();
+      serial_number = $("#engineSerialNumber").val();
+      model = $('#engineModel').val();
+      engine_hours = parseFloat($("#teh").val());
+      engine_cycles = parseInt($("#tec").val());
 
-  $("#addEngine").click(function(e){
-    e.preventDefault();
-    number = $("#engineNumber").val();
-    serial_number = $("#engineSerialNumber").val();
-    model = $('#engineModel').val();
-    engine_hours = parseFloat($("#teh").val());
-    engine_cycles = parseInt($("#tec").val());
+      td1 = '<tr><td>'+number+'</td>'
+      td2 = '<td>'+model+'</td>'
+      td3 = '<td>'+serial_number+'</td>'
+      td4 = '<td>'+engine_hours+'</td>'
+      td5 = '<td>'+engine_cycles+'</td></tr>'
+      $("#engData").append(td1+td2+td3+td4+td5);
 
-    td1 = '<tr><td>'+number+'</td>'
-    td2 = '<td>'+model+'</td>'
-    td3 = '<td>'+serial_number+'</td>'
-    td4 = '<td>'+engine_hours+'</td>'
-    td5 = '<td>'+engine_cycles+'</td></tr>'
-    $("#engData").append(td1+td2+td3+td4+td5);
-
-    data = {
-      'number' : number,
-      'serial_number' : serial_number,
-      'model' : model,
-      'engine_hours' : engine_hours,
-      'engine_cycles' : engine_cycles
-    }
-
-    engineData.push(data);
-  });
-
-  $("#addProp").click(function(e){
-    e.preventDefault();
-    number = $("#propNumber").val();
-    serial_number = $("#propSerialNumber").val();
-    model = $('#propModel').val();
-    prop_hours = parseFloat($("#tph").val());
-    prop_cycles = parseInt($("#tpc").val());
-
-    td1 = '<tr><td>'+number+'</td>'
-    td2 = '<td>'+model+'</td>'
-    td3 = '<td>'+serial_number+'</td>'
-    td4 = '<td>'+prop_hours+'</td>'
-    td5 = '<td>'+prop_cycles+'</td></tr>'
-    $("#propData").append(td1+td2+td3+td4+td5);
-
-    data = {
-      'number' : number,
-      'serial_number' : serial_number,
-      'model' : model,
-      'prop_hours' : prop_hours,
-      'prop_cycles' : prop_cycles
-    }
-
-    propData.push(data);
-  });
-
-  $("#aircraftAdd").submit(function(e){
-    e.preventDefault();
-    $("#engine_data").val(JSON.stringify(engineData));
-    $("#prop_data").val(JSON.stringify(propData));
-    aircraft_data = $(this).serialize();
-
-    $.ajax({
-      url:'add_aircraft',
-      method: 'POST',
-      dataType:'json',
-      data: aircraft_data,
-      success: function(data){
-        console.log(data);
-        if (data == 1) {
-          $("#craft_response").removeClass("hidden");
-          $("#craft_response").addClass("alert-success");
-          $("#craft_response").html("Aircraft added successfully!");
-          engineData = [];
-          propData = [];
-          $("#engData, #propData").empty();
-          $('#aircraftAdd')[0].reset();
-          // $("#response").fadeOut(8000);
-        } else {
-          $("#craft_response").removeClass("hidden");
-          $("#craft_response").addClass("alert-danger");
-          $("#craft_response").html("Aircraft adding failed!");
-          engineData = [];
-          propData = [];
-          $("#engData, #propData").empty();
-          // $("#response").fadeOut(8000);
-        }
+      data = {
+        'number' : number,
+        'serial_number' : serial_number,
+        'model' : model,
+        'engine_hours' : engine_hours,
+        'engine_cycles' : engine_cycles
       }
+
+      engineData.push(data);
     });
 
-  });
+    $("#addProp").click(function(e){
+      e.preventDefault();
+      number = $("#propNumber").val();
+      serial_number = $("#propSerialNumber").val();
+      model = $('#propModel').val();
+      prop_hours = parseFloat($("#tph").val());
+      prop_cycles = parseInt($("#tpc").val());
+
+      td1 = '<tr><td>'+number+'</td>'
+      td2 = '<td>'+model+'</td>'
+      td3 = '<td>'+serial_number+'</td>'
+      td4 = '<td>'+prop_hours+'</td>'
+      td5 = '<td>'+prop_cycles+'</td></tr>'
+      $("#propData").append(td1+td2+td3+td4+td5);
+
+      data = {
+        'number' : number,
+        'serial_number' : serial_number,
+        'model' : model,
+        'prop_hours' : prop_hours,
+        'prop_cycles' : prop_cycles
+      }
+
+      propData.push(data);
+    });
+
+    $("#aircraftAdd").submit(function(e){
+      e.preventDefault();
+      $("#engine_data").val(JSON.stringify(engineData));
+      $("#prop_data").val(JSON.stringify(propData));
+      aircraft_data = $(this).serialize();
+
+      $.ajax({
+        url:'add_aircraft',
+        method: 'POST',
+        dataType:'json',
+        data: aircraft_data,
+        success: function(data){
+          console.log(data);
+          if (data == 1) {
+            $("#craft_response").removeClass("hidden");
+            $("#craft_response").addClass("alert-success");
+            $("#craft_response").html("Aircraft added successfully!");
+            engineData = [];
+            propData = [];
+            $("#engData, #propData").empty();
+            $('#aircraftAdd')[0].reset();
+            // $("#response").fadeOut(8000);
+          } else {
+            $("#craft_response").removeClass("hidden");
+            $("#craft_response").addClass("alert-danger");
+            $("#craft_response").html("Aircraft adding failed!");
+            engineData = [];
+            propData = [];
+            $("#engData, #propData").empty();
+            // $("#response").fadeOut(8000);
+          }
+        }
+      });
+
+    });
 
   // Techlog data entry
     $("#pirepsTab").click(function(){
@@ -172,7 +172,7 @@ $(document).ready(function(){
       }
     });
 
-    // pireps data array create
+  // pireps data array create
     $("#addDefect").click(function(e){
       e.preventDefault();
       data = {
@@ -241,7 +241,7 @@ $(document).ready(function(){
       flight = $(this).serialize();
 
       $.ajax({
-        url: 'http://localhost/avia/add_flight',
+        url: 'http://192.168.2.122/avia/add_flight',
         method: 'post',
         dataType: 'json',
         data : flight,
@@ -296,7 +296,7 @@ $(document).ready(function(){
       });
     });
 
-
+  // Search functions
     $("#search_by").change(function(){
       id = $("#search_by").val();
       switch (id) {
@@ -912,8 +912,6 @@ $(document).ready(function(){
           $("#engineSelect, #propellerSelect").addClass('hidden');
       }
     });
-
-
 
 
 });
