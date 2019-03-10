@@ -15,7 +15,7 @@ $(document).ready(function(){
           $("#login_response").addClass('alert-danger');
           $("#login_response").fadeOut(5000);
         } else {
-          window.location.href = "http://192.168.2.122/avia";
+          window.location.href = "http://localhost/avia";
         }
       }
     });

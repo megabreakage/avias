@@ -31,7 +31,7 @@
             <td class="text-center"><?php echo $aircraft['engines']; ?></td>
             <td><?php echo $aircraft['manufacturer']; ?></td>
             <td class="text-right"><?php echo $aircraft['cum_cycles']; ?></td>
-            <td class="text-right"><?php echo $aircraft['cum_hours']; ?></td>
+            <td class="text-right"><?php echo number_format((float)$aircraft['cum_hours'], 2, '.', ''); ?></td>
             <td class="text-center"><?php echo date('d, M Y', strtotime($aircraft['nextCofA'])); ?></td>
             <td class="text-center">
               <a href="<?php echo base_url(); ?>"> <i id="viewAircraft" class="fa fa-eye tableIcons" title="view <?php echo $aircraft['aircraft_reg'] ?>"></i> </a>

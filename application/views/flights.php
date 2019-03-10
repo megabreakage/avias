@@ -36,7 +36,7 @@
             <td class="text-right"><?php echo $flight['hours']; ?></td>
             <td class="text-center"><?php echo $flight['date_posted']; ?></td>
             <td class="text-center">
-              <a href="#"><i class="fa fa-pencil tableIcons" title="view flight ?>"></i></a>
+              <a href="<?php echo base_url('flights/view_flight/'.$flight['flight_id']); ?>"><i class="fa fa-pencil tableIcons" title="view flight ?>"></i></a>
             </td>
           </tr>
         <?php $i += 1; endforeach; ?>

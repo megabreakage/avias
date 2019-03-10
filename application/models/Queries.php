@@ -47,6 +47,19 @@ class Queries extends CI_Model {
     return $this->db->get()->result_array();
   }
 
+  public function get_flight($flight_id){
+    $sql_get_flight = 'SELECT b.aircraft_id, b.aircraft_reg, a.flight_id, a.techlog, a.techlog_type, a.aircraft_id, a.hours, a.cycles, a.flight_date, a.posted_by, a.date_posted
+      FROM flights a
+      INNER JOIN aircrafts b ON a.aircraft_id = b.aircraft_id
+      WHERE a.flight_id = '.$flight_id;
+    return $this->db->query($sql_get_flight, array($flight_id))->row_array();
+  }
+
+  public function get_logs($flight_id){
+    $sql_get_log = 'SELECT * FROM logs WHERE flight_id = '.$flight_id;
+    return $this->db->query($sql_get_log, array($flight_id))->result_array();
+  }
+
   public function get_flight_by_aircraft($aircraft_id){
     $sql_get_flights = 'SELECT a.flight_id, a.techlog, a.aircraft_id, b.aircraft_reg, a.hours, a.cycles, a.date_posted
       FROM flights a
@@ -613,7 +626,66 @@ class Queries extends CI_Model {
     } else {
       $this->db->insert('schedule_details', $schedule_details_data);
       return $this->db->get_where('schedule_details', array('schedule_id' => $schedule_id))->result_array();
-    };
+    }
+  }
+
+  public function update_logs($log_data, $log_id){
+    $flight_id = $log_data['flight_id'];
+    $flight = $this->db->get_where('flights', array('flight_id' => $flight_id))->row_array();
+    $aircraft = $this->db->get_where('aircrafts', array('aircraft_id' => $flight['aircraft_id']))->row_array();
+    $engines = $this->db->get_where('engines', array('aircraft_id' => $flight['aircraft_id']))->result_array();
+    $propellers = $this->db->get_where('propellers', array('aircraft_id' => $flight['aircraft_id']))->result_array();
+    $schedules = $this->db->get_where('schedules', array('aircraft_id' => $flight['aircraft_id']))->result_array();
+
+    $check_ld = $this->db->get_where('logs', array('log_id' => $log_id))->row_array();
+    if(!empty($check_ld)){
+      return $this->db->get_where('logs', array('flight_id' => $flight_id))->result_array();
+    } else {
+      $this->db->insert('logs', $log_data);
+
+      // Add cycles and hours from flight
+      $new_flight_data = array(
+        'cycles' => $flight['cycles'] + $log_data['cycles'],
+        'hours' => $flight['hours'] + $log_data['hours'] ,
+      );
+      $this->db->update('flights', $new_flight_data, array('flight_id' => $flight_id));
+
+      // Add cycles and hours from airframe
+      $new_aiframe_data = array(
+        'cum_cycles' => $aircraft['cum_cycles'] + $log_data['cycles'],
+        'cum_hours' => $aircraft['cum_hours'] + $log_data['hours']
+      );
+      $this->db->update('aircrafts', $new_aiframe_data, array('aircraft_id' => $flight['aircraft_id']));
+
+      // Add cycles and hours from specific aircraft Engines
+      foreach ($engines as $engine) {
+        $new_engines_data = array(
+          'engine_cycles' => $engine['engine_cycles'] + $log_data['cycles'],
+          'engine_hours' => $engine['engine_hours'] + $log_data['hours']
+        );
+        $this->db->update('engines', $new_engines_data, array('engine_id' => $engine['engine_id']));
+      }
+
+      // Add cycles and hours from specific aircraft propellers
+      foreach ($propellers as $propeller) {
+        $new_propellers_data = array(
+          'propeller_cycles' => $propeller['propeller_cycles'] + $log_data['cycles'],
+          'propeller_hours' => $propeller['propeller_hours'] + $log_data['hours'],
+        );
+        $this->db->update('propellers', $new_propellers_data, array('propeller_id' => $propeller['propeller_id']));
+      }
+
+      // Add cycles and hours from specific aircraft scheduledTasks
+      foreach ($schedules as $schedule) {
+        $new_schedules_data = array(
+          'cum_cycles' => $schedule['cum_cycles'] + $log_data['cycles'],
+          'cum_hours' => $schedule['cum_hours'] + $log_data['hours']
+        );
+        $this->db->update('schedules', $new_schedules_data, array('schedule_id' => $schedule['schedule_id']));
+      }
+
+      return $this->db->get_where('logs', array('flight_id' => $flight_id))->result_array();
+    }
   }
 
   // Delete Functions
@@ -627,6 +699,61 @@ class Queries extends CI_Model {
 
   public function delete_multiple_tasks($data){
 
+  }
+
+  public function delete_log($log_id){
+    $log = $this->db->get_where('logs',array('log_id'=>$log_id))->row_array();
+    $flight_id = $log['flight_id'];
+    $flight = $this->db->get_where('flights', array('flight_id' => $flight_id))->row_array();
+    $aircraft = $this->db->get_where('aircrafts', array('aircraft_id' => $flight['aircraft_id']))->row_array();
+    $engines = $this->db->get_where('engines', array('aircraft_id' => $flight['aircraft_id']))->result_array();
+    $propellers = $this->db->get_where('propellers', array('aircraft_id' => $flight['aircraft_id']))->result_array();
+    $schedules = $this->db->get_where('schedules', array('aircraft_id' => $flight['aircraft_id']))->result_array();
+
+    // Add cycles and hours from flight
+    $new_flight_data = array(
+      'cycles' => $flight['cycles'] - $log['cycles'],
+      'hours' => $flight['hours'] - $log['hours'] ,
+    );
+    $this->db->update('flights', $new_flight_data, array('flight_id' => $flight_id));
+
+    // Add cycles and hours from airframe
+    $new_aiframe_data = array(
+      'cum_cycles' => $aircraft['cum_cycles'] - $log['cycles'],
+      'cum_hours' => $aircraft['cum_hours'] - $log['hours']
+    );
+    $this->db->update('aircrafts', $new_aiframe_data, array('aircraft_id' => $flight['aircraft_id']));
+
+    // Add cycles and hours from specific aircraft Engines
+    foreach ($engines as $engine) {
+      $new_engines_data = array(
+        'engine_cycles' => $engine['engine_cycles'] - $log['cycles'],
+        'engine_hours' => $engine['engine_hours'] - $log['hours']
+      );
+      $this->db->update('engines', $new_engines_data, array('engine_id' => $engine['engine_id']));
+    }
+
+    // Add cycles and hours from specific aircraft propellers
+    foreach ($propellers as $propeller) {
+      $new_propellers_data = array(
+        'propeller_cycles' => $propeller['propeller_cycles'] - $log['cycles'],
+        'propeller_hours' => $propeller['propeller_hours'] - $log['hours'],
+      );
+      $this->db->update('propellers', $new_propellers_data, array('propeller_id' => $propeller['propeller_id']));
+    }
+
+    // Add cycles and hours from specific aircraft scheduledTasks
+    foreach ($schedules as $schedule) {
+      $new_schedules_data = array(
+        'cum_cycles' => $schedule['cum_cycles'] - $log['cycles'],
+        'cum_hours' => $schedule['cum_hours'] - $log['hours']
+      );
+      $this->db->update('schedules', $new_schedules_data, array('schedule_id' => $schedule['schedule_id']));
+    }
+
+
+    $this->db->delete('logs', array('log_id' => $log_id ));
+    return $this->db->get_where('logs', array('flight_id' => $flight_id))->result_array();
   }
 
 

@@ -241,7 +241,7 @@ $(document).ready(function(){
       flight = $(this).serialize();
 
       $.ajax({
-        url: 'http://192.168.2.122/avia/add_flight',
+        url: 'http://localhost/avia/add_flight',
         method: 'post',
         dataType: 'json',
         data : flight,

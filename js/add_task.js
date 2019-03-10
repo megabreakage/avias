@@ -140,7 +140,7 @@ $(document).ready(function(){
     task_details = $(this).serialize();
 
     $.ajax({
-      url: 'http://192.168.2.122/avia/maintenance/add_task',
+      url: 'http://localhost/avia/maintenance/add_task',
       method: 'post',
       dataType: 'json',
       data: 'task_details',
