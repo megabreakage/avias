@@ -36,7 +36,7 @@ $(document).ready(function(){
 
     freq_data = JSON.stringify(task_frequencies);
     $.ajax({
-      url: 'http://localhost/avia/maintenance/update_frequencies',
+      url: 'http://192.168.2.122/avia/maintenance/update_frequencies',
       method: 'post',
       dataType: 'json',
       data: {freq_data},
@@ -151,37 +151,6 @@ $(document).ready(function(){
     }
   })
 
-  $('#taskUpdate').submit(function(e){
-    e.preventDefault();
-    $('#task_frequencies').val(JSON.stringify(task_frequencies));
-    task_details = $(this).serialize();
-
-    $.ajax({
-      url: 'http://localhost/avia/maintenance/update_task',
-      method: 'post',
-      dataType: 'json',
-      data: task_details,
-      success: function(data){
-        console.log(data);
-        if(data === 1){
-          $("#v_task_response").removeClass('hidden');
-          $("#v_task_response").addClass('alert-success');
-          $("#v_task_response").fadeIn(3000);
-          $("#v_task_response").html('Task updated successfully!');
-          $("#v_schedule_details").empty();
-          task_frequencies = [];
-          $('#v_task_flightAdd')[0].reset();
-          $("#v_task_response").fadeOut(5000);
-        }else {
-          $("#v_task_response").removeClass('hidden');
-          $("#v_task_response").addClass('alert-danger');
-          $("#v_task_response").html('Task was not updated, try again!');
-        }
-      }
-    });
-
-  });
-
   // Flights updates
   totalCycles = 0, totalHours = 0;
   logs = [], pireps = [], trends = [], trendMonitor = [];
@@ -229,7 +198,7 @@ $(document).ready(function(){
     logs_data = JSON.stringify(fv_logs);
     console.log(fv_logs);
     $.ajax({
-      url: 'http://localhost/avia/flights/update_logs',
+      url: 'http://192.168.2.122/avia/flights/update_logs',
       method: 'post',
       dataType: 'json',
       data: {logs_data},
@@ -265,7 +234,7 @@ $(document).ready(function(){
     }
   });
 
-// Pireps updates
+  // Pireps updates
   $("#fv_addDefect").click(function(e){
     e.preventDefault();
     defect = $("#fv_defect").val();
@@ -294,7 +263,7 @@ $(document).ready(function(){
       fv_pireps.push(data);
       fv_defects = {'defects':JSON.stringify(fv_pireps)};
       $.ajax({
-        url: 'http://localhost/avia/flights/update_defects',
+        url: 'http://192.168.2.122/avia/flights/update_defects',
         method: 'post',
         dataType: 'json',
         data: fv_defects,
@@ -340,7 +309,7 @@ $(document).ready(function(){
       fv_trends.push(data);
       fv_new_trends = {'trends': JSON.stringify(fv_trends)};
       $.ajax({
-        url:'http://localhost/avia/flights/update_trends',
+        url:'http://192.168.2.122/avia/flights/update_trends',
         method: 'post',
         data: fv_new_trends,
         dataType: 'json',
@@ -379,7 +348,7 @@ $(document).ready(function(){
     flight = $(this).serialize();
 
     $.ajax({
-      url: 'http://localhost/avia/add_flight',
+      url: 'http://192.168.2.122/avia/add_flight',
       method: 'post',
       dataType: 'json',
       data : flight,
@@ -402,6 +371,44 @@ $(document).ready(function(){
         }
       }
     });
+  });
+
+  // Overall task updates
+  $('#taskUpdate').submit(function(e){
+    e.preventDefault();
+    $('#task_frequencies').val(JSON.stringify(task_frequencies));
+    task_details = $(this).serialize();
+
+    $.ajax({
+      url: 'http://192.168.2.122/avia/maintenance/update_task',
+      method: 'post',
+      dataType: 'json',
+      data: task_details,
+      success: function(data){
+        console.log(data);
+        if(data === 1){
+          $("#v_task_response").removeClass('hidden');
+          $("#v_task_response").addClass('alert-success');
+          $("#v_task_response").fadeIn(3000);
+          $("#v_task_response").html('Task updated successfully!');
+          $("#v_schedule_details").empty();
+          task_frequencies = [];
+          $('#v_task_flightAdd')[0].reset();
+          $("#v_task_response").fadeOut(5000);
+        }else {
+          $("#v_task_response").removeClass('hidden');
+          $("#v_task_response").addClass('alert-danger');
+          $("#v_task_response").html('Task was not updated, try again!');
+        }
+      }
+    });
+
+  });
+
+  //Deletes task
+  $("#fv_delete").click(function(){
+    flight_id = $("#fv_flight_id").val();
+    delete_flight(flight_id);
   });
 
 
@@ -427,7 +434,7 @@ function removeFreq(){
       schedule_details_id =  { id:data[0] };
 
       $.ajax({
-        url:'http://localhost/avia/maintenance/delete_frequency',
+        url:'http://192.168.2.122/avia/maintenance/delete_frequency',
         method: 'post',
         data: schedule_details_id,
         dataType: 'json',
@@ -460,7 +467,7 @@ function logRemoveFreq(){
       console.log(log_id);
 
       $.ajax({
-        url:'http://localhost/avia/flights/delete_log',
+        url:'http://192.168.2.122/avia/flights/delete_log',
         method: 'post',
         data: log_id,
         dataType: 'json',
@@ -490,7 +497,7 @@ function logRemoveFreq(){
 function defectRemove(idClicked){
       pirep_id =  { id:idClicked };
       $.ajax({
-        url:'http://localhost/avia/flights/delete_defect',
+        url:'http://192.168.2.122/avia/flights/delete_defect',
         method: 'post',
         data: pirep_id,
         dataType: 'json',
@@ -516,7 +523,7 @@ function trendRemove(idClicked){
       trend_id =  { id:idClicked };
       console.log(trend_id);
       $.ajax({
-        url:'http://localhost/avia/flights/delete_trend',
+        url:'http://192.168.2.122/avia/flights/delete_trend',
         method: 'post',
         data: trend_id,
         dataType: 'json',
@@ -532,4 +539,25 @@ function trendRemove(idClicked){
           }
         }
       });
+}
+
+function delete_flight(id){
+  flight_id = {'flight_id': id};
+  console.log(flight_id);
+  $.ajax({
+    url: 'http://192.168.2.122/avia/flights/delete_flight',
+    method: 'post',
+    dataType: 'json',
+    data: flight_id,
+    success: function(data){
+      console.log(data);
+      if (data = 1) {
+        $(location).attr('href', 'http://192.168.2.122/avia/flights');
+      } else {
+        alert('Flight not deleted');
+      }
+    }
+  })
+
+
 }

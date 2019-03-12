@@ -286,8 +286,21 @@ class Flights extends CI_controller {
     } else {
       echo json_encode($trend);
     }
+  }
+
+  public function delete_flight(){
+    $flight_id = json_decode($_POST['flight_id']);
+    echo json_encode($flight_id);
+    $flight_res = $this->queries->delete_flight($flight_id);
+    if ($flight_res == FALSE) {
+      echo json_encode(0);
+    } else {
+      echo json_encode(1);
+    }
+
 
   }
+
 
 }
 
