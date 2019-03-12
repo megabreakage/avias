@@ -264,36 +264,56 @@ $(document).ready(function(){
     }
   });
 
-// pireps data array create
+// Pireps updates
   $("#fv_addDefect").click(function(e){
     e.preventDefault();
-    data = {
-      'defect': $("#fv_defect").val(),
-      'ata_chapter_id': $("#fv_ata_chapter_id").val(),
-      'dfr_status': dfr_status,
-      'limitations': $("#fv_limitations").val(),
-      'mel_reference': $("#fv_mel_reference").val(),
-      'dfr_reason': $("#fv_dfr_reason").val(),
-      'dfr_category': $("#fv_dfr_category").val(),
-      'dfr_date': $("#fv_dfr_date").val(),
-      'exp_date': $("#fv_exp_date").val(),
-      'rectification': $("#fv_rectification").val(),
-      'techlog_number': $("#fv_techlog_number").val(),
-      'cleared_date': $("#fv_cleared_date").val(),
-      'wo_number': $("#fv_wo_number").val(),
-      'remarks': $("#fv_remarks").val()
-    }
-    pireps.push(data);
-    $("#fv_tblDefects").empty();
-    for (var i = 0; i < pireps.length; i++) {
-      td1 = '<tr><td>'+pireps[i].defect+'</td>';
-      td2 = '<td>'+pireps[i].mel_reference+'</td>';
-      td3 = '<td class="text-center">'+pireps[i].dfr_category+'</td>';
-      td4 = '<td class="text-center">'+pireps[i].dfr_status+'</td>';
-      td5 = '<td>'+pireps[i].dfr_reason+'</td>';
-      td6 = '<td class="text-center">'+pireps[i].dfr_date+'</td>';
-      td7 = '<td><a href="#"><i class="fa fa-times" title="remove"></i></a></td></tr>';
-      $("#tblDefects").append(td1+td2+td3+td4+td5+td6+td7);
+    defect = $("#fv_defect").val();
+    chap_id = $("#fv_ata_chapter_id").val();
+    if ( chap_id === '' || defect === '') {
+      alert('Fields Empty!');
+    } else {
+      data = {
+        'pirep_id': '0',
+        'flight_id': $("#fv_flight_id").val(),
+        'defect': $("#fv_defect").val(),
+        'ata_chapter_id': $("#fv_ata_chapter_id").val(),
+        'deferred': dfr_status,
+        'limitations': $("#fv_limitations").val(),
+        'mel_reference': $("#fv_mel_reference").val(),
+        'dfr_reason': $("#fv_dfr_reason").val(),
+        'dfr_category': $("#fv_dfr_category").val(),
+        'dfr_date': $("#fv_dfr_date").val(),
+        'exp_date': $("#fv_exp_date").val(),
+        'rectification': $("#fv_rectification").val(),
+        'techlog_number': $("#fv_techlog_number").val(),
+        'cleared_date': $("#fv_cleared_date").val(),
+        'wo_number': $("#fv_wo_number").val(),
+        'remarks': $("#fv_remarks").val()
+      }
+      fv_pireps.push(data);
+      fv_defects = {'defects':JSON.stringify(fv_pireps)};
+      $.ajax({
+        url: 'http://localhost/avia/flights/update_defects',
+        method: 'post',
+        dataType: 'json',
+        data: fv_defects,
+        success: function(data){
+          console.log(data);
+          $("#fv_tblDefects").empty();
+          for (var i = 0; i < data.length; i++) {
+            td1 = '<tr><td class="hidden">'+data[i].pirep_id+'</td>';
+            td2 = '<td>'+data[i].defect+'</td>';
+            td3 = '<td>'+data[i].mel_reference+'</td>';
+            td4 = '<td>'+data[i].dfr_category+'</td>';
+            td5 = '<td>'+data[i].deferred+'</td>';
+            td6 = '<td>'+data[i].dfr_reason+'</td>';
+            td7 = '<td>'+data[i].dfr_date+'</td>';
+            td8 = '<td class="text-center"><a href="#"><i id="'+data[i].pirep_id+'" onclick="defectRemove(this.id)" class="fa fa-times iconDel" title="remove"></i></a></td></tr>';
+            $("#fv_tblDefects").append(td1+td2+td3+td4+td5+td6+td7+td8);
+          }
+        }
+
+      });
     }
   });
 
@@ -439,4 +459,29 @@ function logRemoveFreq(){
         }
       });
   };
+}
+
+function defectRemove(idClicked){
+      pirep_id =  { id:idClicked };
+      $.ajax({
+        url:'http://localhost/avia/flights/delete_defect',
+        method: 'post',
+        data: pirep_id,
+        dataType: 'json',
+        success: function(data){
+          console.log(data);
+          $("#fv_tblDefects").empty();
+          for (var i = 0; i < data.length; i++) {
+            td1 = '<tr><td class="hidden">'+data[i].pirep_id+'</td>';
+            td2 = '<td>'+data[i].defect+'</td>';
+            td3 = '<td>'+data[i].mel_reference+'</td>';
+            td4 = '<td>'+data[i].dfr_category+'</td>';
+            td5 = '<td>'+data[i].deferred+'</td>';
+            td6 = '<td>'+data[i].dfr_reason+'</td>';
+            td7 = '<td>'+data[i].dfr_date+'</td>';
+            td8 = '<td class="text-center"><a href="#"><i id="'+data[i].pirep_id+'" onclick="defectRemove(this.id)" class="fa fa-times iconDel" title="remove"></i></a></td></tr>';
+            $("#fv_tblDefects").append(td1+td2+td3+td4+td5+td6+td7+td8);
+          }
+        }
+      });
 }

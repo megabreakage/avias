@@ -98,6 +98,11 @@ class Queries extends CI_Model {
     return $this->db->get('engine_trend_types')->result_array();
   }
 
+  public function get_trends_by_flight($flight_id){
+    $sql_get_trends = '';
+    return $this->db->get_where('engine_trend_monitor', array('flight_id' => $flight_id))->result_array();
+  }
+
   public function get_scheduled_tasks(){
     $sql_get_tasks = "SELECT a.schedule_id, b.aircraft_reg, a.task_card, a.task, a.description, a.part_name,
       a.part_number, a.serial_number, c.schedule_type, d.task_category, e.schedule_category, f.comp_cat, g.inspection,
@@ -422,6 +427,14 @@ class Queries extends CI_Model {
     return $this->db->query($sql_get_defects)->result_array();
   }
 
+  public function get_defects_by_flight($flight_id){
+    $sql_get_defects = 'SELECT a.pirep_id, a.flight_id, a.defect, a.ata_chapter_id, b.ata_chapter, a.deferred, a.limitations, a.mel_reference, a.dfr_reason, a.dfr_category, a.dfr_date, a.exp_date, a.rectification, a.techlog_number, a.cleared_date, a.wo_number, a.remarks
+      FROM pireps a
+      INNER JOIN ata_chapters b ON a.ata_chapter_id = b.ata_chapter_id
+      WHERE flight_id = '.$flight_id;
+    return $this->db->query($sql_get_defects)->result_array();
+  }
+
   public function get_deferred_defects(){
     $sql_get_defects = "SELECT c.aircraft_reg, a.pirep_id, b.flight_id, b.techlog, a.defect, d.ata_chapter, a.deferred, a.limitations, a.mel_reference, a.dfr_reason, a.dfr_category, a.dfr_date, a.exp_date
     FROM pireps a
@@ -688,6 +701,17 @@ class Queries extends CI_Model {
     }
   }
 
+  public function update_defects($pirep_data, $flight_id){
+    $check_pirep = $this->db->get_where('pireps', array('pirep_id' => $pirep_data['pirep_id']))->row_array();
+    if (!empty($check_pirep)) {
+      return $this->db->get_where('pireps', array('flight_id' => $pirep_data['flight_id']))->result_array();
+    } else {
+      $this->db->insert('pireps', $pirep_data);
+      return $this->db->get_where('pireps', array('flight_id' => $pirep_data['flight_id']))->result_array();
+    }
+
+  }
+
   // Delete Functions
   public function delete_task($data){
 
@@ -754,6 +778,12 @@ class Queries extends CI_Model {
 
     $this->db->delete('logs', array('log_id' => $log_id ));
     return $this->db->get_where('logs', array('flight_id' => $flight_id))->result_array();
+  }
+
+  public function delete_defect($pirep_id){
+    $pirep = $this->db->get_where('pireps', array('pirep_id' => $pirep_id))->row_array();
+    $this->db->delete('pireps', array('pirep_id' => $pirep_id));
+    return $this->db->get_where('pireps', array('flight_id' => $pirep['flight_id']))->result_array();
   }
 
 

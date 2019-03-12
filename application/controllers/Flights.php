@@ -84,7 +84,9 @@ class Flights extends CI_controller {
       'defects' => $this->queries->get_defects(),
       'trends' => $this->queries->get_trends(),
       'flight' => $this->queries->get_flight($flight_id),
-      'logs' => $this->queries->get_logs($flight_id)
+      'logs' => $this->queries->get_logs($flight_id),
+      'defects' => $this->queries->get_defects_by_flight($flight_id),
+      'trends' => $this->queries->get_trends($flight_id)
     );
 
 		$this->load->view('templates/header', $data);
@@ -176,6 +178,51 @@ class Flights extends CI_controller {
 
   }
 
+  public function update_defects(){
+    // $con_data = '[
+    //   {"pirep_id":"3","flight_id":"69","defect":"RUDDER TRIM KNOB LOOSE AND VERY SENSITIVE WHEN TRIMMING","ata_chapter_id":"107","ata_chapter":"32","deferred":"Yes","limitations":"N/A","mel_reference":"N/A","dfr_reason":"Insufficient time","dfr_category":"C","dfr_date":"2019-01-28 00:00:00","exp_date":"2019-01-31 00:00:00","rectification":"","techlog_number":"","cleared_date":"2019-01-31 00:00:00","wo_number":"","remarks":""},
+    //   {"pirep_id":"4","flight_id":"69","defect":"ENGINE NO.1 STARTER STARTING ON ITS OWN  WITHOUT START .CIRCUIT SELECTION","ata_chapter_id":"80","ata_chapter":"00","deferred":"Yes","limitations":"N/A","mel_reference":"N/A","dfr_reason":"Insufficient time","dfr_category":"A","dfr_date":"2019-01-28 00:00:00","exp_date":"2019-01-31 00:00:00","rectification":"","techlog_number":"","cleared_date":"2019-01-31 00:00:00","wo_number":"","remarks":""},
+    //   {"pirep_id":"0","flight_id":"69","defect":"DEFECT 2","ata_chapter_id":"98","deferred":"Yes","limitations":"N/A","mel_reference":"N/A","dfr_reason":"Lack of spares","dfr_category":"C","dfr_date":"2019-03-12","exp_date":"2019-03-12","rectification":"N/A","techlog_number":"N/A","cleared_date":"2019-03-12","wo_number":"N/A","remarks":"N/A"}
+    // ]';
+    // $pireps = json_decode($con_data);
+
+    $pireps = json_decode($_POST['defects']);
+    $new_defects = 0;
+    if (!empty($pireps)) {
+      foreach ($pireps as $pirep) {
+        $flight_id = $pirep->flight_id;
+        $pirep_data = array(
+          'pirep_id' => $pirep->pirep_id,
+          'flight_id' => $pirep->flight_id,
+          'defect' => strtoupper($pirep->defect),
+          'ata_chapter_id' => $pirep->ata_chapter_id,
+          'deferred' => $pirep->deferred,
+          'limitations' => strtoupper($pirep->limitations),
+          'mel_reference' => strtoupper($pirep->mel_reference),
+          'dfr_reason' => strtoupper($pirep->dfr_reason),
+          'dfr_category' => $pirep->dfr_category,
+          'dfr_date' => $pirep->dfr_date,
+          'exp_date' => $pirep->exp_date,
+          'rectification' => strtoupper($pirep->rectification),
+          'techlog_number' => $pirep->techlog_number,
+          'cleared_date' => $pirep->cleared_date,
+          'wo_number' => strtoupper($pirep->wo_number),
+          'remarks' => strtoupper($pirep->remarks)
+        );
+        $pirep_res = $this->queries->update_defects($pirep_data, $flight_id);
+        if ($pirep_res == FALSE) {
+          $new_defects = $pirep_res;
+        } else {
+          $new_defects = $pirep_res;
+        }
+      }
+    } else {
+      echo json_encode(0);
+    }
+    echo json_encode($new_defects);
+
+  }
+
   // Delete Functions
   public function delete_log(){
     $log_id = $this->input->post('id');
@@ -184,6 +231,16 @@ class Flights extends CI_controller {
       echo json_encode(0);
     } else {
       echo json_encode($log);
+    }
+  }
+
+  public function delete_defect(){
+    $pirep_id = $_POST['id'];
+    $pirep = $this->queries->delete_defect($pirep_id);
+    if ($pirep == FALSE) {
+      echo json_encode(0);
+    } else {
+      echo json_encode($pirep);
     }
   }
 

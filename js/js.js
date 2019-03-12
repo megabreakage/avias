@@ -93,7 +93,8 @@ $(document).ready(function(){
     });
 
   // Techlog data entry
-    $("#pirepsTab").click(function(){
+    $("#pirepsTab").click(function(e){
+      e.preventDefault();
       $("#pirepsTab").addClass("tab");
       $("#pirepsData").removeClass("hidden");
       $("#logTab, #trendTab").removeClass("tab");
@@ -101,14 +102,16 @@ $(document).ready(function(){
 
     });
 
-    $("#logTab").click(function(){
+    $("#logTab").click(function(e){
+      e.preventDefault();
       $("#logTab").addClass("tab");
       $("#logData, #logDataEntry").removeClass("hidden");
       $("#pirepsTab, #trendTab").removeClass("tab");
       $("#pirepsData, #trendData").addClass("hidden");
     });
 
-    $("#trendTab").click(function(){
+    $("#trendTab").click(function(e){
+      e.preventDefault();
       $("#trendTab").addClass("tab");
       $("#trendData").removeClass("hidden");
       $("#pirepsTab, #logTab").removeClass("tab");
@@ -241,7 +244,7 @@ $(document).ready(function(){
       flight = $(this).serialize();
 
       $.ajax({
-        url: 'http://localhost/avia/add_flight',
+        url: 'http://192.168.2.122/avia/add_flight',
         method: 'post',
         dataType: 'json',
         data : flight,

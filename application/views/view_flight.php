@@ -1,5 +1,7 @@
 <script>
   fv_logs = JSON.parse('<?php echo json_encode($logs); ?>');
+  fv_pireps = JSON.parse('<?php echo json_encode($defects); ?>');
+  fv_trends = JSON.parse('<?php echo json_encode($trends); ?>');
 </script>
 
 <form id="fv_flightAdd" action="<?php echo base_url("add_flight"); ?>" method="post">
@@ -7,6 +9,15 @@
   <div class="text-center">
     <h5>Add Flight</h5>
   </div>
+
+  <?php
+  // $n_defects = '[{"pirep_id":"3","flight_id":"69","defect":"RUDDER TRIM KNOB LOOSE AND VERY SENSITIVE WHEN TRIMMING","ata_chapter_id":"107","ata_chapter":"32","deferred":"Yes","limitations":"N/A","mel_reference":"N/A","dfr_reason":"Insufficient time","dfr_category":"C","dfr_date":"2019-01-28 00:00:00","exp_date":"2019-01-31 00:00:00","rectification":"","techlog_number":"","cleared_date":"2019-01-31 00:00:00","wo_number":"","remarks":""},{"pirep_id":"4","flight_id":"69","defect":"ENGINE NO.1 STARTER STARTING ON ITS OWN  WITHOUT START .CIRCUIT SELECTION","ata_chapter_id":"80","ata_chapter":"00","deferred":"Yes","limitations":"N/A","mel_reference":"N/A","dfr_reason":"Insufficient time","dfr_category":"A","dfr_date":"2019-01-28 00:00:00","exp_date":"2019-01-31 00:00:00","rectification":"","techlog_number":"","cleared_date":"2019-01-31 00:00:00","wo_number":"","remarks":""},{"pirep_id":"0","flight_id":"69","defect":"N/A","ata_chapter_id":"88","deferred":"Yes","limitations":"N/A","mel_reference":"N/A","dfr_reason":"Insufficient time","dfr_category":"B","dfr_date":"2019-03-11","exp_date":"2019-03-11","rectification":"N/A","techlog_number":"N/A","cleared_date":"2019-03-11","wo_number":"N/A","remarks":"N/A"}]';
+  // echo '<pre>';
+  // echo print_r(json_decode($n_defects));
+  // echo '</pre>';
+  // exit();
+  ?>
+
   <div class="card-body">
     <div id="fv_log_response" class="col-md-6 offset-md-3 alert hidden">
       <!-- response texts -->
@@ -60,7 +71,7 @@
               </div>
               <div class="row">
                 <!-- Flight logs data -->
-                <div id="fv_logData" class="pt col-md-12">
+                <div id="logData" class="pt col-md-12">
                   <table class="table table-sm table-striped table-bordered pt">
                     <thead>
                       <tr>
@@ -90,7 +101,7 @@
               </div>
             </div>
             <!-- Data entry points -->
-            <div id="fv_logDataEntry" class="col-md-12 pt">
+            <div id="logDataEntry" class="col-md-12 pt">
               <div class="row">
                 <div class="col-md-12">
                   <hr>
@@ -148,7 +159,7 @@
               </div>
             </div>
             <!-- Pireps data entry points -->
-            <div id="fv_pirepsData" class="pt col-md-12 hidden">
+            <div id="pirepsData" class="pt col-md-12 hidden">
               <div class="row">
                 <div class="col-md-12 pireps">
                   <table class="table table-sm table-striped table-bordered">
@@ -160,11 +171,23 @@
                         <th class="text-center">Deferred</th>
                         <th>Defer reason</th>
                         <th class="text-center">Defer date</th>
-                        <th></th>
+                        <th>Cancel</th>
                       </tr>
                     </thead>
                     <tbody id="fv_tblDefects">
                       <!-- JavaScript populate field -->
+                      <?php foreach ($defects as $defect): ?>
+                        <tr>
+                          <td class="hidden"><?php echo $defect['pirep_id']; ?></td>
+                          <td><?php echo $defect['defect']; ?></td>
+                          <td><?php echo $defect['mel_reference']; ?></td>
+                          <td><?php echo $defect['dfr_category']; ?></td>
+                          <td><?php echo $defect['deferred']; ?></td>
+                          <td><?php echo $defect['dfr_reason']; ?></td>
+                          <td><?php echo $defect['dfr_date']; ?></td>
+                          <td class="text-center"> <a ><i id="<?php echo $defect['pirep_id']; ?>" onclick="defectRemove(this.id)" class="fa fa-times iconDel"></i></a> </td></tr>
+                        </tr>
+                      <?php endforeach; ?>
 
                     </tbody>
                   </table>
@@ -276,7 +299,7 @@
               <input id="fv_pireps" type="hidden" name="pireps" value=""> <!-- JavaScript assigned value -->
             </div>
             <!-- Trend monitor data entry point -->
-            <div id="fv_trendData" class="pt col-md-12 hidden">
+            <div id="trendData" class="pt col-md-12 hidden">
               <div class="row">
                 <div class="col-md-12">
                   <table class="table table-sm table-hover table-bordered">
