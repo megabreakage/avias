@@ -99,8 +99,11 @@ class Queries extends CI_Model {
   }
 
   public function get_trends_by_flight($flight_id){
-    $sql_get_trends = '';
-    return $this->db->get_where('engine_trend_monitor', array('flight_id' => $flight_id))->result_array();
+    $sql_get_trends = 'SELECT a.id, a.trend_id, b.trend, a.flight_id, a.engine_1, a.engine_2
+      FROM  engine_trend_monitor a
+      INNER JOIN engine_trend_types b ON a.trend_id = b.trend_id
+      WHERE a.flight_id = '.$flight_id;
+    return $this->db->query($sql_get_trends, array('flight_id' => $flight_id))->result_array();
   }
 
   public function get_scheduled_tasks(){
@@ -712,6 +715,21 @@ class Queries extends CI_Model {
 
   }
 
+  public function update_trends($trend_data, $flight_id){
+    $check_trend = $this->db->get_where('engine_trend_monitor', array('id' => $trend_data['id']))->row_array();
+    $sql_get_trends = 'SELECT a.id, a.trend_id, b.trend, a.flight_id, a.engine_1, a.engine_2
+      FROM  engine_trend_monitor a
+      INNER JOIN engine_trend_types b ON a.trend_id = b.trend_id
+      WHERE a.flight_id = '.$flight_id;
+    if (!empty($check_trend)) {
+      return $this->db->query($sql_get_trends, array('flight_id' => $flight_id))->result_array();
+    } else {
+      $this->db->insert('engine_trend_monitor', $trend_data);
+      return $this->db->query($sql_get_trends, array('flight_id' => $flight_id))->result_array();
+    }
+
+  }
+
   // Delete Functions
   public function delete_task($data){
 
@@ -784,6 +802,16 @@ class Queries extends CI_Model {
     $pirep = $this->db->get_where('pireps', array('pirep_id' => $pirep_id))->row_array();
     $this->db->delete('pireps', array('pirep_id' => $pirep_id));
     return $this->db->get_where('pireps', array('flight_id' => $pirep['flight_id']))->result_array();
+  }
+
+  public function delete_trend($trend_id){
+    $trend = $this->db->get_where('engine_trend_monitor', array('id' => $trend_id))->row_array();
+    $this->db->delete('engine_trend_monitor', array('id' => $trend_id));
+    $sql_get_trends = 'SELECT a.id, a.trend_id, b.trend, a.flight_id, a.engine_1, a.engine_2
+      FROM  engine_trend_monitor a
+      INNER JOIN engine_trend_types b ON a.trend_id = b.trend_id
+      WHERE a.flight_id = '.$trend['flight_id'];
+    return $this->db->query($sql_get_trends, array('flight_id' => $trend['flight_id']))->result_array();
   }
 
 

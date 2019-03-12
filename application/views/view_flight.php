@@ -311,6 +311,14 @@
                     </thead>
                     <tbody id="fv_trendTable">
                       <!-- JavaScript populated table -->
+                      <?php foreach ($trends as $trend): ?>
+                        <tr>
+                          <td><?php echo $trend['trend'] ?></td>
+                          <td class="text-center"><?php echo $trend['engine_1'] ?></td>
+                          <td class="text-center"><?php echo $trend['engine_2'] ?></td>
+                          <td class="text-center"> <a ><i id="<?php echo $trend['id']; ?>" onclick="trendRemove(this.id)" class="fa fa-times iconDel"></i></a> </td></tr>
+                        </tr>
+                      <?php endforeach; ?>
 
                     </tbody>
                   </table>

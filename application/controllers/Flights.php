@@ -86,7 +86,7 @@ class Flights extends CI_controller {
       'flight' => $this->queries->get_flight($flight_id),
       'logs' => $this->queries->get_logs($flight_id),
       'defects' => $this->queries->get_defects_by_flight($flight_id),
-      'trends' => $this->queries->get_trends($flight_id)
+      'trends' => $this->queries->get_trends_by_flight($flight_id)
     );
 
 		$this->load->view('templates/header', $data);
@@ -223,6 +223,40 @@ class Flights extends CI_controller {
 
   }
 
+  public function update_trends(){
+    // $con_data = '[
+    //   {"id":"1","trend_id":"14","trend":"Start (ITT)","flight_id":"103","engine_1":"275","engine_2":"270"},
+    //   {"id":"2","trend_id":"11","trend":"Oil Temp","flight_id":"103","engine_1":"28","engine_2":"31"},
+    //   {"id":"11","trend_id":"14","trend":"Start (ITT)","flight_id":"103","engine_1":"11","engine_2":"14"},
+    //   {"id":"12","trend_id":"14","trend":"Start (ITT)","flight_id":"103","engine_1":"11","engine_2":"14"},
+    //   {"id":"0","flight_id":"103","trend_id":"14","trend":"Start (ITT)","engine_1":"12","engine_2":"13"}
+    // ]';
+    // $trends = json_decode($con_data);
+    $trends = json_decode($_POST['trends']);
+    $new_trends = 0;
+    if (!empty($trends)) {
+      foreach ($trends as $trend) {
+        $flight_id = $trend->flight_id;
+        $trend_data = array(
+          'id' => $trend->id,
+          'flight_id' => $trend->flight_id,
+          'trend_id' => $trend->trend_id,
+          'engine_1' => $trend->engine_1,
+          'engine_2' => $trend->engine_2
+        );
+        $trend_res = $this->queries->update_trends($trend_data, $flight_id);
+        if ($trend_res == FALSE) {
+          $new_trends = $trend_res;
+        } else {
+          $new_trends = $trend_res;
+        }
+      }
+    } else {
+      echo json_encode(0);
+    }
+    echo json_encode($new_trends);
+  }
+
   // Delete Functions
   public function delete_log(){
     $log_id = $this->input->post('id');
@@ -242,6 +276,17 @@ class Flights extends CI_controller {
     } else {
       echo json_encode($pirep);
     }
+  }
+
+  public function delete_trend(){
+    $trend_id = $_POST['id'];
+    $trend = $this->queries->delete_trend($trend_id);
+    if ($trend == FALSE) {
+      echo json_encode(0);
+    } else {
+      echo json_encode($trend);
+    }
+
   }
 
 }

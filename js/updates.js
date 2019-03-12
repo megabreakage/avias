@@ -43,6 +43,7 @@ $(document).ready(function(){
       success: function(data){
         console.log(data);
         $("#v_freqScheduleDetails").empty();
+        task_frequencies = data;
         for (var i = 0; i < data.length; i++) {
           td1 = '<tr><td class="hidden">'+data[i].schedule_detail_id+'</td>';
           td2 = '<td>'+data[i].maint_type_id+'</td>';
@@ -300,6 +301,7 @@ $(document).ready(function(){
         success: function(data){
           console.log(data);
           $("#fv_tblDefects").empty();
+          fv_pireps = data;
           for (var i = 0; i < data.length; i++) {
             td1 = '<tr><td class="hidden">'+data[i].pirep_id+'</td>';
             td2 = '<td>'+data[i].defect+'</td>';
@@ -328,20 +330,44 @@ $(document).ready(function(){
       $("#fv_trendAlert").html('*Fill in all necessary field to add engine trend monitor.');
     } else {
       data = {
+        'id': '0',
+        'flight_id': $("#fv_flight_id").val(),
         'trend_id': $("#fv_trend").val(),
         'trend': trend_desc,
         'engine_1': lh_eng_trend,
         'engine_2': rh_eng_trend
       }
-      trends.push(data);
-      $("#fv_trendTable").empty();
-      for (var i = 0; i < trends.length; i++) {
-        td1 = '<tr><td>'+trends[i].trend+'</td>';
-        td2 = '<td class="text-center">'+trends[i].engine_1+'</td>';
-        td3 = '<td class="text-center">'+trends[i].engine_2+'</td>';
-        td4 = '<td class="text-center"> <a href="#"><i class="fa fa-times" title="remove"></i></a> </td></tr>';
-        $("#fv_trendTable").append(td1+td2+td3+td4);
-      }
+      fv_trends.push(data);
+      fv_new_trends = {'trends': JSON.stringify(fv_trends)};
+      $.ajax({
+        url:'http://localhost/avia/flights/update_trends',
+        method: 'post',
+        data: fv_new_trends,
+        dataType: 'json',
+        success: function(data){
+          $("#fv_trendTable").empty();
+          fv_trends = data;
+          console.log(data);
+          for (var i = 0; i < data.length; i++) {
+            td1 = '<tr><td class="hidden">'+data[i].id+'</td>';
+            td2 = '<td>'+data[i].trend+'</td>';
+            td3 = '<td>'+data[i].engine_1+'</td>';
+            td4 = '<td>'+data[i].engine_2+'</td>';
+            td5 = '<td class="text-center"><a href="#"><i id="'+data[i].id+'" onclick="trendRemove(this.id)" class="fa fa-times iconDel" title="remove"></i></a></td></tr>';
+            $("#fv_trendTable").append(td1+td2+td3+td4+td5);
+          }
+        }
+      });
+
+
+      // $("#fv_trendTable").empty();
+      // for (var i = 0; i < trends.length; i++) {
+      //   td1 = '<tr><td>'+trends[i].trend+'</td>';
+      //   td2 = '<td class="text-center">'+trends[i].engine_1+'</td>';
+      //   td3 = '<td class="text-center">'+trends[i].engine_2+'</td>';
+      //   td4 = '<td class="text-center"> <a href="#"><i class="fa fa-times" title="remove"></i></a> </td></tr>';
+      //   $("#fv_trendTable").append(td1+td2+td3+td4);
+      // }
     }
   });
 
@@ -481,6 +507,28 @@ function defectRemove(idClicked){
             td7 = '<td>'+data[i].dfr_date+'</td>';
             td8 = '<td class="text-center"><a href="#"><i id="'+data[i].pirep_id+'" onclick="defectRemove(this.id)" class="fa fa-times iconDel" title="remove"></i></a></td></tr>';
             $("#fv_tblDefects").append(td1+td2+td3+td4+td5+td6+td7+td8);
+          }
+        }
+      });
+}
+
+function trendRemove(idClicked){
+      trend_id =  { id:idClicked };
+      console.log(trend_id);
+      $.ajax({
+        url:'http://localhost/avia/flights/delete_trend',
+        method: 'post',
+        data: trend_id,
+        dataType: 'json',
+        success: function(data){
+          $("#fv_trendTable").empty();
+          for (var i = 0; i < data.length; i++) {
+            td1 = '<tr><td class="hidden">'+data[i].id+'</td>';
+            td2 = '<td>'+data[i].trend+'</td>';
+            td3 = '<td>'+data[i].engine_1+'</td>';
+            td4 = '<td>'+data[i].engine_2+'</td>';
+            td5 = '<td class="text-center"><a href="#"><i id="'+data[i].id+'" onclick="trendRemove(this.id)" class="fa fa-times iconDel" title="remove"></i></a></td></tr>';
+            $("#fv_trendTable").append(td1+td2+td3+td4+td5);
           }
         }
       });
