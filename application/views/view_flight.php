@@ -381,7 +381,10 @@
     <hr>
     <div class="col-md-12 text-right">
       <?php if ($_SESSION['role'] == 1) { ?>
-        <button type="submit" id="fv_fv_update" class="aviaBtn btn btn-primary">Update</button>
+        <button type="button" id="fv_delete" class="aviaBtn btn btn-danger">Delete</button>
+      <?php } ?>
+      <?php if ($_SESSION['role'] == 1) { ?>
+        <button type="submit" id="fv_update" class="aviaBtn btn btn-primary">Update</button>
       <?php } ?>
 
     </div>
