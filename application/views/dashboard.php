@@ -70,7 +70,7 @@
     <h1>Projected Maintenance</h1>
     <hr>
   </div>
-  <div class="col-md-12">
+  <div class="">
 
   </div>
 </div>
