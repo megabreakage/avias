@@ -34,11 +34,7 @@
             <td class="text-right"><?php echo number_format((float)$aircraft['cum_hours'], 2, '.', ''); ?></td>
             <td class="text-center"><?php echo date('d, M Y', strtotime($aircraft['nextCofA'])); ?></td>
             <td class="text-center">
-              <a href="<?php echo base_url(); ?>"> <i id="viewAircraft" class="fa fa-eye tableIcons" title="view <?php echo $aircraft['aircraft_reg'] ?>"></i> </a>
-              <span> _ </span>
-              <a href="<?php echo base_url(); ?>"> <i id="editAircraft" class="fa fa-edit tableIcons" title="edit <?php echo $aircraft['aircraft_reg'] ?>"></i> </a>
-              <span> _ </span>
-              <a href="<?php echo base_url($aircraft['aircraft_id']); ?>" data-toggle="modal" data-target="#deleteAircraft"> <i id="del_Aircraft" class="fa fa-times iconDel" title="delete <?php echo $aircraft['aircraft_reg'] ?>"></i> </a>
+              <a href="#"> <i id="<?php echo $aircraft['aircraft_id']?>" onclick="get_aircraft(this.id)" class="fa fa-eye tableIcons" data-toggle="modal" data-target=".viewAircraft" title="view <?php echo $aircraft['aircraft_reg'] ?>"></i> </a>
             </td>
           </tr>
         <?php $i += 1; endforeach; ?>

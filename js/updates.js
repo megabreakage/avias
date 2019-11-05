@@ -36,7 +36,7 @@ $(document).ready(function(){
 
     freq_data = JSON.stringify(task_frequencies);
     $.ajax({
-      url: 'http://192.168.2.122/avia/maintenance/update_frequencies',
+      url: 'http://localhost/avia/maintenance/update_frequencies',
       method: 'post',
       dataType: 'json',
       data: {freq_data},
@@ -198,7 +198,7 @@ $(document).ready(function(){
     logs_data = JSON.stringify(fv_logs);
     console.log(fv_logs);
     $.ajax({
-      url: 'http://192.168.2.122/avia/flights/update_logs',
+      url: 'http://localhost/avia/flights/update_logs',
       method: 'post',
       dataType: 'json',
       data: {logs_data},
@@ -263,7 +263,7 @@ $(document).ready(function(){
       fv_pireps.push(data);
       fv_defects = {'defects':JSON.stringify(fv_pireps)};
       $.ajax({
-        url: 'http://192.168.2.122/avia/flights/update_defects',
+        url: 'http://localhost/avia/flights/update_defects',
         method: 'post',
         dataType: 'json',
         data: fv_defects,
@@ -309,7 +309,7 @@ $(document).ready(function(){
       fv_trends.push(data);
       fv_new_trends = {'trends': JSON.stringify(fv_trends)};
       $.ajax({
-        url:'http://192.168.2.122/avia/flights/update_trends',
+        url:'http://localhost/avia/flights/update_trends',
         method: 'post',
         data: fv_new_trends,
         dataType: 'json',
@@ -348,7 +348,7 @@ $(document).ready(function(){
     flight = $(this).serialize();
 
     $.ajax({
-      url: 'http://192.168.2.122/avia/add_flight',
+      url: 'http://localhost/avia/add_flight',
       method: 'post',
       dataType: 'json',
       data : flight,
@@ -380,7 +380,7 @@ $(document).ready(function(){
     task_details = $(this).serialize();
 
     $.ajax({
-      url: 'http://192.168.2.122/avia/maintenance/update_task',
+      url: 'http://localhost/avia/maintenance/update_task',
       method: 'post',
       dataType: 'json',
       data: task_details,
@@ -434,7 +434,7 @@ function removeFreq(){
       schedule_details_id =  { id:data[0] };
 
       $.ajax({
-        url:'http://192.168.2.122/avia/maintenance/delete_frequency',
+        url:'http://localhost/avia/maintenance/delete_frequency',
         method: 'post',
         data: schedule_details_id,
         dataType: 'json',
@@ -467,7 +467,7 @@ function logRemoveFreq(){
       console.log(log_id);
 
       $.ajax({
-        url:'http://192.168.2.122/avia/flights/delete_log',
+        url:'http://localhost/avia/flights/delete_log',
         method: 'post',
         data: log_id,
         dataType: 'json',
@@ -497,7 +497,7 @@ function logRemoveFreq(){
 function defectRemove(idClicked){
       pirep_id =  { id:idClicked };
       $.ajax({
-        url:'http://192.168.2.122/avia/flights/delete_defect',
+        url:'http://localhost/avia/flights/delete_defect',
         method: 'post',
         data: pirep_id,
         dataType: 'json',
@@ -523,7 +523,7 @@ function trendRemove(idClicked){
       trend_id =  { id:idClicked };
       console.log(trend_id);
       $.ajax({
-        url:'http://192.168.2.122/avia/flights/delete_trend',
+        url:'http://localhost/avia/flights/delete_trend',
         method: 'post',
         data: trend_id,
         dataType: 'json',
@@ -545,14 +545,14 @@ function delete_flight(id){
   flight_id = {'flight_id': id};
   console.log(flight_id);
   $.ajax({
-    url: 'http://192.168.2.122/avia/flights/delete_flight',
+    url: 'http://localhost/avia/flights/delete_flight',
     method: 'post',
     dataType: 'json',
     data: flight_id,
     success: function(data){
       console.log(data);
       if (data = 1) {
-        $(location).attr('href', 'http://192.168.2.122/avia/flights');
+        $(location).attr('href', 'http://localhost/avia/flights');
       } else {
         alert('Flight not deleted');
       }

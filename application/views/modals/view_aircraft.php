@@ -1,11 +1,12 @@
-<div id="addAircraft" class="modal fade viewAircraft" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div id="av_viewAircraft" class="modal fade viewAircraft" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
     <div class="card">
-      <form id="aircraftAdd" action="add_aircraft" method="post">
+      <form id="av_aircraftAdd" action="add_aircraft" method="post">
         <div class="card-header text-center">
           <h5>Add Aircraft</h5>
         </div>
+        <!-- <?php echo json_encode($aircrafts[0]); ?> -->
         <div class="card-body">
           <div class="col-xl-6 offset-md-3 alert hidden">
             <!-- response texts -->
@@ -16,15 +17,15 @@
           <div class="row">
             <div class="col-xl-3">
               <label>Registration</label>
-              <input id="registration" type="text" name="registration" class="form-control" placeholder="Aircraft Registration" required>
+              <input id="av_registration" type="text" name="registration" class="form-control" placeholder="Aircraft Registration" required>
             </div>
             <div class="col-xl-3">
               <label>Serial Number</label>
-              <input id="serialNumber" type="text" name="serialNumber" class="form-control" placeholder="Serial Number" required>
+              <input id="av_serialNumber" type="text" name="serialNumber" class="form-control" placeholder="Serial Number" required>
             </div>
             <div class="col-xl-3">
               <label>Manufacturer</label>
-              <select id="manufacturer" name="manufacturer" class="form-control" required>
+              <select id="av_manufacturer" name="manufacturer" class="form-control" required>
                 <option value=""> -- select manufacturer --</option>
                 <?php foreach ($manufacturers as $manufacturer): ?>
                   <option value="<?php echo $manufacturer['manufacturer_id'] ?>"><?php echo $manufacturer['manufacturer'] ?></option>
@@ -33,15 +34,15 @@
             </div>
             <div class="col-xl-3">
               <label>Manufacture Date</label>
-              <input id="manufactureDate" type="date" name="manufactureDate" class="form-control" required>
+              <input id="av_manufactureDate" type="date" name="manufactureDate" class="form-control" required>
             </div>
             <div class="col-xl-3">
               <label>Series</label>
-              <input id="series" type="text" name="series" class="form-control" placeholder="Aircraft Series" required>
+              <input id="av_series" type="text" name="series" class="form-control" placeholder="Aircraft Series" required>
             </div>
             <div class="col-xl-3">
               <label>Model</label>
-              <select id="model" class="form-control" name="model" required>
+              <select id="av_model" class="form-control" name="model" required>
                 <option value=""> -- Select Model --</option>
                 <?php foreach ($aircraft_models as $model): ?>
                   <option value="<?php echo $model['model_id'] ?>"><?php echo $model['model'] ?></option>
@@ -50,7 +51,7 @@
             </div>
             <div class="col-xl-3">
               <label>Type</label>
-              <select id="engineType" class="form-control" name="engineType" required>
+              <select id="av_engineType" class="form-control" name="engineType" required>
                 <option value=""> -- Select Type --</option>
                 <?php foreach ($engineTypes as $type): ?>
                   <option value="<?php echo $type['id']?>"><?php echo $type['type'] ?></option>
@@ -59,7 +60,7 @@
             </div>
             <div class="col-xl-3">
               <label>Category</label>
-              <select id="category" class="form-control" name="category" required>
+              <select id="av_category" class="form-control" name="category" required>
                 <option value=""> -- Select Category --</option>
                 <option value="public">Public</option>
                 <option value="private">Private</option>
@@ -69,22 +70,22 @@
               <div class="row">
                 <div class="col-xl-2">
                   <label>No. Engines</label>
-                  <select id="engines" class="form-control" name="engines" required>
+                  <select id="av_engines" class="form-control" name="engines" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
                   </select>
                 </div>
                 <div class="col-xl-3">
                   <label>TAT</label>
-                  <input id="tat" type="text" name="tat" class="form-control" placeholder="Aircraft Hours" required>
+                  <input id="av_tat" type="text" name="tat" class="form-control" placeholder="Aircraft Hours" required>
                 </div>
                 <div class="col-xl-3">
                   <label>TAC</label>
-                  <input id="tac" type="text" name="tac" class="form-control" placeholder="Aircraft Cycles" required>
+                  <input id="av_tac" type="text" name="tac" class="form-control" placeholder="Aircraft Cycles" required>
                 </div>
                 <div class="col-xl-4">
                   <label>Update Date</label>
-                  <input id="updateDate" type="date" name="updateDate" class="form-control" placeholder="Update Date" required>
+                  <input id="av_updateDate" type="date" name="updateDate" class="form-control" placeholder="Update Date" required>
                 </div>
               </div>
             </div>
@@ -106,7 +107,7 @@
                             <td>Cycles</td>
                           </tr>
                         </thead>
-                        <tbody id="engData">
+                        <tbody id="av_engData">
                           <!-- engine data display -->
                         </tbody>
                       </table>
@@ -116,7 +117,7 @@
                 <div class="col-xl-12">
                   <div class="row">
                     <div class="col-xl-2">
-                      <select id="engineNumber" class="form-control">
+                      <select id="av_engineNumber" class="form-control">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -124,19 +125,19 @@
                       </select>
                     </div>
                     <div class="col-xl-2">
-                      <input id="engineSerialNumber" type="text" class="form-control" placeholder="Serial No." required>
+                      <input id="av_engineSerialNumber" type="text" class="form-control" placeholder="Serial No." required>
                     </div>
                     <div class="col-xl-2">
-                      <input id="engineModel" type="text" class="form-control" placeholder="Model" required>
+                      <input id="av_engineModel" type="text" class="form-control" placeholder="Model" required>
                     </div>
                     <div class="col-xl-2">
-                      <input id="teh" type="number" class="form-control" placeholder="Hours" required>
+                      <input id="av_teh" type="number" class="form-control" placeholder="Hours" required>
                     </div>
                     <div class="col-xl-2">
-                      <input id="tec" type="number" class="form-control" placeholder="Cycles" required>
+                      <input id="av_tec" type="number" class="form-control" placeholder="Cycles" required>
                     </div>
                     <div class="col-xl-2">
-                      <button id="addEngine" name="add" class="aviaBtn btn btn-primary"> Add</button>
+                      <button id="av_addEngine" name="add" class="aviaBtn btn btn-primary"> Add</button>
                     </div>
                   </div>
                 </div>
@@ -160,7 +161,7 @@
                             <td>Cycles</td>
                           </tr>
                         </thead>
-                        <tbody id="propData">
+                        <tbody id="av_propData">
                           <!-- Display propeller data -->
                         </tbody>
                       </table>
@@ -170,7 +171,7 @@
                 <div class="col-xl-12">
                   <div class="row">
                     <div class="col-xl-2">
-                      <select id="propNumber" class="form-control">
+                      <select id="av_propNumber" class="form-control">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -178,27 +179,27 @@
                       </select>
                     </div>
                     <div class="col-xl-2">
-                      <input id="propSerialNumber" type="text" class="form-control" placeholder="Serial No." required>
+                      <input id="av_propSerialNumber" type="text" class="form-control" placeholder="Serial No." required>
                     </div>
                     <div class="col-xl-2">
-                      <input id="propModel" type="text" class="form-control" placeholder="Model" required>
+                      <input id="av_propModel" type="text" class="form-control" placeholder="Model" required>
                     </div>
                     <div class="col-xl-2">
-                      <input id="tph" type="number" class="form-control" placeholder="Hours" required>
+                      <input id="av_tph" type="number" class="form-control" placeholder="Hours" required>
                     </div>
                     <div class="col-xl-2">
-                      <input id="tpc" type="number" class="form-control" placeholder="Cycles" required>
+                      <input id="av_tpc" type="number" class="form-control" placeholder="Cycles" required>
                     </div>
                     <div class="col-xl-2">
-                      <button id="addProp" class="aviaBtn btn btn-primary"> Add</button>
+                      <button id="av_addProp" class="aviaBtn btn btn-primary"> Add</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <input id="engine_data" type="hidden" name="engine_data" value="">
-          <input id="prop_data" type="hidden" name="prop_data" value="">
+          <input id="av_engine_data" type="hidden" name="engine_data" value="">
+          <input id="av_prop_data" type="hidden" name="prop_data" value="">
         </div>
         <div class="card-footer">
           <div class="col-xl-12 text-right">

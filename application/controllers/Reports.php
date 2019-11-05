@@ -28,6 +28,7 @@ class Reports extends CI_controller {
 		$this->load->view('reports', $data);
 		// modal view call
 		$this->load->view('modals/add_aircraft');
+    $this->load->view('modals/view_aircraft');
 		$this->load->view('modals/add_flight');
 		$this->load->view('modals/add_task');
 		$this->load->view('modals/edit_flight');

@@ -244,7 +244,7 @@ $(document).ready(function(){
       flight = $(this).serialize();
 
       $.ajax({
-        url: 'http://192.168.2.122/avia/add_flight',
+        url: 'http://localhost/avia/add_flight',
         method: 'post',
         dataType: 'json',
         data : flight,
@@ -920,3 +920,17 @@ $(document).ready(function(){
 });
 
 //Business Logic
+
+function get_aircraft(id){
+  aircraft_id = {aircraft_id: id};
+  $.ajax({
+    url: 'get_aircraft',
+    method: 'POST',
+    dataType: 'json',
+    data: aircraft_id,
+    success: function(data){
+      console.log(data);
+      $("#viewAircraft").modal();
+    }
+  })
+}

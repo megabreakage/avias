@@ -87,6 +87,7 @@ $route['get_defects_by_aircraft'] = 'flights/get_defects_by_aircraft';
 $route['fleet'] = 'welcome/fleet';
 $route['aircraft_models'] = 'welcome/aircraft_models';
 $route['add_flight'] = 'welcome/add_flight';
+$route['get_aircraft'] = 'welcome/get_aircraft';
 $route['add_aircraft'] = 'welcome/add_aircraft';
 $route['messages'] = 'welcome/messages';
 $route['admin'] = 'welcome/admin';

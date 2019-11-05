@@ -31,6 +31,7 @@ class Welcome extends CI_Controller {
 		$this->load->view('dashboard', $data);
 		// modal view calls
 		$this->load->view('modals/add_aircraft');
+		$this->load->view('modals/view_aircraft');
 		$this->load->view('modals/add_flight');
 		$this->load->view('modals/add_task');
 
@@ -59,6 +60,7 @@ class Welcome extends CI_Controller {
 		$this->load->view('messages', $data);
 		// modal view calls
 		$this->load->view('modals/add_aircraft');
+		$this->load->view('modals/view_aircraft');
 		$this->load->view('modals/add_flight');
 		$this->load->view('modals/add_task');
 
@@ -87,6 +89,7 @@ class Welcome extends CI_Controller {
 		$this->load->view('fleet', $data);
 		// modal view calls
 		$this->load->view('modals/add_aircraft');
+		$this->load->view('modals/view_aircraft');
 		$this->load->view('modals/add_flight');
 		$this->load->view('modals/add_task');
 		$this->load->view('modals/view_aircraft');
@@ -117,6 +120,7 @@ class Welcome extends CI_Controller {
 		$this->load->view('aircraft_models', $data);
 		// modal view calls
 		$this->load->view('modals/add_aircraft');
+		$this->load->view('modals/view_aircraft');
 		$this->load->view('modals/add_flight');
 		$this->load->view('modals/add_task');
 		$this->load->view('modals/edit_model');
@@ -129,6 +133,14 @@ class Welcome extends CI_Controller {
 
 
 	// Main Functions calls to Model functions
+	public function get_aircraft(){
+		$aircraft_id = $_POST['aircraft_id'];
+		$aircraft = $this->queries->get_aircraft($aircraft_id);
+
+		echo json_encode($aircraft);
+	}
+
+
 	public function add_aircraft(){
 		$eng = json_decode($this->input->post('engine_data'));
 		$prop = json_decode($this->input->post('prop_data'));
